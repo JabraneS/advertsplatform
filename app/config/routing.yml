@@ -1,5 +1,4 @@
+jomanel_platform:
+    resource: "@JOMANELPlatformBundle/Resources/config/routing.yml"
+    prefix:   /platform
 
-
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
