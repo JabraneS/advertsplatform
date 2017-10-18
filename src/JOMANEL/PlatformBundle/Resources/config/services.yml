@@ -1,4 +1,28 @@
 services:
-#    jomanel_platform.example:
+    
+    jomanel_platform.antispam:
+        class: JOMANEL\PlatformBundle\AntiSpam\JOMANELAntiSpam
+        arguments:
+            - "@mailer" # Mailer service (to send e-mails) ;
+            - %locale%  # to retrieve the language, defined in the file app/config/parameters.yml
+            - 50
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#jomanel_platform.example:
 #        class: JOMANEL\PlatformBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

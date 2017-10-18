@@ -1,17 +1,25 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Bienvenue sur ma première page avec OpenClassrooms !</title>
-  </head>
-  <body>
-    <h1>Hello {{mon_prenom}} {{mon_nom}} !</h1>
+{% block title %}
+  Home - {{ parent() }}
+{% endblock %}
 
-    <p>
-      Le Hello World est un grand classique en programmation.
-      Il signifie énormément, car cela veut dire que vous avez
-      réussi à exécuter le programme pour accomplir une tâche simple :
-      afficher ce hello world !
-    </p>
-  </body>
-</html>
+{% block jomanelplatform_body %}
+
+  <h2>Adverts list</h2>
+
+  <ul>
+    {% for advert in listAdverts %}
+      <li>
+        <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
+          {{ advert.title }}
+        </a>
+        with {{ advert.author }},
+        in {{ advert.date|date('d/m/Y') }}
+      </li>
+    {% else %}
+      <li>No adverts yet</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

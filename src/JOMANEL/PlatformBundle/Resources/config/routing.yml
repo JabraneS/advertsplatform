@@ -14,33 +14,23 @@ jomanel_platform_view:
     requirements:
         id: \d+
 
-
-jomanel_platform_view_slug:
-    path:      /{year}/{slug}.{format}
-    defaults:
-        _controller: JOMANELPlatformBundle:Advert:viewSlug
-        format:      html
-    requirements:
-        year:   \d{4}
-        format: html|xml
-
     
 jomanel_platform_add:
     path:      /add
     defaults: { _controller: JOMANELPlatformBundle:Advert:add }
 
 
-oc_platform_edit:
+jomanel_platform_edit:
     path:      /edit/{id}
     defaults:
-        _controller: OCPlatformBundle:Advert:edit
+        _controller: JOMANELPlatformBundle:Advert:edit
     requirements:
         id: \d+
 
 
-oc_platform_delete:
+jomanel_platform_delete:
     path:      /delete/{id}
     defaults:
-        _controller: OCPlatformBundle:Advert:delete
+        _controller: JOMANELPlatformBundle:Advert:delete
     requirements:
         id: \d+

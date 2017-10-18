@@ -1,0 +1,18 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  Adverts - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  {# We define a title for all pages of the bundle, for example #}
+  <h1>Adverts</h1>
+
+  <hr>
+
+  {# We define a new block, which the views of the bundle can fill #}
+  {% block jomanelplatform_body %}
+  {% endblock %}
+
+{% endblock %}
