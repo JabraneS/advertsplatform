@@ -30,7 +30,10 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.*",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "symfony/assetic-bundle": "^2.7.1",
+        "leafo/scssphp": "~0.6",
+        "patchwork/jsqueeze": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

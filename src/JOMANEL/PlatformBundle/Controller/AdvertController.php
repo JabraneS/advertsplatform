@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use JOMANEL\PlatformBundle\Entity\Advert;
+use JOMANEL\PlatformBundle\Entity\Image;
+
 
 
 class AdvertController extends Controller{
@@ -50,15 +53,19 @@ class AdvertController extends Controller{
 
     public function viewAction($id, Request $request){
 
+    	///////
+    	// On récupère le repository
+	    $repository = $this->getDoctrine()
+	      ->getManager()
+	      ->getRepository('JOMANELPlatformBundle:Advert')
+	    ;
+
+	    // On récupère l'entité correspondante à l'id $id
+	    $advert = $repository->find($id);
+    	///////
+
     	// Ici, on récupérera l'annonce correspondante à l'id $id
 
-	    $advert = array(
-	      'title'   => 'Recherche développpeur Symfony2',
-	      'id'      => $id,
-	      'author'  => 'Alexandre',
-	      'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-	      'date'    => new \Datetime()
-	    );
 
 	    return $this->render('JOMANELPlatformBundle:Advert:view.html.twig', array(
 	      'advert' => $advert
@@ -73,15 +80,37 @@ class AdvertController extends Controller{
 	    $antispam = $this->container->get('jomanel_platform.antispam');
 
 	    // Je pars du principe que $text contient le texte d'un message quelconque
-	    $text = '...';
+	    $text = '...........................................................';
 	    if ($antispam->isSpam($text)) {
 	      throw new \Exception('Your message was detected as spam!');
 	    }
 	    
-	    // Ici le message n'est pas un spam
+	    // Ici le message n'est pas un spam :
+	    //////
+	    // Création de l'entité Advert
+	    $advert = new Advert();
+	    $advert->setTitle('Recherche développeur Symfony2.');
+	    $advert->setAuthor('Alexandre2');
+	    $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…2");
+	    // Création de l'entité Image
+	    $image = new Image();
+	    $urlImgDataInge = 'bundles/JOMANELPlatformBundle/image/dataprocessingengineering.png';
+	    $image->setUrl($urlImgDataInge);
+	    $image->setAlt('Job de rêve');
+	    // On lie l'image à l'advert
+	    $advert->setImage($image);
+
+	    // On récupère l'EntityManager
+	    $em = $this->getDoctrine()->getManager();
+
+	    // Étape 1 : On « persiste » l'entité
+	    $em->persist($advert);
+
+	    // Étape 2 : On « flush » tout ce qui a été persisté avant
+	    $em->flush();
+	    //////
 
     	// La gestion d'un formulaire est particulière, mais l'idée est la suivante :
-
 	    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
 	    if ($request->isMethod('POST')) {
 	      // Ici, on s'occupera de la création et de la gestion du formulaire
@@ -93,7 +122,7 @@ class AdvertController extends Controller{
 	    }
 
 	    // Si on n'est pas en POST, alors on affiche le formulaire
-	    return $this->render('JOMANELPlatformBundle:Advert:add.html.twig');
+	    return $this->render('JOMANELPlatformBundle:Advert:add.html.twig', array('advert' => $advert));
         
     }//fnc
 

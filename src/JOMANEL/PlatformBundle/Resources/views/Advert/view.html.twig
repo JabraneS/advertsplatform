@@ -6,7 +6,20 @@
 
 {% block jomanelplatform_body %}
 
-  <h2>{{ advert.title }}</h2>
+  <!---->
+  {% image 'bundles/jomanelplatform/images/civilengineering.jpg' %}
+    <img src="{{ asset_url }}"  alt="Example"/>
+  {% endimage %}
+  <!---->
+  
+  <h2>
+    {% if advert.image is not null %}
+
+      <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+      
+    {% endif %}  {{ advert.title }}
+  </h2>
+
   <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
 
   <div class="well">
@@ -27,5 +40,5 @@
       Supprimer l'annonce
     </a>
   </p>
-
+  
 {% endblock %}
