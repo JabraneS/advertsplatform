@@ -1,3 +1,4 @@
+
 {% extends "JOMANELPlatformBundle::layout.html.twig" %}
 
 {% block title %}
@@ -6,25 +7,39 @@
 
 {% block jomanelplatform_body %}
 
-  <!---->
-  {% image 'bundles/jomanelplatform/images/civilengineering.jpg' %}
-    <img src="{{ asset_url }}"  alt="Example"/>
-  {% endimage %}
-  <!---->
-  
-  <h2>
+  <div style="float: left; margin-right: 1em;">
+    {# On vérifie qu'une image soit bien associée à l'article #}
     {% if advert.image is not null %}
+      <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}" height="60">
+    {% endif %}
+  </div>
 
-      <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
-      
-    {% endif %}  {{ advert.title }}
-  </h2>
-
+  <h2>{{ advert.title }}</h2>
   <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
 
   <div class="well">
     {{ advert.content }}
   </div>
+
+  {% if not advert.categories.empty %}
+    <p>
+      Cette annonce est parue dans les catégories suivantes :
+      {% for category in advert.categories %}
+        {{ category.name }}{% if not loop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+  {% endif %}
+
+  {#{% if listAdvertSkills|length > 0 %}
+    <div>
+      Cette annonce requiert les compétences suivantes :
+      <ul>
+        {% for advertSkill in listAdvertSkills %}
+          <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}#}
 
   <p>
     <a href="{{ path('jomanel_platform_home') }}" class="btn btn-default">
@@ -40,5 +55,6 @@
       Supprimer l'annonce
     </a>
   </p>
-  
+
 {% endblock %}
+

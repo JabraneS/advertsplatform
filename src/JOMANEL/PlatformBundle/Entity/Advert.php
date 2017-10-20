@@ -1,6 +1,7 @@
 <?php
 
 namespace JOMANEL\PlatformBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -56,18 +57,29 @@ class Advert
 
     /**
      * @ORM\OneToOne(targetEntity="JOMANEL\PlatformBundle\Entity\Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $image;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Category", cascade={"persist"})
+     */
+    private $categories; //retrieve the categories of an advert will be quite often, while retrieve the adverts of a category less
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications; // Notez le « s », une annonce est liée à plusieurs candidatures
 
 
 
+    // Comme la propriété $categories doit être un ArrayCollection,
+    // On doit la définir dans un constructeur :
     public function __construct(){
-  
-        // By default, the date of the advert is today's date
-        $this->date = new \Datetime();
-    }//construct
+   
+        $this->date       = new \Datetime();
+        $this->categories = new ArrayCollection();
+    }
 
 
     /**
@@ -200,6 +212,8 @@ class Advert
         return $this->published;
     }
 
+    
+
     /**
      * Set image
      *
@@ -207,7 +221,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setImage(\JOMANEL\PlatformBundle\Entity\Image $image)
+    public function setImage(\JOMANEL\PlatformBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -222,5 +236,77 @@ class Advert
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \JOMANEL\PlatformBundle\Entity\Category $category
+     *
+     * @return Advert
+     */
+    public function addCategory(\JOMANEL\PlatformBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \JOMANEL\PlatformBundle\Entity\Category $category
+     */
+    public function removeCategory(\JOMANEL\PlatformBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add application
+     *
+     * @param \JOMANEL\PlatformBundle\Entity\Application $application
+     *
+     * @return Advert
+     */
+    public function addApplication(\JOMANEL\PlatformBundle\Entity\Application $application)
+    {
+        $this->applications[] = $application;
+
+        // On lie l'annonce à la candidature
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove application
+     *
+     * @param \JOMANEL\PlatformBundle\Entity\Application $application
+     */
+    public function removeApplication(\JOMANEL\PlatformBundle\Entity\Application $application)
+    {
+        
+        $this->applications->removeElement($application);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  *@ORM\Table(name="image")
- *@ORM\Entity(repositoryClass="JOMANEL\PlatformBundle\Entity\ImageRepository")
+ *@ORM\Entity(repositoryClass="JOMANEL\PlatformBundle\Repository\ImageRepository")
  */
 class Image{
 

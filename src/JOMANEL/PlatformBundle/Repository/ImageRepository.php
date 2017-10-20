@@ -1,6 +1,6 @@
 <?php
 
-namespace JOMANEL\PlatformBundle\Entity;
+namespace JOMANEL\PlatformBundle\Repository;
 
 /**
  * ImageRepository
