@@ -22,6 +22,7 @@
     </div>
 
     <div class="row">
+
       <div id="menu" class="col-md-3">
         <h3>Les annonces</h3>
         <ul class="nav nav-pills nav-stacked">
@@ -31,7 +32,9 @@
 
         <h4>Dernières annonces</h4>
         {{ render(controller("JOMANELPlatformBundle:Advert:menu", {'limit': 3})) }}
+
       </div>
+
       <div id="content" class="col-md-9">
         {% block body %}
         {% endblock %}

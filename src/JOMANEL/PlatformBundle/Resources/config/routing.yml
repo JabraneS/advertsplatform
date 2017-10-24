@@ -34,3 +34,13 @@ jomanel_platform_delete:
         _controller: JOMANELPlatformBundle:Advert:delete
     requirements:
         id: \d+
+
+
+jomanel_platform_test:
+    path:      /test
+    defaults:
+        _controller: JOMANELPlatformBundle:Advert:test
+
+
+
+

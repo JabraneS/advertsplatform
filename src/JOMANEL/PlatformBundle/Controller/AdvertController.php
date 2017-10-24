@@ -13,6 +13,7 @@ use JOMANEL\PlatformBundle\Entity\Image;
 use JOMANEL\PlatformBundle\Entity\Category;
 use JOMANEL\PlatformBundle\Entity\Skill;
 
+//use JOMANEL\PlatformBundle\Repository\AdvertRepository;
 
 
 class AdvertController extends Controller{
@@ -100,7 +101,7 @@ class AdvertController extends Controller{
 
 	    // Mettre une image à cet Advert
 	    $image = new Image();
-	    $image->setUrl('../imgs/electricalengineering.jpg');
+	    $image->setUrl('http://zyzixun.net/data/out/55/3252930-electrical-engineering-wallpapers.jpg');//('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');//('../imgs/electricalengineering.jpg');
 	    $image->setAlt('ImgdataprEngineer');
 
 	    // Mettre une category à cet Advert
@@ -117,20 +118,6 @@ class AdvertController extends Controller{
 	    // On lie l'advert à la catégorie
 	    $advert->addCategory($category);
 	    
-	    
-	    /*// Création d'une première candidature
-	    $application1 = new Application();
-	    $application1->setAuthor('Marine');
-	    $application1->setContent("J'ai toutes les qualités requises.");
-
-	    // Création d'une deuxième candidature par exemple
-	    $application2 = new Application();
-	    $application2->setAuthor('Pierre');
-	    $application2->setContent("Je suis très motivé.");
-	    
-	    // On lie les applications à l'advert
-	    $application1->setAdvert($advert);
-	    $application2->setAdvert($advert);*/
 
 	    // On récupère l'EntityManager
 	    $em = $this->getDoctrine()->getManager();
@@ -246,20 +233,81 @@ class AdvertController extends Controller{
 
     public function menuAction($limit){
   
-    // On fixe en dur une liste ici, bien entendu par la suite
-    // on la récupérera depuis la BDD !
-    $listAdverts = array(
-      array('id' => 1, 'title' => 'Recherche développeur Symfony'),
-      array('id' => 2, 'title' => 'Mission de webmaster'),
-      array('id' => 3, 'title' => 'Offre de stage webdesigner')
-    );
+	    // On fixe en dur une liste ici, bien entendu par la suite
+	    // on la récupérera depuis la BDD !
+	    $listAdverts = array(
+	      array('id' => 1, 'title' => 'Recherche développeur Symfony'),
+	      array('id' => 2, 'title' => 'Mission de webmaster'),
+	      array('id' => 3, 'title' => 'Offre de stage webdesigner')
+	    );
 
-    return $this->render('JOMANELPlatformBundle:Advert:menu.html.twig', array(
-      // Tout l'intérêt est ici : le contrôleur passe
-      // les variables nécessaires au template !
-      'listAdverts' => $listAdverts
-    ));
-  }
+	    return $this->render('JOMANELPlatformBundle:Advert:menu.html.twig', array(
+	      // Tout l'intérêt est ici : le contrôleur passe
+	      // les variables nécessaires au template !
+	      'listAdverts' => $listAdverts
+	    ));
+    }//fnc
+
+
+   
+
+
+
+    public function testAction(){
+    	
+    	//==== AdvertRepository : getAllAdverts()
+    	/*
+    	$listAdverts = $this->getDoctrine()
+					    	->getManager()
+					    	->getRepository('JOMANELPlatformBundle:Advert')
+					    	->getAllAdverts()
+					    	;
+
+		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listAdverts'=>$listAdverts));
+		*/
+
+		//==== AdvertRepository : getAdvertsOfOneCategory($categoryName)
+		/*$listAdverts = $this->getDoctrine()
+					    	->getManager()
+					    	->getRepository('JOMANELPlatformBundle:Advert')
+					    	->getAdvertsOfOneCategory("Génie Electrique")
+					    	;
+
+		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listAdverts'=>$listAdverts));
+		*/
+
+    	//==== AdvertRepository : getAdvertWithCategories(array $categoryNames)
+    	/*
+    	$listAdverts = $this->getDoctrine()
+			    	    	->getManager()
+			    			->getRepository('JOMANELPlatformBundle:Advert')
+			    			->getAdvertWithCategories(array('Génie Informatique', 'Génie Electrique'));
+			    			 
+	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listAdverts' => $listAdverts));
+	    */ 
+	    
+	    //============================================================================================================//
+		
+        //==== ApplicationRepository : getApplicationsWithAdvert($limit) : X the last ones
+        /*
+        $listApplications =  $this->getDoctrine()
+			    			 ->getManager()
+			    			 ->getRepository('JOMANELPlatformBundle:Application')
+			    			 ->getApplicationsWithAdvert(3);
+
+		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listApplications' => $listApplications));
+		*/
+
+		//==== ApplicationRepository : getApplicationsOfanAvert($advertTitle)
+    	
+    	$listApplications = $this->getDoctrine()
+			    	    	->getManager()
+			    			->getRepository('JOMANELPlatformBundle:Application')
+			    			->getApplicationsOfanAvert("Recherche développeur Symfony3.");
+			    			 
+	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listApplications' => $listApplications));
+
+    }//fnc
 
 
 }//class
