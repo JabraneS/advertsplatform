@@ -10,8 +10,15 @@
   <div style="float: left; margin-right: 1em;">
     {# On vérifie qu'une image soit bien associée à l'article #}
     {% if advert.image is not null %}
-      <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}" height="60">
+      {#<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}" height="60"> #}
+      <img 
+        src="{{ asset(advert.image.webPath) }}"
+        alt="{{ advert.image.alt }}"
+      />
+    {% else %}
+      <p>no img</p>
     {% endif %}
+
   </div>
 
   <h2>{{ advert.title }}</h2>
@@ -53,6 +60,9 @@
     <a href="{{ path('jomanel_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
       <i class="glyphicon glyphicon-trash"></i>
       Supprimer l'annonce
+    </a>
+     <a href="{{ path('jomanel_platform_apply', {'id': advert.id}) }}" class="btn btn-success">
+      Apply
     </a>
   </p>
 

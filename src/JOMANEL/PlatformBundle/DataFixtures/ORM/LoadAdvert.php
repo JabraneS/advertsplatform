@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace JOMANEL\PlatformBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -18,6 +18,8 @@ class LoadAdvert implements FixtureInterface{
       
       $advertsAuthors = array("joel", "joel", "maxim", "karim", "ahmed", "lilya");
 
+      $emails = array("enarbajx@hotmail.com", "enarbajx@hotmail.com", "enarbajx@hotmail.com", "enarbajx@hotmail.com", "enarbajx@hotmail.com", "enarbajx@hotmail.com");
+
       $advertsContents = array("Motivé", "Sérieux", "Débrouillard", "Souriant", "Ponctuel", "Laborieux");
 
       $imagesUrls = array("https://img0bm.b8cdn.com/images/course/74/2048674_1489301535_35.jpg", "https://img0bm.b8cdn.com/images/course/74/2048674_1489301535_35.jpg", "https://me.ucsb.edu/sites/me.ucsb.edu/files/me_images/ME_LogoTransparent_Lowres-white.png", "http://www.mnit.ac.in/dept_civil/images/department.jpg", "http://zyzixun.net/data/out/55/3252930-electrical-engineering-wallpapers.jpg", "http://www.chemicalengineer.com/images/logo.png");
@@ -26,9 +28,9 @@ class LoadAdvert implements FixtureInterface{
 
       $categoriesNames = array("Génie Informatique", "Génie Informatiquee", "Génie Mécanique", "Génie civile", "Génie Electrique", "Génie chimique");
 
-      $applicationAuthors  = array("étudiant1", "étudiant2", "étudiant3", "étudiant4", "étudiant5", "étudiant1");
+      //$applicationAuthors  = array("étudiant1", "étudiant2", "étudiant3", "étudiant4", "étudiant5", "étudiant1");
       
-      $applicationContents = array("intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert");
+      //$applicationContents = array("intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert", "intéréssé et motivé par cet advert");
 
       
       for ($i=0; $i < count($advertsTitles); $i++) { 
@@ -37,6 +39,7 @@ class LoadAdvert implements FixtureInterface{
         $advert = new Advert();
         $advert->setTitle($advertsTitles[$i]);
         $advert->setAuthor($advertsAuthors[$i]);
+        $advert->setEmail($emails[$i]);
         $advert->setContent($advertsContents[$i]);
 
         // Mettre une image à cet Advert
@@ -49,9 +52,9 @@ class LoadAdvert implements FixtureInterface{
         $category->setName($categoriesNames[$i]);
 
         // Mettre une candidature à cet Advert
-        $application = new Application();
-        $application->setAuthor($applicationAuthors[$i]);
-        $application->setContent($applicationContents[$i]);
+        //$application = new Application();
+        //$application->setAuthor($applicationAuthors[$i]);
+        //$application->setContent($applicationContents[$i]);
 
         //=> Relations :
         
@@ -62,12 +65,12 @@ class LoadAdvert implements FixtureInterface{
         $advert->addCategory($category);
 
         // On lie l'advert à l'application
-        $advert->addApplication($application);
+        //$advert->addApplication($application);
         
         // On la persiste
 
         $manager->persist($advert);
-        $manager->persist($application);
+        //$manager->persist($application);
 
       }//
 
@@ -77,3 +80,4 @@ class LoadAdvert implements FixtureInterface{
   }//function
 
 }//class
+*/

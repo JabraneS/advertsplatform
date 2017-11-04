@@ -1,0 +1,18 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Apply - {{ parent() }}
+{% endblock %}
+
+{% block jomanelplatform_body %}
+
+  <p>Successful apply</p>
+
+  <p>
+    <a href="{{ path('jomanel_platform_home', {'id': advert.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Back to the adverts list
+    </a>
+  </p>
+
+{% endblock %}

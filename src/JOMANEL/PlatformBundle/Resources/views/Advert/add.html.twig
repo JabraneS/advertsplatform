@@ -1,9 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Ajout de l'annonce </title>
-</head>
-<body>
-	<h1>Ajout de l'annonce</h1>
-</body>
-</html>
+
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block body %}
+
+  <h2>Ajouter une annonce</h2>
+
+  {{ include("JOMANELPlatformBundle:Advert:form.html.twig") }}
+
+  <p>
+    Attention : cette annonce sera ajoutée directement
+    sur la page d'accueil après validation du formulaire.
+  </p>
+
+{% endblock %}

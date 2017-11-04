@@ -24,19 +24,23 @@ framework:
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
-        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id: session.handler.native_file
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
     fragments: ~
     http_method_override: true
     assets: ~
     php_errors:
         log: true
 
+    
+
 # Twig Configuration
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -63,11 +67,21 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
+    encryption: %mailer_encryption%
+    auth_mode:  %mailer_auth_mode%
     host: '%mailer_host%'
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
 
+     
+
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
+
+# Stof\DoctrineExtensionsBundle configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true

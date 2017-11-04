@@ -34,7 +34,8 @@
         "symfony/assetic-bundle": "^2.7.1",
         "leafo/scssphp": "~0.6",
         "patchwork/jsqueeze": "~1.0",
-        "doctrine/doctrine-fixtures-bundle": "~2.3"
+        "doctrine/doctrine-fixtures-bundle": "~2.3",
+        "stof/doctrine-extensions-bundle": "^1.2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

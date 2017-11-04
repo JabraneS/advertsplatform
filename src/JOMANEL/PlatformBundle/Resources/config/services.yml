@@ -7,22 +7,30 @@ services:
             - %locale%  # to retrieve the language, defined in the file app/config/parameters.yml
             - 50
 
+    #
+    jomanel_platform.email: #.application_mailer:
+        class: JOMANEL\PlatformBundle\Email\Mailer #ApplicationMailer
+        arguments:
+            - "@mailer"
+
+    
+    jomanel_platform.doctrine_listener.application:
+        class: JOMANEL\PlatformBundle\DoctrineListener\ApplicationListener #ApplicationCreationListener 
+        arguments:
+            - "@jomanel_platform.email" #, "@jomanel_platform.validator.antiflood"
+        tags:
+            - { name: doctrine.event_listener, event: postPersist } 
+            #- { name: doctrine.event_listener, event: postRemove  } 
 
 
+    jomanel_platform.purger.advert:
+        class: JOMANEL\PlatformBundle\Purger\AdvertPurger
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    
 
 
+  
 
 
-
-
-
-
-
-
-
-
-
-
-#jomanel_platform.example:
-#        class: JOMANEL\PlatformBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]

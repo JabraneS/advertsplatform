@@ -7,7 +7,20 @@
 
   <ul>
 
-    {# AdvertRepository : getAvertApplications($advertTitle)#}
+    {# AdvertRepository : getIdsOfAdvertsWithApplications() #}
+    {% for id in listIdsOfAdvertsWhichHaveApplications %}
+      <li>
+          {#{{ advert.title }} writed by {{ advert.author }}  in  {{ advert.date|date('Y-m-d') }} at {{ advert.date|date('H:i:s') }}#}
+          {{ id }}
+      </li>
+      
+    {% else %}
+      <li>No adverts yet</li>
+    {% endfor %}
+    
+
+
+    {# AdvertRepository : getAvertApplications($advertTitle)
     {% for application in listApplications %}
       <li>
           {{ application.content }}  writed by  {{ application.author }} in  {{ application.date|date('Y-m-d') }} at {{ application.date|date('H:i:s') }}
@@ -16,7 +29,7 @@
     {% else %}
       <li>No adverts yet</li>
     {% endfor %}
-    
+    #}
 
 
     {# AdvertRepository : getAllAdverts() // getAdvertsOfOneCategory($categoryName)

@@ -6,14 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RequestStack;
+//use Symfony\Component\HttpFoundation\RequestStack;
 
 use JOMANEL\PlatformBundle\Entity\Advert;
+use JOMANEL\PlatformBundle\Form\AdvertType;
+use JOMANEL\PlatformBundle\Form\AdvertEditType;
 use JOMANEL\PlatformBundle\Entity\Image;
-//use JOMANEL\PlatformBundle\Entity\Application;
+use JOMANEL\PlatformBundle\Entity\Application;
 use JOMANEL\PlatformBundle\Entity\Category;
 use JOMANEL\PlatformBundle\Entity\Skill;
 
-//use JOMANEL\PlatformBundle\Repository\AdvertRepository;
+
+
 
 
 class AdvertController extends Controller{
@@ -26,32 +31,36 @@ class AdvertController extends Controller{
 	      //throw new NotFoundHttpException('Page "'.$page.'" inexistante.');
 	    }*/
 
-	    // Ici, on récupérera la liste des annonces, puis on la passera au template
+	    // Ici je fixe le nombre d'annonces par page à 3
+	    // Mais bien sûr il faudrait utiliser un paramètre, et y accéder via $this->container->getParameter('nb_per_page')
+	    $nbPerPage = 4;
 
 	    // Notre liste d'annonce en dur
-	    $listAdverts = array(
-	      array(
-	        'title'   => 'Recherche développpeur Symfony',
-	        'id'      => 1,
-	        'author'  => 'Alexandre',
-	        'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
-	        'date'    => new \Datetime()),
-	      array(
-	        'title'   => 'Mission de webmaster',
-	        'id'      => 2,
-	        'author'  => 'Hugo',
-	        'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-	        'date'    => new \Datetime()),
-	      array(
-	        'title'   => 'Offre de stage webdesigner',
-	        'id'      => 3,
-	        'author'  => 'Mathieu',
-	        'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
-	        'date'    => new \Datetime())
-	    );
+	    $listAdverts = $this->getDoctrine()
+			    			->getManager()
+			    			->getRepository('JOMANELPlatformBundle:Advert')
+			    			->getAllAdvertsWithPaginator($page, $nbPerPage)
+	    ;
+
+	    ////////
+	    // On calcule le nombre total de pages grâce au count($listAdverts) qui retourne le nombre total d'annonces
+	    $nbPages = ceil(count($listAdverts) / $nbPerPage);
+
+	    // Si la page n'existe pas, on retourne une 404
+	    if ($page > $nbPages) {
+	      throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+	    }
+
+	    // On donne toutes les informations nécessaires à la vue
+	    return $this->render('JOMANELPlatformBundle:Advert:index.html.twig', array(
+	      'listAdverts' => $listAdverts,
+	      'nbPages'     => $nbPages,
+	      'page'        => $page,
+	    ));
+	    ////////
 
 	    // Et modifiez le 2nd argument pour injecter notre liste
-	    return $this->render('JOMANELPlatformBundle:Advert:index.html.twig', array('listAdverts' => $listAdverts));
+	    //return $this->render('JOMANELPlatformBundle:Advert:index.html.twig', array('listAdverts' => $listAdverts));
     }//fnc
 
 
@@ -93,159 +102,231 @@ class AdvertController extends Controller{
 	    
 	    // Ici le message n'est pas un spam :
 	   
-	    // Création de l'entité Advert
 	    $advert = new Advert();
-	    $advert->setTitle('Recherche développeur Symfony2.');
-	    $advert->setAuthor('Alexandre2');
-	    $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…2");
+	    $form   = $this->get('form.factory')->create(AdvertType::class, $advert);
 
-	    // Mettre une image à cet Advert
-	    $image = new Image();
-	    $image->setUrl('http://zyzixun.net/data/out/55/3252930-electrical-engineering-wallpapers.jpg');//('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');//('../imgs/electricalengineering.jpg');
-	    $image->setAlt('ImgdataprEngineer');
+	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+		    $em = $this->getDoctrine()->getManager();
+		    $ipClient = $this->container->get('request_stack')->getCurrentRequest()->getClientIp();
+		    $advert->setIP($ipClient);
+		    $em->persist($advert);
+		    $em->flush();
 
-	    // Mettre une category à cet Advert
-	    $category = new Category();
-	    $category->setName('Informatique');
+		    $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-	    /*// Mettre une skill à cet Advert
-	    $skill = new Skill();
-	    $skill->setName('c++');*/
-
-	    //=>
-	    // On lie l'advert à l'image
-	    $advert->setImage($image);
-	    // On lie l'advert à la catégorie
-	    $advert->addCategory($category);
-	    
-
-	    // On récupère l'EntityManager
-	    $em = $this->getDoctrine()->getManager();
-
-	    // Étape 1 : On « persiste » l'entité
-	    $em->persist($advert);
-
-	    // Étape 1 ter : pour cette relation pas de cascade lorsqu'on persiste Advert, car la relation est
-	    // définie dans l'entité Application et non Advert. On doit donc tout persister à la main ici.
-	    //$em->persist($application1);
-	    //$em->persist($application2);
-
-	    // Étape 2 : On « flush » tout ce qui a été persisté avant
-	    $em->flush();
-	    //////
-
-    	// La gestion d'un formulaire est particulière, mais l'idée est la suivante :
-	    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
-	    if ($request->isMethod('POST')) {
-	      // Ici, on s'occupera de la création et de la gestion du formulaire
-
-	      $request->getSession()->getFlashBag()->add('notice', 'advert well recorded.');
-
-	      // Puis on redirige vers la page de visualisation de cettte annonce
-	      return $this->redirectToRoute('jomanel_platform_view', array('id' => 5));
+		    return $this->redirectToRoute('jomanel_platform_view', array('id' => $advert->getId()));
 	    }
 
-	    // Si on n'est pas en POST, alors on affiche le formulaire
-	    return $this->render('JOMANELPlatformBundle:Advert:add.html.twig', array('advert' => $advert));
+	    return $this->render('JOMANELPlatformBundle:Advert:add.html.twig', array('form' => $form->createView()));
+	  
         
     }//fnc
 
 
     public function editAction($id, Request $request){
+	    
+	    $em = $this->getDoctrine()->getManager();
 
-    	// Ici, on récupérera l'annonce correspondante à $id
-
-	    // Même mécanisme que pour l'ajout
-	    if ($request->isMethod('POST')) {
-	      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modified.');
-
-	      return $this->redirectToRoute('jomanel_platform_view', array('id' => 5));
-	    }
-
-	    ///// exemple pour ajouter une annonce existante à plusieurs catégories existantes
-	     $em = $this->getDoctrine()->getManager();
-
-	    // On récupère l'annonce $id
 	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
 
 	    if (null === $advert) {
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
 
-	    // La méthode findAll retourne toutes les catégories de la base de données
-	    $listCategories = $em->getRepository('JOMANELPlatformBundle:Category')->findAll();
+	    $form = $this->get('form.factory')->create(AdvertEditType::class, $advert);
 
-	    // On boucle sur les catégories pour les lier à l'annonce
-	    foreach ($listCategories as $category) {
-	      $advert->addCategory($category);
+	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+	      	// Inutile de persister ici, Doctrine connait déjà notre annonce
+	      	$em->flush();
+
+	      	$request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
+
+	      	return $this->redirectToRoute('jomanel_platform_view', array('id' => $advert->getId()));
 	    }
-
-	    // Pour persister le changement dans la relation, il faut persister l'entité propriétaire
-	    // Ici, Advert est le propriétaire, donc inutile de la persister car on l'a récupérée depuis Doctrine
-
-	    // Étape 2 : On déclenche l'enregistrement
-	    $em->flush();
-	    /////
-
-	    $advert = array(
-	      'title'   => 'Recherche développpeur Symfony',
-	      'id'      => $id,
-	      'author'  => 'Alexandre',
-	      'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
-	      'date'    => new \Datetime()
-	    );
 
 	    return $this->render('JOMANELPlatformBundle:Advert:edit.html.twig', array(
-	      'advert' => $advert
+	      	'advert' => $advert,
+	      	'form'   => $form->createView(),
 	    ));
-        
-    }//fnc
+	}
 
 
-    public function deleteAction($id){
-    
-    	/////exemple pour enlever toutes les catégories d'une annonce
-    	$em = $this->getDoctrine()->getManager();
+    public function deleteAction(Request $request, $id){
 
-	    // On récupère l'annonce $id
+	    $em = $this->getDoctrine()->getManager();
+
 	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
 
 	    if (null === $advert) {
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
 
-	    // On boucle sur les catégories de l'annonce pour les supprimer
-	    foreach ($advert->getCategories() as $category) {
-	      $advert->removeCategory($category);
+	    // On crée un formulaire vide, qui ne contiendra que le champ CSRF
+	    // Cela permet de protéger la suppression d'annonce contre cette faille
+	    $form = $this->get('form.factory')->create();
+
+	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+	      $em->remove($advert);
+	      $em->flush();
+
+	      $request->getSession()->getFlashBag()->add('info', "L'annonce a bien été supprimée.");
+
+	      return $this->redirectToRoute('jomanel_platform_home');
 	    }
-
-	    // Pour persister le changement dans la relation, il faut persister l'entité propriétaire
-	    // Ici, Advert est le propriétaire, donc inutile de la persister car on l'a récupérée depuis Doctrine
-
-	    // On déclenche la modification
-	    $em->flush();
-    	/////
-
-	    return $this->render('JOMANELPlatformBundle:Advert:delete.html.twig', array('id'=>$id));
-        
-    }//fnc
+	    
+	    return $this->render('JOMANELPlatformBundle:Advert:delete.html.twig', array(
+	      'advert' => $advert,
+	      'form'   => $form->createView(),
+	    ));
+  	}
 
 
     public function menuAction($limit){
   
-	    // On fixe en dur une liste ici, bien entendu par la suite
-	    // on la récupérera depuis la BDD !
-	    $listAdverts = array(
-	      array('id' => 1, 'title' => 'Recherche développeur Symfony'),
-	      array('id' => 2, 'title' => 'Mission de webmaster'),
-	      array('id' => 3, 'title' => 'Offre de stage webdesigner')
-	    );
+	    // X last adverts (X = 3)
+	    $listAdverts = $this->getDoctrine()
+	    					->getManager()
+	    					->getRepository('JOMANELPlatformBundle:Advert')
+	                        ->getXLastAdverts(3)
+	    ;
 
-	    return $this->render('JOMANELPlatformBundle:Advert:menu.html.twig', array(
-	      // Tout l'intérêt est ici : le contrôleur passe
-	      // les variables nécessaires au template !
-	      'listAdverts' => $listAdverts
-	    ));
+	    return $this->render('JOMANELPlatformBundle:Advert:menu.html.twig', array('listAdverts' => $listAdverts));
+    }//fnc
+
+
+    public function applyAction($id){
+  
+	    //=== find this advert by here id : 
+	    $em = $this->getDoctrine()->getManager();
+
+	    // On récupère l'annonce $id
+	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
+
+	    if (null === $advert) {
+	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+	    }
+	    
+	    //
+	    //=== add application to this advert
+	    //creating vew application 
+	    $application = new Application();
+        $application->setAuthor("jjjjoel1");
+        $ipClient = $this->container->get('request_stack')->getCurrentRequest()->getClientIp();
+        $application->setIP($ipClient);
+        $application->setContent("mmmmotivé");
+        
+        //lier cet advert à cette application
+	    $advert->addApplication($application);
+
+	    //=== persisting and flushing
+	    $em->persist($advert);
+        $em->persist($application);
+
+        // On déclenche l'enregistrement de toutes les catégories
+        $em->flush();
+
+	    //=== 
+	    return $this->render('JOMANELPlatformBundle:Advert:applySucces.html.twig', array('advert' => $advert));
+    }//fnc
+
+
+
+    public function purgeAction(){#$days
+  		/*
+  		//=== get EM
+  		$em = $this->getDoctrine()->getManager();
+
+	    // === get Ids of All adverts 
+	    $listAdverts = $em->getRepository('JOMANELPlatformBundle:Advert')
+	                      ->getAllAdverts()                 
+	    ;
+
+	    	//get Ids of all adverts 
+	    $listIdsOfAdverts = [];
+	    foreach ($listAdverts as $advert) {
+		  $listIdsOfAdverts[] = $advert['id'];
+		}
+
+			//print_r($listIdsOfAdverts);//exit;
+			//echo '<br/>';
+	    
+
+
+	    // === get Ids of adverts wich have applications
+	    	//get adverts wich have applications
+	    $listAdvertsWhichHaveApplications = $em->getRepository('JOMANELPlatformBundle:Advert')
+	                                           ->getAdvertsWhichHaveApplications() 
+	                                                              
+	    ;
+
+	    	//get Ids of adverts wich have applications
+	    $listIdsOfAdvertsWhichHaveApplications = [];
+	    foreach ($listAdvertsWhichHaveApplications as $advert) {
+		  $listIdsOfAdvertsWhichHaveApplications[] = $advert['id'];
+		}
+
+			//print_r($listIdsOfAdvertsWhichHaveApplications);exit;
+
+		$listIdsOfAdvertsWhichHaveApplications = array_unique($listIdsOfAdvertsWhichHaveApplications);
+			//print_r($listIdsOfAdvertsWhichHaveApplications);//exit;
+			//echo '<br/>';
+
+	    //=== get Ids Of Adverts Which Not Have Applications 
+	    	//comp
+	    $listIdOfAdvertsWhichNotHaveApplications = array_diff($listIdsOfAdverts, $listIdsOfAdvertsWhichHaveApplications);
+	    	//print_r($listIdOfAdvertsWhichNotHaveApplications);exit;
+
+	    //=== get Ids Of Adverts Which Not Have Applications and which are old
+	    $listAdvertsWhichNotHaveApplicationsAndOlds = $em->getRepository('JOMANELPlatformBundle:Advert')
+	    										         ->getAdvertsWhichAreOld($listIdOfAdvertsWhichNotHaveApplications, 1)//1 = $days
+	                                                       
+	    ;
+//exit;
+	    $listIdsOfAdvertsWhichNotHaveApplicationsAndOld = [];
+	    foreach ($listAdvertsWhichNotHaveApplicationsAndOlds as $advert) {
+		  $listIdsOfAdvertsWhichNotHaveApplicationsAndOld[] = $advert['id'];
+		}
+	
+			//print_r($listIdsOfAdvertsWhichNotHaveApplicationsAndOld);exit;
+
+	    //=== purge these adverts (remove them from advert table)                 //(then update table advert)
+	    if(count($listIdsOfAdvertsWhichNotHaveApplicationsAndOld) == 0){
+	    	throw new NotFoundHttpException("Nothing to purge.");
+	    }
+	    
+	    $advertsWhichNotHaveApplicationsAndOld = $em->getRepository('JOMANELPlatformBundle:Advert')
+	                                                ->getAdvertsByIds($listIdsOfAdvertsWhichNotHaveApplicationsAndOld)
+	                                                 
+	    ;
+
+//exit;
+	    foreach ($advertsWhichNotHaveApplicationsAndOld as $advert) {
+		  $em->remove($advert);
+		}
+	
+		$em->flush(); // Exécute un DELETE sur $advert
+
+
+	    */
+	    // On récupère le service
+	    $puger = $this->container->get('jomanel_platform.purger.advert');//.advert
+	    $puger->purge(3);
+
+	    /*// On récupère le service
+	    $antispam = $this->container->get('jomanel_platform.antispam');
+
+	    // Je pars du principe que $text contient le texte d'un message quelconque
+	    $text = '...........................................................';
+	    if ($antispam->isSpam($text)) {
+	      throw new \Exception('Your message was detected as spam!');
+	    }
+	    */
+
+	    exit;
+	    //=== render
+	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listIdsOfAdvertsWhichHaveApplications' => $listIdsOfAdvertsWhichHaveApplications));
+
+
     }//fnc
 
 
@@ -308,6 +389,28 @@ class AdvertController extends Controller{
 	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listApplications' => $listApplications));
 
     }//fnc
+
+    public function removeappAction(){
+
+    	// charger une annonce (2):
+    	$em = $this->getDoctrine()->getManager();
+
+	    // On récupère l'annonce $id
+	    $app = $em->getRepository('JOMANELPlatformBundle:Application')->find(2);
+	    //$img = $em->getRepository('JOMANELPlatformBundle:Image')->find(5);
+
+		//la modifier :
+		$em->remove($app);
+	    //$em->remove($img);
+
+		//l'enregistrer :
+	    $em->flush();
+	
+	    //exit;
+		
+		return $this->render('JOMANELPlatformBundle:Advert:test2.html.twig');
+
+    }
 
 
 }//class

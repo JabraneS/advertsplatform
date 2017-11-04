@@ -3,12 +3,14 @@
 
 namespace JOMANEL\PlatformBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 
 
 
 /**
  *@ORM\Entity(repositoryClass="JOMANEL\PlatformBundle\Repository\ApplicationRepository")
+ *@ORM\HasLifecycleCallbacks()
  */
 class Application
 {
@@ -27,6 +29,11 @@ class Application
   private $author;
 
   /**
+   * @ORM\Column(name="ip", type="string", length=255)
+   */
+  private $ip;// = $this->container->get('request')->getClientIp();
+
+  /**
    * @ORM\Column(name="content", type="text")
    */
   private $content;
@@ -43,9 +50,12 @@ class Application
   private $advert;
 
 
-  public function __construct(){
+  public function __construct(/*RequestStack $requestStack*/){
   
     $this->date = new \Datetime();
+    
+    //
+
   }
 
 
@@ -154,5 +164,45 @@ class Application
     {
         return $this->date;
     }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+      $this->getAdvert()->increaseApplication();
+    }
+
+    /**/
+     /* @ORM\PreRemove
+     /*/
+    public function decrease()
+    {
+      $this->getAdvert()->decreaseApplication();
+    }
+
+    /**
+     * Set ip
+     *
+     * @param string $ip
+     *
+     * @return Application
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
 }
-//N.B : JoinColumn(nullable=false) : to prohibit the creation of an Application without an advert_id in the table Application in db => no application without an advert. 
