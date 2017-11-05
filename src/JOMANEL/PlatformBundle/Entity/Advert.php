@@ -6,16 +6,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-//use Symfony\Component\HttpFoundation\RequestStack;
-//use Symfony\Component\DependencyInjection\ContainerInterface;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\HttpFoundation\Response;
-//use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-//use Symfony\Component\HttpFoundation\RequestStack;
-use JOMANEL\PlatformBundle\Validator\Antiflood;
 
 //
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -88,7 +79,6 @@ class Advert
    * @ORM\Column(name="content", type="string", length=255)
    * @Assert\NotBlank()
    * @Assert\Length(min=10, max=600, maxMessage="Content must contain at most 600 characters")
-   * @Antiflood()
    */
   private $content;
   

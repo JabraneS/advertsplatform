@@ -1,0 +1,7 @@
+jomanel_core_homepage:
+    path:     /
+    defaults: { _controller: JOMANELCoreBundle:Core:index }
+
+jomanel_core_contactpage:
+    path:     /contact
+    defaults: { _controller: JOMANELCoreBundle:Core:contact }

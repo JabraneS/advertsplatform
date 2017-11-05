@@ -1,3 +1,7 @@
+jomanel_core:
+    resource: "@JOMANELCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
 
 
 jomanel_platform:
