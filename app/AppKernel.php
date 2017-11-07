@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new JOMANEL\PlatformBundle\JOMANELPlatformBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new JOMANEL\CoreBundle\JOMANELCoreBundle(),
+            new JOMANEL\UserBundle\JOMANELUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

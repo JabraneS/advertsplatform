@@ -8,3 +8,16 @@ jomanel_platform:
     resource: "@JOMANELPlatformBundle/Resources/config/routing.yml"
     prefix:   /platform
 
+
+# user connexion :
+login:
+    path: /login
+    defaults:
+        _controller: JOMANELUserBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+

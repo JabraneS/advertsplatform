@@ -27,8 +27,10 @@
         <h3>Les annonces</h3>
         <ul class="nav nav-pills nav-stacked">
           <li><a href="{{ path('jomanel_platform_home') }}">Accueil</a></li>
+          {% if is_granted('ROLE_ADMIN') %}
           <li><a href="{{ path('jomanel_platform_add') }}">Ajouter une annonce</a></li>
           <li><a href="{{ path('jomanel_platform_purge') }}">Purge Advert</a></li>
+          {% endif %}
         </ul>
 
         <h4>Dernières annonces</h4>

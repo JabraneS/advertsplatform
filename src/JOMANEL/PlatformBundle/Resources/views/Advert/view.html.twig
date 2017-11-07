@@ -37,33 +37,36 @@
     </p>
   {% endif %}
 
-  {#{% if listAdvertSkills|length > 0 %}
-    <div>
-      Cette annonce requiert les compétences suivantes :
-      <ul>
-        {% for advertSkill in listAdvertSkills %}
-          <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}#}
-
   <p>
-    <a href="{{ path('jomanel_platform_home') }}" class="btn btn-default">
-      <i class="glyphicon glyphicon-chevron-left"></i>
-      Retour à la liste
-    </a>
-    <a href="{{ path('jomanel_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
-      <i class="glyphicon glyphicon-edit"></i>
-      Modifier l'annonce
-    </a>
-    <a href="{{ path('jomanel_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
-      <i class="glyphicon glyphicon-trash"></i>
-      Supprimer l'annonce
-    </a>
-     <a href="{{ path('jomanel_platform_apply', {'id': advert.id}) }}" class="btn btn-success">
-      Apply
-    </a>
+
+    {% if app.user %}
+      {% if is_granted('ROLE_ADMIN') %}
+      <a href="{{ path('jomanel_platform_home') }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Retour à la liste
+      </a>
+      <a href="{{ path('jomanel_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-edit"></i>
+        Modifier l'annonce
+      </a>
+      <a href="{{ path('jomanel_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+        <i class="glyphicon glyphicon-trash"></i>
+        Supprimer l'annonce
+      </a>
+      {% endif %}
+      
+      {% if is_granted('ROLE_USER') %}
+       <a href="{{ path('jomanel_platform_apply', {'id': advert.id}) }}" class="btn btn-success">
+        Apply
+      </a>
+      {% endif %}
+
+    {% elseif not app.user %}
+      
+      <p>you must <a href="{{ path('login') }}">log in </a>to apply for this job.</p>
+     
+    {% endif %}
+
   </p>
 
 {% endblock %}

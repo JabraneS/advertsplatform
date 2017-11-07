@@ -17,6 +17,9 @@ use JOMANEL\PlatformBundle\Entity\Application;
 use JOMANEL\PlatformBundle\Entity\Category;
 use JOMANEL\PlatformBundle\Entity\Skill;
 
+// N'oubliez pas ce use pour l'annotation
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 
 
@@ -89,6 +92,9 @@ class AdvertController extends Controller{
     }//fnc
 
 
+   /**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
     public function addAction(Request $request){
 
     	// On récupère le service
@@ -123,6 +129,9 @@ class AdvertController extends Controller{
     }//fnc
 
 
+   /**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
     public function editAction($id, Request $request){
 	    
 	    $em = $this->getDoctrine()->getManager();
@@ -151,6 +160,9 @@ class AdvertController extends Controller{
 	}
 
 
+   /**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
     public function deleteAction(Request $request, $id){
 
 	    $em = $this->getDoctrine()->getManager();
@@ -194,6 +206,10 @@ class AdvertController extends Controller{
     }//fnc
 
 
+    
+    /**
+     * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
+     */
     public function applyAction($id){
   
 	    //=== find this advert by here id : 
@@ -231,98 +247,15 @@ class AdvertController extends Controller{
 
 
 
-    public function purgeAction(){#$days
-  		/*
-  		//=== get EM
-  		$em = $this->getDoctrine()->getManager();
+   /**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
+    public function purgeAction(){
 
-	    // === get Ids of All adverts 
-	    $listAdverts = $em->getRepository('JOMANELPlatformBundle:Advert')
-	                      ->getAllAdverts()                 
-	    ;
-
-	    	//get Ids of all adverts 
-	    $listIdsOfAdverts = [];
-	    foreach ($listAdverts as $advert) {
-		  $listIdsOfAdverts[] = $advert['id'];
-		}
-
-			//print_r($listIdsOfAdverts);//exit;
-			//echo '<br/>';
-	    
-
-
-	    // === get Ids of adverts wich have applications
-	    	//get adverts wich have applications
-	    $listAdvertsWhichHaveApplications = $em->getRepository('JOMANELPlatformBundle:Advert')
-	                                           ->getAdvertsWhichHaveApplications() 
-	                                                              
-	    ;
-
-	    	//get Ids of adverts wich have applications
-	    $listIdsOfAdvertsWhichHaveApplications = [];
-	    foreach ($listAdvertsWhichHaveApplications as $advert) {
-		  $listIdsOfAdvertsWhichHaveApplications[] = $advert['id'];
-		}
-
-			//print_r($listIdsOfAdvertsWhichHaveApplications);exit;
-
-		$listIdsOfAdvertsWhichHaveApplications = array_unique($listIdsOfAdvertsWhichHaveApplications);
-			//print_r($listIdsOfAdvertsWhichHaveApplications);//exit;
-			//echo '<br/>';
-
-	    //=== get Ids Of Adverts Which Not Have Applications 
-	    	//comp
-	    $listIdOfAdvertsWhichNotHaveApplications = array_diff($listIdsOfAdverts, $listIdsOfAdvertsWhichHaveApplications);
-	    	//print_r($listIdOfAdvertsWhichNotHaveApplications);exit;
-
-	    //=== get Ids Of Adverts Which Not Have Applications and which are old
-	    $listAdvertsWhichNotHaveApplicationsAndOlds = $em->getRepository('JOMANELPlatformBundle:Advert')
-	    										         ->getAdvertsWhichAreOld($listIdOfAdvertsWhichNotHaveApplications, 1)//1 = $days
-	                                                       
-	    ;
-//exit;
-	    $listIdsOfAdvertsWhichNotHaveApplicationsAndOld = [];
-	    foreach ($listAdvertsWhichNotHaveApplicationsAndOlds as $advert) {
-		  $listIdsOfAdvertsWhichNotHaveApplicationsAndOld[] = $advert['id'];
-		}
-	
-			//print_r($listIdsOfAdvertsWhichNotHaveApplicationsAndOld);exit;
-
-	    //=== purge these adverts (remove them from advert table)                 //(then update table advert)
-	    if(count($listIdsOfAdvertsWhichNotHaveApplicationsAndOld) == 0){
-	    	throw new NotFoundHttpException("Nothing to purge.");
-	    }
-	    
-	    $advertsWhichNotHaveApplicationsAndOld = $em->getRepository('JOMANELPlatformBundle:Advert')
-	                                                ->getAdvertsByIds($listIdsOfAdvertsWhichNotHaveApplicationsAndOld)
-	                                                 
-	    ;
-
-//exit;
-	    foreach ($advertsWhichNotHaveApplicationsAndOld as $advert) {
-		  $em->remove($advert);
-		}
-	
-		$em->flush(); // Exécute un DELETE sur $advert
-
-
-	    */
 	    // On récupère le service
 	    $puger = $this->container->get('jomanel_platform.purger.advert');//.advert
 	    $puger->purge(3);
 
-	    /*// On récupère le service
-	    $antispam = $this->container->get('jomanel_platform.antispam');
-
-	    // Je pars du principe que $text contient le texte d'un message quelconque
-	    $text = '...........................................................';
-	    if ($antispam->isSpam($text)) {
-	      throw new \Exception('Your message was detected as spam!');
-	    }
-	    */
-
-	    exit;
 	    //=== render
 	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listIdsOfAdvertsWhichHaveApplications' => $listIdsOfAdvertsWhichHaveApplications));
 
@@ -333,7 +266,9 @@ class AdvertController extends Controller{
    
 
 
-
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function testAction(){
     	
     	//==== AdvertRepository : getAllAdverts()
@@ -390,6 +325,9 @@ class AdvertController extends Controller{
 
     }//fnc
 
+    /**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
     public function removeappAction(){
 
     	// charger une annonce (2):
