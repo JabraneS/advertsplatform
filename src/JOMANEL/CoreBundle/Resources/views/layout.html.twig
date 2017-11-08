@@ -17,6 +17,19 @@
 <body>
   <div class="container">
     <div id="header" class="jumbotron">
+
+      <!---->
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          Connecté en tant que {{ app.user.username }}
+          -
+          <a href="{{ path('fos_user_security_logout') }}">Sign Out</a>
+      {% else %}
+          <a href="{{ path('fos_user_security_login') }}">Log in</a>
+          <a href="{{ path('fos_user_registration_register') }}">Registration</a>
+      {% endif %}
+      <!---->
+
+
       <h1>Ma plateforme d'annonces</h1>
       
     </div>

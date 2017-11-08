@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace JOMANEL\UserBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -55,3 +55,4 @@ class LoadUser implements FixtureInterface
   }//fnc
 
 }//class
+*/

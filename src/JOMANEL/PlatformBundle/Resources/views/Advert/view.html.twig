@@ -63,7 +63,7 @@
 
     {% elseif not app.user %}
       
-      <p>you must <a href="{{ path('login') }}">log in </a>to apply for this job.</p>
+      <p>you must <a href="{{ path('fos_user_security_login') }}">log in </a>to apply for this job.</p>
      
     {% endif %}
 

@@ -92,7 +92,7 @@ class AdvertController extends Controller{
     }//fnc
 
 
-   /**
+    /**
     * @Security("has_role('ROLE_ADMIN')")
     */
     public function addAction(Request $request){
