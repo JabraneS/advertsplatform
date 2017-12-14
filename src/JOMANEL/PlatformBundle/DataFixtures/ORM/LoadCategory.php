@@ -14,12 +14,13 @@ class LoadCategory implements FixtureInterface{
   public function load(ObjectManager $manager){
 
 
-      $categoriesNames = array("Génie Informatiquee", "Génie Mécanique", "Génie civile", "Génie Electrique", "Génie chimique");
-
+      $categoriesNoms  = array("Génie Informatique", "Génie Mécanique", "Génie Civile", "Génie Electrique", "Génie Chimique");
+      $categoriesNames = array("Computer Engineering", "Mechanical Engineering", "Civil Engineering", "Electrical Engineering", "Chemical Engineering");
       
-      for ($i=0; $i < count($categoriesNames); $i++) { 
+      for ($i=0; $i < count($categoriesNoms); $i++) { 
         
         $category = new Category();
+        $category->setNom($categoriesNoms[$i]);
         $category->setName($categoriesNames[$i]);
         
         // On la persiste

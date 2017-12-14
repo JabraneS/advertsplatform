@@ -1,12 +1,12 @@
 {% extends "JOMANELPlatformBundle::layout.html.twig" %}
 
 {% block title %}
-  Home - {{ parent() }}
+ {{'index.1'|trans}} - {{ parent() }}  {#Home_ Acceuil  {{'index_title'|trans}}  #}
 {% endblock %}
 
 {% block jomanelplatform_body %}
 
-  <h2>Adverts list</h2>
+  <h2>{{'index.2'|trans}}</h2>{#Adverts list_liste des annonces#} 
 
   <ul>
     {% for advert in listAdverts %}
@@ -14,11 +14,11 @@
         <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
           {{ advert.title }}
         </a>
-        with {{ advert.author }},
-        in {{ advert.date|date('d/m/Y') }}
+        {{'index.3'|trans}} {{ advert.author }},{#par_by#} 
+        {{'index.4'|trans}} {{ advert.date|date('d/m/Y') }}{#le_in#} 
       </li>
     {% else %}
-      <li>No adverts yet</li>
+      <li>{{'index.5'|trans}}{#No adverts yet_Pas encore d'annonces#}</li>
     {% endfor %}
   </ul>
 

@@ -3,12 +3,15 @@
 namespace JOMANEL\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Category
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="JOMANEL\PlatformBundle\Repository\CategoryRepository")
+ * @UniqueEntity(fields="name_fr", message="une catégorie existe déja avec ce titre.")
+ * @UniqueEntity(fields="name_en", message="a category already exists with this title.")
  */
 class Category
 {
@@ -21,12 +24,22 @@ class Category
      */
     private $id;
 
+
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name_fr", type="string", length=255, unique=true)
      */
-    private $name;
+    private $name_fr;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name_en", type="string", length=255, unique=true)
+     */
+    private $name_en;
+
 
 
     /**
@@ -39,28 +52,56 @@ class Category
         return $this->id;
     }
 
+   
     /**
-     * Set name
+     * Set nameFr
      *
-     * @param string $name
+     * @param string $nameFr
      *
      * @return Category
      */
-    public function setName($name)
+    public function setNameFr($nameFr)
     {
-        $this->name = $name;
+        $this->name_fr = $nameFr;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get nameFr
      *
      * @return string
      */
-    public function getName()
+    public function getNameFr()
     {
-        return $this->name;
+        return $this->name_fr;
     }
-}
 
+    /**
+     * Set nameEn
+     *
+     * @param string $nameEn
+     *
+     * @return Category
+     */
+    public function setNameEn($nameEn)
+    {
+        $this->name_en = $nameEn;
+
+        return $this;
+    }
+
+    /**
+     * Get nameEn
+     *
+     * @return string
+     */
+    public function getNameEn()
+    {
+        return $this->name_en;
+    }
+    ///////
+
+    
+
+}//class

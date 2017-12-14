@@ -1,0 +1,33 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  {{'category.edit.1'|trans}} - {{ parent() }}{#Modifier une catégorie#}
+{% endblock %}
+
+{% block jomanelplatform_body %}
+
+  <h2>{{'category.edit.2'|trans}}</h2>{#Modifier une catégorie#}
+
+  {% if category == null %}
+    
+    <p>{{ 'category.view.3'|trans}}</p>{#Catégorie inéxistante !#}
+
+    <p>
+      <a href="{{ path('jomanel_platform_homeCategory', {'id': categoryId}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        {{ 'category.view.4'|trans}}{#   Retour à la list des catégories #}
+      </a>
+    </p>
+
+  {% else %}
+    {{ include("JOMANELPlatformBundle:Category:form.html.twig") }}
+
+    <p>
+      <a href="{{ path('jomanel_platform_viewCategory', {'id': categoryId}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        {{'category.edit.3'|trans}}{#   Retour à la catégorie #}
+      </a>
+    </p>
+  {% endif %}
+
+{% endblock %}

@@ -1,22 +1,22 @@
 {% extends "JOMANELPlatformBundle::layout.html.twig" %}
 
 {% block title %}
-  Delete an advert - {{ parent() }}
+   {{'delete.1'|trans}} - {{ parent() }}{#Delete an advert__Supprimer une annonce#}
 {% endblock %}
 
 {% block ocplatform_body %}
 
-  <h2>Supprimer une annonce</h2>
+  <h2>{{'delete.2'|trans}}</h2>
 
   <p>
-    Etes-vous certain de vouloir supprimer l'annonce "{{ advert.title }}" ?
+    {{'delete.3'|trans}} "{{ advert.title }}"{#Etes-vous certain de vouloir supprimer l\'annonce#}
   </p>
 
   {# On met l'id de l'annonce dans la route de l'action du formulaire #}
   <form action="{{ path('jomanel_platform_delete', {'id': advert.id}) }}" method="post">
     <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}" class="btn btn-default">
       <i class="glyphicon glyphicon-chevron-left"></i>
-      Retour à l'annonce
+      {{'delete.4'|trans}}{#Retour à l\'annonce#}
     </a>
     {# Ici j'ai écrit le bouton de soumission à la main #}
     <input type="submit" value="Supprimer" class="btn btn-danger" />

@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% block title %}Adverts Platform{% endblock %}</title>
+  <title>{% block title %}{{'layout.1'|trans }}{% endblock %}</title>{# Platforme d\'annonces #}
 
   {% block stylesheets %}
     {# On charge le CSS de bootstrap depuis le site directement #}
@@ -16,37 +16,90 @@
 
 <body>
   <div class="container">
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        
+        <div class="navbar-header">
+          
+          <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">{{'layout.2'|trans }}</a>{# Adverts Platform #}
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          
+          <ul class="nav navbar-nav">
+            {% if (app.request.getLocale()) == 'fr' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'layout.3'|trans }} <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header"><strong>{{ 'layout.4'|trans }}</strong></li>
+                <li class="active"><a href="#"> Fr</a></li>
+                <li><a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'})) }}"> En</a></li>
+              </ul>
+            </li>
+            {% endif %}
+            
+            {% if (app.request.getLocale()) == 'en' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'layout.5'|trans }} <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header"><strong>{{ 'layout.6'|trans }}</strong></li>
+                <li class=""><a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'fr'})) }}"> Fr</a></li>
+                <li class="active"><a href=""> En</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+
+        </div><!--/.navbar-collapse -->
+      
+      </div><!--container -->
+    </nav>
+
+
+
+
+
+
+
     <div id="header" class="jumbotron">
 
       <!---->
       {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-          Connecté en tant que {{ app.user.username }}
+          {{'layout.7'|trans }} {{ app.user.username }}{# Connecté en tant que #}
           -
-          <a href="{{ path('fos_user_security_logout') }}">Sign Out</a>
+          <a href="{{ path('fos_user_security_logout') }}">{{'layout.8'|trans }}</a>{# se déconnécter #}
       {% else %}
-          <a href="{{ path('fos_user_security_login') }}">Log in</a>
-          <a href="{{ path('fos_user_registration_register') }}">Registration</a>
+          <a href="{{ path('fos_user_security_login') }}">{{'layout.9'|trans }}</a>{# se connécter #}
+          <a href="{{ path('fos_user_registration_register') }}">{{'layout.10'|trans }}</a> {# Registration #}
       {% endif %}
       <!---->
 
 
-      <h1>Ma plateforme d'annonces</h1>
+      <h1>{{'layout.11'|trans }}</h1>{# Ma plateforme d\'annonces #}
       
     </div>
 
     <div class="row">
 
       <div id="menu" class="col-md-3">
-        <h3>Les annonces</h3>
+        
+        <h3>{{'layout.12'|trans }}</h3>{# Les annonces #}
         <ul class="nav nav-pills nav-stacked">
-          <li><a href="{{ path('jomanel_platform_home') }}">Accueil</a></li>
+          <li><a href="{{ path('jomanel_platform_home') }}">{{'layout.13'|trans }}</a></li>{# Accueil #}
           {% if is_granted('ROLE_ADMIN') %}
-          <li><a href="{{ path('jomanel_platform_add') }}">Ajouter une annonce</a></li>
-          <li><a href="{{ path('jomanel_platform_purge') }}">Purge Advert</a></li>
+          <li><a href="{{ path('jomanel_platform_add') }}">{{'layout.14'|trans }}</a></li>{# Ajouter une annonce #}
+          <li><a href="{{ path('jomanel_platform_purge') }}">{{'layout.15'|trans }}</a></li>{# Purger les annonces #}
           {% endif %}
         </ul>
+        
+        <h3>{{'layout.16'|trans }}</h3>{# Catégories #}
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="{{ path('jomanel_platform_addCategory') }}">{{'layout.17'|trans }}</a></li>{# Ajouter une catégorie #}
+          <li><a href="{{ path('jomanel_platform_homeCategory') }}">{{'layout.18'|trans }}</a></li>{# Liste des catégories #}
+        </ul>
 
-        <h4>Dernières annonces</h4>
+        <h4>{{'layout.19'|trans }}</h4>{# Dernières annonces #}
         {{ render(controller("JOMANELPlatformBundle:Advert:menu", {'limit': 3})) }}
 
       </div>
@@ -60,7 +113,7 @@
     <hr>
 
     <footer>
-      <p>The sky's the limit © {{ 'now'|date('Y') }} and beyond.</p>
+      <p>{{'layout.20'|trans }} © {{ 'now'|date('Y') }} {{'layout.21'|trans }}.</p>{#Le ciel est la limite#}{#et au-delà#}
     </footer>
   </div>
 

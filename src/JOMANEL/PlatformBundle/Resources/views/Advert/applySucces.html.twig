@@ -1,17 +1,16 @@
 {% extends "JOMANELPlatformBundle::layout.html.twig" %}
 
 {% block title %}
-  Apply - {{ parent() }}
+  {{'applySucces.1'|trans}} - {{ parent() }}{#Apply -- Postuler#} 
 {% endblock %}
 
 {% block jomanelplatform_body %}
 
-  <p>Successful apply</p>
-
+  <p>{{'applySucces.2'|trans}}.</p>{#you have successfully applied for this offer_Vous avez réussi à postuler à cette offre#} 
   <p>
     <a href="{{ path('jomanel_platform_home', {'id': advert.id}) }}" class="btn btn-default">
       <i class="glyphicon glyphicon-chevron-left"></i>
-      Back to the adverts list
+      {{'applySucces.3'|trans}}{#Back to the adverts list__Retour à la liste des annonces#}
     </a>
   </p>
 

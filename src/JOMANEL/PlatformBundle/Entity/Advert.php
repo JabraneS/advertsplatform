@@ -22,7 +22,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="JOMANEL\PlatformBundle\Repository\AdvertRepository")
- * @UniqueEntity(fields="title", message="An advert already exists with this title.")
+ * @UniqueEntity(fields="title_fr", message="une annonce existe déja avec ce titre.")
+ * @UniqueEntity(fields="title_en", message="An advert already exists with this title.")
  * @ORM\HasLifecycleCallbacks()
  */
 class Advert 
@@ -47,10 +48,18 @@ class Advert
   /**
    * @var string
    *
-   * @ORM\Column(name="title", type="string", length=255, unique=true)
+   * @ORM\Column(name="title_fr", type="string", length=255, unique=true)
    * @Assert\Length(min=10, max=50)
    */
-  private $title;
+  private $title_fr;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="title_en", type="string", length=255, unique=true)
+   * @Assert\Length(min=10, max=50)
+   */
+  private $title_en;
   
   /**
    * @var string
@@ -76,11 +85,22 @@ class Advert
   /**
    * @var string
    *
-   * @ORM\Column(name="content", type="string", length=255)
+   * @ORM\Column(name="contenu_fr", type="string", length=255)
    * @Assert\NotBlank()
-   * @Assert\Length(min=10, max=600, maxMessage="Content must contain at most 600 characters")
+   * @Assert\Length(min=10, max=600)
    */
-  private $content;
+  private $contenu_fr;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="contenu_en", type="string", length=255)
+   * @Assert\NotBlank()
+   * @Assert\Length(min=10, max=600)
+   */
+  private $contenu_en;
+
+
   
   /**
    * @ORM\Column(name="published", type="boolean")
@@ -103,6 +123,11 @@ class Advert
    * @ORM\OneToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Application", mappedBy="advert")
    */
   private $applications; // Notez le « s », une annonce est liée à plusieurs candidatures
+
+  /**
+   * @ORM\Column(name="nb_applications", type="integer")
+   */
+  private $nbApplications = 0;
   
   /**
    * @ORM\Column(name="updated_at", type="datetime", nullable=true)
@@ -110,15 +135,16 @@ class Advert
   private $updatedAt;
   
   /**
-   * @ORM\Column(name="nb_applications", type="integer")
+   * @Gedmo\Slug(fields={"title_fr"})
+   * @ORM\Column(name="slug_fr", type="string", length=255, unique=true)
    */
-  private $nbApplications = 0;
-  
+  private $slug_fr;
+
   /**
-   * @Gedmo\Slug(fields={"title"})
-   * @ORM\Column(name="slug", type="string", length=255, unique=true)
+   * @Gedmo\Slug(fields={"title_en"})
+   * @ORM\Column(name="slug_en", type="string", length=255, unique=true)
    */
-  private $slug;
+  private $slug_en;
 
 
 
@@ -129,21 +155,7 @@ class Advert
     $this->categories   = new ArrayCollection();
     $this->applications = new ArrayCollection();
   }
-  /**
-   * @ORM\PreUpdate
-   */
-  public function updateDate()
-  {
-    $this->setUpdatedAt(new \Datetime());
-  }
-  public function increaseApplication()
-  {
-    $this->nbApplications++;
-  }
-  public function decreaseApplication()
-  {
-    $this->nbApplications--;
-  }
+
   /**
    * @return int
    */
@@ -151,6 +163,7 @@ class Advert
   {
     return $this->id;
   }
+
   /**
    * @param \DateTime $date
    */
@@ -165,20 +178,53 @@ class Advert
   {
     return $this->date;
   }
+
   /**
-   * @param string $title
+   * Set titleFr
+   *
+   * @param string $titleFr
+   *
+   * @return Advert
    */
-  public function setTitle($title)
+  public function setTitleFr($titleFr)
   {
-    $this->title = $title;
+    $this->title_fr = $titleFr;
+
+    return $this;
   }
   /**
+   * Get titleFr
+   *
    * @return string
    */
-  public function getTitle()
+  public function getTitleFr()
   {
-    return $this->title;
+    return $this->title_fr;
   }
+
+  /**
+   * Set titleEn
+   *
+   * @param string $titleEn
+   *
+   * @return Advert
+   */
+  public function setTitleEn($titleEn)
+  {
+    $this->title_en = $titleEn;
+
+    return $this;
+  }
+  /**
+   * Get titleEn
+   *
+   * @return string
+   */
+  public function getTitleEn()
+  {
+    return $this->title_en;
+  }
+
   /**
    * @param string $author
    */
@@ -194,7 +240,30 @@ class Advert
     return $this->author;
   }
 
-   public function setEmail($email)
+  /**
+   * Get ip
+   *
+   * @return string
+   */
+  public function getIp()
+  {
+        return $this->ip;
+  }
+  /**
+   * Set ip
+   *
+   * @param string $ip
+   *
+   * @return Advert
+   */
+  public function setIp($ip)
+  {
+    $this->ip = $ip;
+
+    return $this;
+  }
+
+  public function setEmail($email)
   {
     $this->email = $email;
   }
@@ -206,21 +275,52 @@ class Advert
     return $this->email;
   }
 
-
   /**
-   * @param string $content
+   * Set contenuFr
+   *
+   * @param string $contenuFr
+   *
+   * @return Advert
    */
-  public function setContent($content)
+  public function setContenuFr($contenuFr)
   {
-    $this->content = $content;
+    $this->contenu_fr = $contenuFr;
+
+    return $this;
   }
   /**
+   * Get contenuFr
+   *
    * @return string
    */
-  public function getContent()
+  public function getContenuFr()
   {
-    return $this->content;
+    return $this->contenu_fr;
   }
+
+  /**
+   * Set contenuEn
+   *
+   * @param string $contenuEn
+   *
+   * @return Advert
+   */
+  public function setContenuEn($contenuEn)
+  {
+    $this->contenu_en = $contenuEn;
+
+    return $this;
+  }
+  /**
+   * Get contenuEn
+   *
+   * @return string
+   */
+  public function getContenuEn()
+  {
+    return $this->contenu_en;
+  }
+
   /**
    * @param bool $published
    */
@@ -235,6 +335,7 @@ class Advert
   {
     return $this->published;
   }
+
   public function setImage(Image $image = null)
   {
     $this->image = $image;
@@ -243,6 +344,7 @@ class Advert
   {
     return $this->image;
   }
+
   /**
    * @param Category $category
    */
@@ -264,6 +366,7 @@ class Advert
   {
     return $this->categories;
   }
+
   /**
    * @param Application $application
    */
@@ -287,6 +390,30 @@ class Advert
   {
     return $this->applications;
   }
+
+  /**
+   * Set nbApplications
+   *
+   * @param integer $nbApplications
+   *
+   * @return Advert
+   */
+  public function setNbApplications($nbApplications)
+  {
+    $this->nbApplications = $nbApplications;
+
+    return $this;
+  }
+  /**
+   * Get nbApplications
+   *
+   * @return integer
+   */
+  public function getNbApplications()
+  {
+    return $this->nbApplications;
+  }
+
   /**
    * @param \DateTime $updatedAt
    */
@@ -301,61 +428,72 @@ class Advert
   {
       return $this->updatedAt;
   }
+
   /**
-   * @param integer $nbApplications
+   * Set slugFr
+   *
+   * @param string $slugFr
+   *
+   * @return Advert
    */
-  public function setNbApplications($nbApplications)
+  public function setSlugFr($slugFr)
   {
-      $this->nbApplications = $nbApplications;
+    $this->slug_fr = $slugFr;
+
+    return $this;
   }
   /**
-   * @return integer
-   */
-  public function getNbApplications()
-  {
-      return $this->nbApplications;
-  }
-  /**
-   * @param string $slug
-   */
-  public function setSlug($slug)
-  {
-      $this->slug = $slug;
-  }
-  /**
+   * Get slugFr
+   *
    * @return string
    */
-  public function getSlug()
+  public function getSlugFr()
   {
-      return $this->slug;
+    return $this->slug_fr;
   }
 
-   /**
-     * Set ip
-     *
-     * @param string $ip
-     *
-     * @return Advert
-     */
-    public function setIp($ip)
-    {
-        $this->ip = $ip;
+  /**
+   * Set slugEn
+   *
+   * @param string $slugEn
+   *
+   * @return Advert
+   */
+  public function setSlugEn($slugEn)
+  {
+    $this->slug_en = $slugEn;
 
-        //return $this;
-    }
+    return $this;
+  }
+  /**
+   * Get slugEn
+   *
+   * @return string
+   */
+  public function getSlugEn()
+  {
+    return $this->slug_en;
+  }
 
-    /**
-     * Get ip
-     *
-     * @return string
-     */
-    public function getIp()
-    {
-        return $this->ip;
-    }
 
-
-   /**
+///////////////////////////////////////////////////////
+  /**
+   * @ORM\PreUpdate
+   */
+  public function updateDate()
+  {
+    $this->setUpdatedAt(new \Datetime());
+  }
+  public function increaseApplication()
+  {
+    $this->nbApplications++;
+  }
+  public function decreaseApplication()
+  {
+    $this->nbApplications--;
+  }
+///////////////////////////////////////////////////////
+  /**
    * @Assert\Callback
    */
   public function isContentValid(ExecutionContextInterface $context){
@@ -372,8 +510,5 @@ class Advert
       ;
     }
   }//fnc
-
-
-  
-
+    
 }//class

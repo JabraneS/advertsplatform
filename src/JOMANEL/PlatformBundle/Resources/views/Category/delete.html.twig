@@ -1,0 +1,43 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  {{'category.delete.1'|trans}} - {{ parent() }}{#Supprimer catégorie  Delete an advert__Supprimer #}
+{% endblock %}
+
+{% block jomanelplatform_body %}
+
+  <h2>{{'category.delete.2'|trans}}</h2> {# Supprimer catégorie #}
+
+  {% if category == null %}
+
+    <p>{{ 'category.view.3'|trans}}</p>{#Catégorie inéxistante !  #}
+
+    <p>
+      <a href="{{ path('jomanel_platform_homeCategory', {'id': categoryId}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        {{ 'category.view.4'|trans}}{#   Retour à la list des catégories #}
+      </a>
+    </p>
+
+  {% else %}
+    
+    <p>
+      {{'category.delete.3'|trans}}{#Etes-vous certain de vouloir supprimer la catégorie : "{{ category }}" ? #}
+    </p>
+
+    {# On met l'id de l'annonce dans la route de l'action du formulaire #}
+     <form action="{{ path('jomanel_platform_deleteCategory', {'id': categoryId}) }}" method="post">  
+      <a href="{{ path('jomanel_platform_viewCategory', {'id': categoryId}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        {{'category.delete.4'|trans}}{#Retour à la catégorie#}
+      </a>
+      {# Ici j'ai écrit le bouton de soumission à la main #}
+      <input type="submit" value="Supprimer" class="btn btn-danger" />
+      {# Ceci va générer le champ CSRF #}
+      {{ form_rest(form) }} 
+     </form> 
+
+  {% endif %}
+
+{% endblock %}
+

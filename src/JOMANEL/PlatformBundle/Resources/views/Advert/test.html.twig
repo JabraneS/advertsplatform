@@ -1,70 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+{#
+    <div class="row">
+     
+        {{ form_start(form) }}
+     
+        {{ form_widget(form) }}
+     
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </div>
+            
+        {{ form_end(form) }}
+     
+    </div>
+#}
 
-  <ul>
-
-    {# AdvertRepository : getIdsOfAdvertsWithApplications() #}
-    {% for id in listIdsOfAdvertsWhichHaveApplications %}
-      <li>
-          {#{{ advert.title }} writed by {{ advert.author }}  in  {{ advert.date|date('Y-m-d') }} at {{ advert.date|date('H:i:s') }}#}
-          {{ id }}
-      </li>
+<ul class="nav nav-pills nav-stacked">
+  {% for category in listCategories %}
+    <li>
       
-    {% else %}
-      <li>No adverts yet</li>
-    {% endfor %}
-    
-
-
-    {# AdvertRepository : getAvertApplications($advertTitle)
-    {% for application in listApplications %}
-      <li>
-          {{ application.content }}  writed by  {{ application.author }} in  {{ application.date|date('Y-m-d') }} at {{ application.date|date('H:i:s') }}
-      </li>
+        {#
+        {% set columnName = 'name' ~ app.request.getLocale() %}
+        
+        {{ category.columnName }}
+        #}
+        {{ category }}
       
-    {% else %}
-      <li>No adverts yet</li>
-    {% endfor %}
-    #}
-
-
-    {# AdvertRepository : getAllAdverts() // getAdvertsOfOneCategory($categoryName)
-    {% for advert in listAdverts %}
-      <li>
-          {{ advert.title }} writed by {{ advert.author }}  in  {{ advert.date|date('Y-m-d') }} at {{ advert.date|date('H:i:s') }}
-      </li>
-      
-    {% else %}
-      <li>No adverts yet</li>
-    {% endfor %}
-    #}
-
-    {# AdvertRepository : getAdvertWithCategories(array $categoryNames)
-    {% for advert in listAdverts %}
-      <li>
-          {{ advert.title }} writed by {{ advert.author }}
-      </li>
-    {% else %}
-      <li>No adverts yet</li>
-    {% endfor %}
-    #}
-
-    {# ApplicationRepository : getApplicationsWithAdvert($limit) : X the last ones
-    {% for application in listApplications %}
-      <li>
-          {{ application.content }} writed by {{ application.author }} ===> Advert Title : {{ application.advert.title }}
-      </li>
-    {% else %}
-      <li>No adverts yet</li>
-    {% endfor %}
-    #}
-  </ul>
-
-
-</body>
-</html>
-
+    </li>
+  {% endfor %}
+</ul>

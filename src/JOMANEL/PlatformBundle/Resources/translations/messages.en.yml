@@ -1,0 +1,73 @@
+layout: 
+    1: Adverts
+    2: Adverts
+form_addAdv:
+    1: Add advert Form
+author: Author #form label
+categories: Categories #form label
+published: published #form checkbox
+save: Save #form btn
+edit:
+    1: Edit an advert
+    2: Edit an advert
+    3: You are editing an already existing advert, please do not change the general spirit of the previously posted one
+    4: Back to the advert
+applySucces:
+    1: Apply
+    2: You have successfully applied for this offer
+    3: Back to the list of adverts
+index:
+    1: Home
+    2: Adverts list
+    3: by
+    4: in
+    5: There is no advert yet
+add: 
+    1: Add an advert
+    2: "Attention: this advert will be added directly on the Homepage after validation of the form"
+view:
+    1: Reading an advert
+    2: No image
+    3: by
+    4: in
+    5: 'This advert has been published in the following categories: '
+    6: Back to the list
+    7: Edit advert
+    8: Delete advert
+    9: Apply
+    10: You must
+    11: Sign in
+    12: to apply for this job
+delete:
+    1: Delete an advert
+    2: Delete an advert
+    3: Are you sure you want to delete the advert?
+    4: Back to the advert
+####Cat
+category.index:
+    1: Categories
+    2: Categories list
+    3: There is no category yet
+category.add:
+    1: Add a category
+category.view:
+    1: Reading category
+    2: Category
+    3: Non-existent category!
+    4: Back to categories list
+    5: Edit category
+    6: Delete category
+category.edit:
+    1: Edit category
+    2: Edit category
+    3: Back to category
+category.delete:
+    1: Delete category
+    2: Delete category
+    3: Are you sure you want to delete the category?
+    4: Back to the category
+#form Cat
+name_fr: Name (in frensh)
+name_en: Name (in english)
+save: Save
+

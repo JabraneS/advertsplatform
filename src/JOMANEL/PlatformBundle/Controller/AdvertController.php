@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RequestStack;
-//use Symfony\Component\HttpFoundation\RequestStack;
 
 use JOMANEL\PlatformBundle\Entity\Advert;
 use JOMANEL\PlatformBundle\Form\AdvertType;
@@ -15,10 +14,12 @@ use JOMANEL\PlatformBundle\Form\AdvertEditType;
 use JOMANEL\PlatformBundle\Entity\Image;
 use JOMANEL\PlatformBundle\Entity\Application;
 use JOMANEL\PlatformBundle\Entity\Category;
+use JOMANEL\PlatformBundle\Form\CategoryType;
 use JOMANEL\PlatformBundle\Entity\Skill;
 
-// N'oubliez pas ce use pour l'annotation
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use JOMANEL\PlatformBundle\Entity\Post;
+use JOMANEL\PlatformBundle\Form\PostType;
+
 
 
 
@@ -96,6 +97,12 @@ class AdvertController extends Controller{
     * @Security("has_role('ROLE_ADMIN')")
     */
     public function addAction(Request $request){
+
+    	/*
+    	$locale = $request->getLocale();
+ 		echo $locale;
+ 		exit;
+ 		*/
 
     	// On récupère le service
 	    $antispam = $this->container->get('jomanel_platform.antispam');
@@ -263,68 +270,7 @@ class AdvertController extends Controller{
     }//fnc
 
 
-   
-
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     */
-    public function testAction(){
-    	
-    	//==== AdvertRepository : getAllAdverts()
-    	/*
-    	$listAdverts = $this->getDoctrine()
-					    	->getManager()
-					    	->getRepository('JOMANELPlatformBundle:Advert')
-					    	->getAllAdverts()
-					    	;
-
-		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listAdverts'=>$listAdverts));
-		*/
-
-		//==== AdvertRepository : getAdvertsOfOneCategory($categoryName)
-		/*$listAdverts = $this->getDoctrine()
-					    	->getManager()
-					    	->getRepository('JOMANELPlatformBundle:Advert')
-					    	->getAdvertsOfOneCategory("Génie Electrique")
-					    	;
-
-		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listAdverts'=>$listAdverts));
-		*/
-
-    	//==== AdvertRepository : getAdvertWithCategories(array $categoryNames)
-    	/*
-    	$listAdverts = $this->getDoctrine()
-			    	    	->getManager()
-			    			->getRepository('JOMANELPlatformBundle:Advert')
-			    			->getAdvertWithCategories(array('Génie Informatique', 'Génie Electrique'));
-			    			 
-	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listAdverts' => $listAdverts));
-	    */ 
-	    
-	    //============================================================================================================//
-		
-        //==== ApplicationRepository : getApplicationsWithAdvert($limit) : X the last ones
-        /*
-        $listApplications =  $this->getDoctrine()
-			    			 ->getManager()
-			    			 ->getRepository('JOMANELPlatformBundle:Application')
-			    			 ->getApplicationsWithAdvert(3);
-
-		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listApplications' => $listApplications));
-		*/
-
-		//==== ApplicationRepository : getApplicationsOfanAvert($advertTitle)
-    	
-    	$listApplications = $this->getDoctrine()
-			    	    	->getManager()
-			    			->getRepository('JOMANELPlatformBundle:Application')
-			    			->getApplicationsOfanAvert("Recherche développeur Symfony3.");
-			    			 
-	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listApplications' => $listApplications));
-
-    }//fnc
-
+  
     /**
     * @Security("has_role('ROLE_ADMIN')")
     */
@@ -349,6 +295,156 @@ class AdvertController extends Controller{
 		return $this->render('JOMANELPlatformBundle:Advert:test2.html.twig');
 
     }
+
+
+    
+    //=============test=============//
+    public function testAction(Request $request){ //\AppBundle\Entity\Post $post, 
+
+    	$locale = $request->getLocale();
+    	//echo $locale;exit;
+
+
+    	$em = $this->getDoctrine()->getManager();
+
+    	/********************************Enregistrement********************************/
+    	/*$category = new CCategory;
+	    $category->translate('fr')->setName('Chaussures');
+	    $category->translate('en')->setName('Shoes');
+	    $em->persist($category);
+
+	    // In order to persist new translations, call mergeNewTranslations method, before flush
+	    $category->mergeNewTranslations();
+
+	    //l'enregistrer :
+	    $em->flush();*/
+
+		//$category->getCurrentLocale();
+
+		//echo $category->getName();exit;
+		//
+
+	    //echo $category->translate('fr')->getName()."<br/>";
+		//echo $category->translate('en')->getName();exit;
+
+	    /*******************************Affichage/_local******************************/
+		//$names = $em->getRepository('JOMANELPlatformBundle:CCategoryTranslation')->getAllNames($locale);//findAll();
+		/*$listAdverts = $this->getDoctrine()
+			    			->getManager()
+			    			->getRepository('JOMANELPlatformBundle:Advert')
+			    			->getAllAdvertsWithPaginator($page, $nbPerPage)
+	    ;*/
+		//$names->getCurrentLocale();
+		//print_r($names);exit;
+		//echo $Names;exit;
+
+		///return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array("listNamesCCategory"=>$names));
+		//////////////
+
+		// create form to edit translations
+		/*$ccategory = new CCategory();
+        $form = $this->get('form.factory')->create(CCategoryType::class, $ccategory);
+        // handle request data
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            // update DB
+            $this->getDoctrine()->getManager()->flush();
+            
+            $this->addFlash('notce', 'Post has been successfully updated.');
+            return $this->redirectToRoute('edit', ['id' => $post->getId()]);
+        }
+    
+        // render form view
+        return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', ['form'  => $form->createView()]);*/
+
+        /*$post = new Post();
+		$post->translate('fr')->setTitle('Programmer');
+		$post->translate('en')->setTitle('Programming');
+		$em->persist($post);
+		 
+		// In order to persist new translations, call mergeNewTranslations method, before flush
+		$post->mergeNewTranslations();
+		$em->flush();
+		 
+		echo $post->translate('fr')->getTitle();
+		echo $post->translate('en')->getTitle();exit;
+
+		return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array("listNamesCCategory"=>$names));*/
+
+		/*$post = new Post();
+
+        // create form to edit translations
+        $form = $this->get('form.factory')->create(PostType::class, $post);
+        // handle request data
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            // update DB
+            $this->getDoctrine()->getManager()->flush();
+            
+            $this->addFlash('notce', 'Post has been successfully updated.');
+            return $this->redirectToRoute('jomanel_platform_test', ['id' => $post->getId()]);
+        }
+    
+        // render form view
+        return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', [
+            'form'  => $form->createView()
+        ]);
+        */
+
+        //////////////////////////////////////////////////////////////////////
+
+        // new CategoryTranslation()
+        /*$categoryTrans = new CategoryTranslation();
+        $categoryTrans-> setName('Génie Electrique');
+        $categoryTrans-> setlocale('fr');
+        
+
+        // new Category() à CategoryTranslation()
+        $category = new Category();
+
+        // On lie la CategoryTranslation la Category
+        $categoryTrans->setCategory($category);
+
+        //persister :
+	    $em->persist($categoryTrans);
+        
+        //
+        $categoryTrans2 = new CategoryTranslation();
+        $categoryTrans2->setName('Electrical Engineering');
+        $categoryTrans2->setlocale('en');
+
+        $categoryTrans2->setCategory($category);
+        $em->persist($categoryTrans2);
+        //
+
+
+        //l'enregistrer :
+	    $em->flush();
+		*/
+	    ///////////////////////
+	    // X last adverts (X = 3)
+	    $listCategories = $em->getRepository('JOMANELPlatformBundle:Category')
+	                         ->getAllCategories($locale)
+	    ;
+	    //print_r($listCategories)."<br/>";//exit;
+
+	    for ($i=0; $i <count($listCategories) ; $i++) { 
+	    	$listCategories1[] = $listCategories[$i]['name_'.$locale];
+	    }
+	    //print_r($listCategories1);
+	    //exit;
+	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listCategories' => $listCategories1));
+
+
+        exit;
+        //return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', [
+        //    'form'  => $form->createView()
+        //]);
+    	
+    }
+
 
 
 }//class

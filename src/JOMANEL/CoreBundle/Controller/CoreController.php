@@ -3,6 +3,7 @@
 namespace JOMANEL\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use JOMANEL\PlatformBundle\Repository\AdvertRepository;
@@ -12,6 +13,9 @@ class CoreController extends Controller{
 
     public function indexAction(){
     
+        //get local
+        //
+
         //=== get 3 last adverts
         // X last adverts (X = 3)
 	    $listLast3Adverts = $this->getDoctrine()
@@ -82,6 +86,24 @@ class CoreController extends Controller{
         
         return $mailer->send($message);
     }//fnc
+
+
+    public function selectLangAction($langue = null, GetResponseEvent $event)
+    {
+        //echo "string";exit();
+        if($langue != null)
+        {
+            $request = $event->getRequest();
+            $request->setLocale($langue/*$locale*/);
+            //$this->container->get('request')->setLocale($langue);
+        }
+     
+        $url = $this->container->get('request')->headers->get('referer');
+        if(empty($url)) {
+            $url = $this->container->get('router')->generate('home');
+        }
+        return new RedirectResponse($url);
+    }
 
 
 }//class

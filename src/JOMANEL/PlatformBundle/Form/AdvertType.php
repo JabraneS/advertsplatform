@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\HttpFoundation\Request;
 class AdvertType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
@@ -24,20 +24,31 @@ class AdvertType extends AbstractType
 
     $builder
       ->add('date',       DateTimeType::class)
+      ->add('titre',      TextType::class)
       ->add('title',      TextType::class)
-      ->add('author',     TextType::class)
+      //
+      //->add('firstname', null, ['label' => 'register.labels.firstname'])
+
+      ->add('author',     TextType::class, ['label_format' => '%name%'])//'label'=> 'Submit me', pour le nom (a mettre ds cat)
+      //
       ->add('email',      EmailType::class)
+      ->add('contenu',    TextareaType::class)
       ->add('content',    TextareaType::class)
       ->add('image',      ImageType::class)
       ->add('categories', EntityType::class, array(
+        'label_format'  => '%name%',
         'class'         => 'JOMANELPlatformBundle:Category',
         'choice_label'  => 'name',
         'multiple'      => true,
         'query_builder' => function(CategoryRepository $repository)  {
+
+          $request = new Request(); 
+          $locale = $request->getLocale();
+          
           return $repository->sortAlphabeticallyQueryBuilder();
         }
       ))
-      ->add('save',      SubmitType::class)
+      ->add('save',      SubmitType::class, ['label_format' => '%name%'])
     ;
 
     $builder->addEventListener(
@@ -50,7 +61,7 @@ class AdvertType extends AbstractType
         }
 
         if (!$advert->getPublished() || null === $advert->getId()) {
-          $event->getForm()->add('published', CheckboxType::class, array('required' => false));
+          $event->getForm()->add('published', CheckboxType::class, ['label_format' => '%name%'], array('required' => false));
         } else {
           $event->getForm()->remove('published');
         }
@@ -64,5 +75,5 @@ class AdvertType extends AbstractType
       'data_class' => 'JOMANEL\PlatformBundle\Entity\Advert'
     ));
   }
-}
+}//class
 

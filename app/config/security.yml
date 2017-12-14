@@ -37,7 +37,9 @@ security:
             provider:  main # On change cette valeur
             form_login:
                 login_path: fos_user_security_login
-                check_path: fos_user_security_check
+                check_path: fos_user_security_check   #{_locale}
+                always_use_default_target_path: true
+                default_target_path: jomanel_core_homepage
             logout:
                 path:       fos_user_security_logout
                 target:     fos_user_security_login

@@ -1,7 +1,11 @@
 jomanel_core_homepage:
-    path:     /
+    path:     / #{_locale}
     defaults: { _controller: JOMANELCoreBundle:Core:index }
 
 jomanel_core_contactpage:
     path:     /contact
     defaults: { _controller: JOMANELCoreBundle:Core:contact }
+
+#jomanel_core_select_lang:
+#    path:  /{langue}
+#    defaults: { _controller: JOMANELCoreBundle:Core:selectLang }

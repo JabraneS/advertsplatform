@@ -1,0 +1,72 @@
+layout: 
+    1: Annonces
+    2: Annonces
+form_addAdv:
+    1: Formulaire d'ajout d'une annonce
+author: Auteur #label
+categories: Catégories #form label
+published: publiée #form checkbox
+save: Enregistrer
+edit:
+    1: Modifier une annonce
+    2: Modifier une annonce
+    3: Vous éditez une annonce déjà existante, merci de ne pas changer l'esprit général de l'annonce déjà publiée
+    4: Retour à l'annonce
+applySucces:
+    1: Postuler
+    2: Vous avez réussi à postuler à cette offre
+    3: Retour à la liste des annonces
+index:
+    1: Acceuil
+    2: Liste des annonces 
+    3: par
+    4: le
+    5: Il n'y a pas encore d'annonce
+add: 
+    1: Ajouter une annonce
+    2: "Attention : cette annonce sera ajoutée directement sur la page d'accueil après validation du formulaire"
+view:
+    1: Lecture d'une annonce
+    2: Pas d'image
+    3: par
+    4: le
+    5: 'Cette annonce est parue dans les catégories suivantes : '
+    6: Retour à la liste
+    7: Modifier l'annonce
+    8: Supprimer l'annonce
+    9: Postuler
+    10: Il faut
+    11: se connécter
+    12: pour postuler à cet offre
+delete:
+    1: Supprimer une annonce
+    2: Supprimer une annonce
+    3: Etes-vous certain de vouloir supprimer l'annonce ?
+    4: Retour à l'annonce
+####Cat
+category.index:
+    1: Catégories
+    2: Liste des catégories
+    3: Pas encore de catégorie
+category.add:
+    1: Ajouter une catégorie
+category.view:
+    1: Lecture d'une categorie
+    2: Catégorie
+    3: Catégorie inéxistante !
+    4: Retour à la liste des catégories
+    5: Modifier la catégorie
+    6: Supprimer la catégorie
+category.edit:
+    1: Modifier une catégorie
+    2: Modifier une catégorie
+    3: Retour à la catégorie
+category.delete:
+    1: Supprimer la catégorie
+    2: Supprimer la catégorie
+    3: Etes-vous certain de vouloir supprimer la catégorie ?
+    4: Retour à la catégorie
+#form Cat
+name_fr: Nom (en français)
+name_en: Nom (en anglais)
+save: Enregistrer

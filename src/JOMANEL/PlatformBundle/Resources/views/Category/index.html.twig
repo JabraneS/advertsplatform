@@ -1,0 +1,26 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  {{'category.index.1'|trans}}  - {{ parent() }}  {#Home_ Acceuil   Catégories #}
+{% endblock %}
+
+{% block jomanelplatform_body %}
+
+  <h2>{{'category.index.2'|trans}}</h2>  {#liste des catégories#}
+
+  <ul>
+    {% for key in ids_listCategories_locale|keys %}
+      
+      <li>
+
+        <a href="{{ path('jomanel_platform_viewCategory', {'id': key}) }}">
+           {{ ids_listCategories_locale[key] }}
+        </a>
+       
+      </li>
+    {% else %}
+      <li>{{'category.index.3'|trans}}.</li>{#Pas encore de catégorie#}
+    {% endfor %}
+  </ul>
+
+{% endblock %}
