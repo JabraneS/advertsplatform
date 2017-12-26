@@ -5,6 +5,8 @@ namespace JOMANEL\PlatformBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
+//use Symfony\Component\HttpFoundation\Request;
+
 /**
  * CategoryRepository
  *
@@ -15,10 +17,9 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository{
 
  
 	public function sortAlphabeticallyQueryBuilder(){//used in advert type
-	    return $this
-	      ->createQueryBuilder('c')
-	      ->orderBy('c.name', 'ASC')
-	    ;
+	    
+	    return $this->createQueryBuilder('c');
+ 
   	}
 
   	public function getAllCategories($locale){

@@ -1,9 +1,15 @@
-<ul class="nav nav-pills nav-stacked">
-  {% for advert in listAdverts %}
-    <li>
-      <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
-        {{ advert.titre }}
-      </a>
-    </li>
-  {% endfor %}
-</ul>
+{% if ids_AdvertsTitles != null %}
+	<ul class="nav nav-pills nav-stacked">
+	  {% for key in ids_AdvertsTitles|keys %}
+	    <li>
+	      <a href="{{ path('jomanel_platform_view', {'id': key}) }}">
+	        {{ ids_AdvertsTitles[key] }}
+	      </a>
+	    </li>
+	  {% endfor %}
+	</ul>
+
+{% else %}
+	<p> {{'advert.menu.1'|trans}}</p>{# Pas encore d'annonce ! #}
+
+{% endif %}

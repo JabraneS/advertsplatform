@@ -6,29 +6,53 @@
 
 {% block jomanelplatform_body %}
 
-  <h2>{{'index.2'|trans}}</h2>{#Adverts list_liste des annonces#} 
+  <h2>Liste des annonces</h2>{#Adverts list_liste des annonces#} 
 
-  <ul>
-    {% for advert in listAdverts %}
-      <li>
-        <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
-          {{ advert.title }}
-        </a>
-        {{'index.3'|trans}} {{ advert.author }},{#par_by#} 
-        {{'index.4'|trans}} {{ advert.date|date('d/m/Y') }}{#le_in#} 
+  {% if nbPages == null %}
+    <p>Pas encore d'annonce !</p>{#Pas encore d'annonce !#}
+
+  {% else %}
+    <ul>
+      {% for advert in listAdverts %}
+        <li>
+          <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
+            
+            {% if app.request.locale == 'fr' %}
+
+              {{ advert.title_fr }}
+
+            {% else %}
+
+              {{ advert.title_en }}
+
+            {% endif %}
+            
+          </a>
+          
+          {% if app.request.locale == 'fr' %}
+          
+            - écrite par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}
+         
+          {% else %}
+            - written by {{ advert.author }}, in {{ advert.date|date('m/d/Y') }}
+          
+          {% endif %}
+
+        </li>
+      {% else %}
+        <li>{{'index.5'|trans}}{#No adverts yet_Pas encore d'annonces#}</li>
+      {% endfor %}
+    </ul>
+
+    <ul class="pagination">
+    {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+    {% for p in range(1, nbPages) %}
+      <li{% if p == page %} class="active"{% endif %}>
+        <a href="{{ path('jomanel_platform_home', {'page': p}) }}">{{ p }}</a>
       </li>
-    {% else %}
-      <li>{{'index.5'|trans}}{#No adverts yet_Pas encore d'annonces#}</li>
     {% endfor %}
-  </ul>
+    </ul>
 
-  <ul class="pagination">
-  {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
-  {% for p in range(1, nbPages) %}
-    <li{% if p == page %} class="active"{% endif %}>
-      <a href="{{ path('jomanel_platform_home', {'page': p}) }}">{{ p }}</a>
-    </li>
-  {% endfor %}
-  </ul>
+  {% endif %}
 
 {% endblock %}

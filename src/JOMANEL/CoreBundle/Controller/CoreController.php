@@ -11,22 +11,9 @@ use JOMANEL\PlatformBundle\Repository\AdvertRepository;
 
 class CoreController extends Controller{
 
-    public function indexAction(){
-    
-        //get local
-        //
+    public function indexAction(Request $request){
 
-        //=== get 3 last adverts
-        // X last adverts (X = 3)
-	    $listLast3Adverts = $this->getDoctrine()
-	    					     ->getManager()
-	    					     ->getRepository('JOMANELPlatformBundle:Advert')
-	                             ->getXLastAdverts(3)
-	    ;
-
-	    //=== get 3 last adverts
-
-        return $this->render('JOMANELCoreBundle:Core:index.html.twig', array('listAdverts' => $listLast3Adverts));
+        return $this->render('JOMANELCoreBundle:Core:index.html.twig');
     }//fnc
 
     public function contactAction(Request $request){

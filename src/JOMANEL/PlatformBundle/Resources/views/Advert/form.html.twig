@@ -15,20 +15,11 @@
   </div>
 
   <div class="well">
-    {{ form_row(form.titre) }}
-    {{ form_errors(form.titre) }}
+    {{ form_row(form.title_fr) }}
+    {#{{ form_errors(form.title_fr) }}#}
 
-    {{ form_row(form.title) }}
-    {{ form_errors(form.title) }}
-  </div>
-
-  <div class="well">
-    {{ form_row(form.contenu) }}
-    {{ form_row(form.content) }}
-  </div>
-  
-  <div class="well">
-    {{ form_row(form.email) }}
+    {{ form_row(form.title_en) }}
+    {#{{ form_errors(form.title_en) }}#}
   </div>
 
   <div class="well">
@@ -36,17 +27,38 @@
   </div>
 
   <div class="well">
-    {% if form.published is defined %}
-      {{ form_row(form.published) }}
-    {% endif %}
+    {{ form_row(form.email) }}
   </div>
 
   <div class="well">
-      {{ form_row(form.image) }}
+    {{ form_row(form.contenu_fr) }}
+    {#{{ form_errors(form.contenu_fr) }}#}
+
+    {{ form_row(form.contenu_en) }}
+    {#{{ form_errors(form.contenu_en) }}#}
+  </div>
+
+  
+  <div class="well"> 
+      {#{{ form_row(form.image) }}#}
+      <div class="form-group">
+         
+        {{ form_errors(form.image) }}<br>
+        <div class="col-sm-10">
+          {{ form_widget(form.image) }}
+        </div>
+      </div>
+      
   </div>
 
   <div class="well">
   {{ form_row(form.categories) }}
+  </div>
+
+  <div class="well">
+    {% if form.published is defined %}
+      {{ form_row(form.published) }}
+    {% endif %}
   </div>
 
   {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
@@ -62,7 +74,7 @@
 </div>
 
 
-
+{#, "Contenu de l'annonce", {'label_attr': {'class': 'col-sm-2 control-label'}}#}
 
 
 

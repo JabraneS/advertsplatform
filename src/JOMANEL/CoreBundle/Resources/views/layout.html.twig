@@ -11,6 +11,12 @@
   {% block stylesheets %}
     {# On charge le CSS de bootstrap depuis le site directement #}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    
+    {% stylesheets '@JOMANELPlatformBundle/Resources/public/css/main.css' %}
+      <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+    
   {% endblock %}
 </head>
 
@@ -87,16 +93,16 @@
         <h3>{{'layout.12'|trans }}</h3>{# Les annonces #}
         <ul class="nav nav-pills nav-stacked">
           <li><a href="{{ path('jomanel_platform_home') }}">{{'layout.13'|trans }}</a></li>{# Accueil #}
-          {% if is_granted('ROLE_ADMIN') %}
+          {#{% if is_granted('ROLE_ADMIN') %}#}
           <li><a href="{{ path('jomanel_platform_add') }}">{{'layout.14'|trans }}</a></li>{# Ajouter une annonce #}
           <li><a href="{{ path('jomanel_platform_purge') }}">{{'layout.15'|trans }}</a></li>{# Purger les annonces #}
-          {% endif %}
+          {#{% endif %}#}
         </ul>
         
         <h3>{{'layout.16'|trans }}</h3>{# Catégories #}
         <ul class="nav nav-pills nav-stacked">
-          <li><a href="{{ path('jomanel_platform_addCategory') }}">{{'layout.17'|trans }}</a></li>{# Ajouter une catégorie #}
           <li><a href="{{ path('jomanel_platform_homeCategory') }}">{{'layout.18'|trans }}</a></li>{# Liste des catégories #}
+          <li><a href="{{ path('jomanel_platform_addCategory') }}">{{'layout.17'|trans }}</a></li>{# Ajouter une catégorie #}
         </ul>
 
         <h4>{{'layout.19'|trans }}</h4>{# Dernières annonces #}

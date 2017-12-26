@@ -1,12 +1,7 @@
+############################Adv############################
 layout: 
     1: Adverts
     2: Adverts
-form_addAdv:
-    1: Add advert Form
-author: Author #form label
-categories: Categories #form label
-published: published #form checkbox
-save: Save #form btn
 edit:
     1: Edit an advert
     2: Edit an advert
@@ -25,6 +20,8 @@ index:
 add: 
     1: Add an advert
     2: "Attention: this advert will be added directly on the Homepage after validation of the form"
+advert.menu:
+    1: No adverts yet!
 view:
     1: Reading an advert
     2: No image
@@ -41,9 +38,24 @@ view:
 delete:
     1: Delete an advert
     2: Delete an advert
-    3: Are you sure you want to delete the advert?
+    3: 'Are you sure you want to delete the advert: '
     4: Back to the advert
-####Cat
+    5: Delete
+#form Adv
+form_addAdv:
+    1: Add an advert form
+title_fr: Title (in French)
+title_en: Title (in English)
+author: Author
+contenu_fr: Content (in French)
+contenu_en: Content (in English)
+file: Image
+categories: Categories
+published: Published 
+save: Save   
+
+
+############################Cat############################
 category.index:
     1: Categories
     2: Categories list
@@ -67,7 +79,7 @@ category.delete:
     3: Are you sure you want to delete the category?
     4: Back to the category
 #form Cat
-name_fr: Name (in frensh)
-name_en: Name (in english)
+name_fr: Name (in French)
+name_en: Name (in English)
 save: Save
 

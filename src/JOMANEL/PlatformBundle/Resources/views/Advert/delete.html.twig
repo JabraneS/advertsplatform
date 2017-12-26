@@ -4,12 +4,16 @@
    {{'delete.1'|trans}} - {{ parent() }}{#Delete an advert__Supprimer une annonce#}
 {% endblock %}
 
-{% block ocplatform_body %}
+{% block jomanelplatform_body %}
 
   <h2>{{'delete.2'|trans}}</h2>
 
   <p>
-    {{'delete.3'|trans}} "{{ advert.title }}"{#Etes-vous certain de vouloir supprimer l\'annonce#}
+    {% if app.request.locale == 'fr' %}
+      {{'delete.3'|trans}} "{{ advert.titleFr }}" ?{#Etes-vous certain de vouloir supprimer l\'annonce#}
+    {% else %}
+      {{'delete.3'|trans}} "{{ advert.titleEn }}"?{#Etes-vous certain de vouloir supprimer l\'annonce#}
+    {% endif %}
   </p>
 
   {# On met l'id de l'annonce dans la route de l'action du formulaire #}
@@ -19,7 +23,7 @@
       {{'delete.4'|trans}}{#Retour à l\'annonce#}
     </a>
     {# Ici j'ai écrit le bouton de soumission à la main #}
-    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    <input type="submit" value={{'delete.5'|trans}} class="btn btn-danger" />
     {# Ceci va générer le champ CSRF #}
     {{ form_rest(form) }}
   </form>

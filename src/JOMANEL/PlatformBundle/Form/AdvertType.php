@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,64 +17,88 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Request;
+
 class AdvertType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
+    //
+    if($options['locale'] == "fr"){
+      $formatDate = 'dd/MM/yyyy';
+      $year  = 'Année';
+      $month = 'Mois';
+      $day   = 'Jour';
+    }
+    else{
+      $formatDate = 'MM/dd/yyyy';
+      $year  = 'Year';
+      $month = 'Month';
+      $day   = 'Day';
+    }
+    //    
+    $builder->add('date',DateType::class, array('format' => $formatDate,'placeholder' => array('year' => $year,
+                                                                                               'month' => $month,
+                                                                                               'day' => $day
+                                                                                               )
+                                               )
+                )
 
-    $builder
-      ->add('date',       DateTimeType::class)
-      ->add('titre',      TextType::class)
-      ->add('title',      TextType::class)
-      //
-      //->add('firstname', null, ['label' => 'register.labels.firstname'])
+            ->add('title_fr',  TextType::class, ['label_format' => '%name%'])
+            ->add('title_en',      TextType::class, ['label_format' => '%name%'])
+      
+            ->add('author',     TextType::class, ['label_format' => '%name%'])
 
-      ->add('author',     TextType::class, ['label_format' => '%name%'])//'label'=> 'Submit me', pour le nom (a mettre ds cat)
-      //
-      ->add('email',      EmailType::class)
-      ->add('contenu',    TextareaType::class)
-      ->add('content',    TextareaType::class)
-      ->add('image',      ImageType::class)
-      ->add('categories', EntityType::class, array(
-        'label_format'  => '%name%',
-        'class'         => 'JOMANELPlatformBundle:Category',
-        'choice_label'  => 'name',
-        'multiple'      => true,
-        'query_builder' => function(CategoryRepository $repository)  {
+            ->add('email',      EmailType::class)
 
-          $request = new Request(); 
-          $locale = $request->getLocale();
-          
-          return $repository->sortAlphabeticallyQueryBuilder();
-        }
-      ))
-      ->add('save',      SubmitType::class, ['label_format' => '%name%'])
-    ;
+            ->add('contenu_fr',    TextareaType::class, ['label_format' => '%name%'])
+            ->add('contenu_en',    TextareaType::class, ['label_format' => '%name%'])
 
-    $builder->addEventListener(
-      FormEvents::PRE_SET_DATA,
-      function(FormEvent $event) {
-        $advert = $event->getData();
+            ->add('image',      ImageType::class)
 
-        if (null === $advert) {
-          return;
-        }
+            ->add('categories', EntityType::class, array( 'label_format'  => '%name%',
+                                                          'class'         => 'JOMANELPlatformBundle:Category',
+                                                          'choice_label'  => 'name_'.$options['locale'],
+                                                          'multiple'      => true,
+                                                          'query_builder' => function(CategoryRepository $repository)  {
+                                                             
+                                                                                return $repository->sortAlphabeticallyQueryBuilder();
+                                                                              }
+                                                        )
+                 )
 
-        if (!$advert->getPublished() || null === $advert->getId()) {
-          $event->getForm()->add('published', CheckboxType::class, ['label_format' => '%name%'], array('required' => false));
-        } else {
-          $event->getForm()->remove('published');
-        }
-      }
-    );
-  }
+            ->add('save',      SubmitType::class, ['label_format' => '%name%'])
+    ;//build->
+
+    $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
+                                                          $advert = $event->getData();
+
+                                                          if (null === $advert) {
+                                                            return;
+                                                          }
+
+                                                          if (!$advert->getPublished() || null === $advert->getId()) {
+                                                            $event->getForm()->add('published', CheckboxType::class, ['label_format' => '%name%'], array('required' => false));
+                                                          } else {
+                                                            $event->getForm()->remove('published');
+                                                          }
+                                                        }
+                              )
+    ;//build->
+
+  }//fnc 
 
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults(array(
       'data_class' => 'JOMANEL\PlatformBundle\Entity\Advert'
     ));
-  }
+
+    $resolver->setRequired(array(
+      'locale'
+    ));
+
+  }//fnc
+
 }//class
 

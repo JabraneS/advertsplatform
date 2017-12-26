@@ -493,11 +493,17 @@ class Advert
     $this->nbApplications--;
   }
 ///////////////////////////////////////////////////////
-  /**
-   * @Assert\Callback
-   */
-  public function isContentValid(ExecutionContextInterface $context){
+  ///**
+  // * @Assert\Callback
+  // */
+  /*public function isContentValid(ExecutionContextInterface $context){
 
+    if ($locale == "fr") {
+      # code...
+    }
+    else{
+
+    }
     $forbiddenWords = array('demotivation', 'abandonment', 'apathetic');
 
     // On vérifie que le contenu ne contient pas l'un des mots
@@ -510,5 +516,6 @@ class Advert
       ;
     }
   }//fnc
+  */
     
 }//class

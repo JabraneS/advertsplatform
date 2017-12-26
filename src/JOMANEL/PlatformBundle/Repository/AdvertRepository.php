@@ -14,16 +14,37 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class AdvertRepository extends \Doctrine\ORM\EntityRepository{
 
-	public function  getAllAdvertsWithPaginator($page, $nbPerPage){//used in controller
+	public function findAdvertById($id){
 
 		$qb = $this->createQueryBuilder('a')
+				   ->Where('a.id = '.$id)
+
+		;
+
+	    // Enfin, on retourne le résultat
+	    return $qb
+	      ->getQuery()
+	      ->getArrayResult()
+	    ;
+
+	}//fnc
+
+	public function  getAllAdvertsWithPaginator($page, $nbPerPage, $locale){//used in controller
+
+		$qb = $this->createQueryBuilder('a')
+					//->select('a.title_fr', 'a.id')
 		           ->orderBy('a.date', 'DESC')
 		           ->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
 		           ->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
 		;
 
 	    // Enfin, on retourne l'objet Paginator correspondant à la requête construite(n'oubliez pas son use)
-	    return new Paginator($qb, true);
+	    //return new Paginator($qb, true);
+
+	    return $qb
+	      ->getQuery()
+	      ->getArrayResult()
+	    ;
 
 	}//fnc
 
@@ -89,10 +110,13 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository{
 	}
 
 
+	///////////////////////////////////////// Menu
+	public function  getXLastAdvertsTitles($limit, $locale){
 
-	public function  getXLastAdverts($limit){
+		$columnTitle = "title_".$locale;
 
 		$qb = $this->createQueryBuilder('a')
+				   ->select('a.'.$columnTitle)
 			       ->orderBy('a.id', 'DESC')
 	    		   ->setMaxResults($limit)
 	    ;
@@ -101,10 +125,28 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository{
 		// Enfin, on retourne le résultat
 	    return $qb
 	      ->getQuery()
-	      ->getResult()
+	      ->getArrayResult()
 	    ;
 
 	}//fnc
+
+	public function  getXLastAdvertsIds($limit){
+
+		$qb = $this->createQueryBuilder('a')
+				   ->select('a.id')
+			       ->orderBy('a.id', 'DESC')
+	    		   ->setMaxResults($limit)
+	    ;
+
+
+		// Enfin, on retourne le résultat
+	    return $qb
+	      ->getQuery()
+	      ->getArrayResult()
+	    ;
+
+	}//fnc
+	/////////////////////////////////////////
 
 	public function  getAdvertsOfOneCategory($categoryName){//used in test
 

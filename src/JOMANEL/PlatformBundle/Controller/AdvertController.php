@@ -27,32 +27,46 @@ use JOMANEL\PlatformBundle\Form\PostType;
 
 class AdvertController extends Controller{
 
-    public function indexAction($page){
+    public function indexAction($page, Request $request){
 
-	    /*if ($page < 1) {
-	      // On déclenche une exception NotFoundHttpException, cela va afficher
-	      // une page d'erreur 404 (qu'on pourra personnaliser plus tard d'ailleurs)
-	      //throw new NotFoundHttpException('Page "'.$page.'" inexistante.');
-	    }*/
+	    $locale = $request->getLocale();
+	    $em     = $this->getDoctrine()->getManager();
 
-	    // Ici je fixe le nombre d'annonces par page à 3
-	    // Mais bien sûr il faudrait utiliser un paramètre, et y accéder via $this->container->getParameter('nb_per_page')
 	    $nbPerPage = 4;
 
 	    // Notre liste d'annonce en dur
 	    $listAdverts = $this->getDoctrine()
 			    			->getManager()
 			    			->getRepository('JOMANELPlatformBundle:Advert')
-			    			->getAllAdvertsWithPaginator($page, $nbPerPage)
+			    			->getAllAdvertsWithPaginator($page, $nbPerPage, $locale)
 	    ;
+	    //str_replace("title_fr", replace, subject)
+	    //print_r($listAdverts);exit;
+	    
+	    ////////
+	    if ($locale == 'fr') {
+	    	for ($i=0; $i < count($listAdverts); $i++) { 
+		    	//$idsAdverts[$listAdverts[$i]['id']] = $listAdverts[$i];
+		    	unset($listAdverts[$i]['title_en']);
+		    }
+	    }else{
+	    	for ($i=0; $i < count($listAdverts); $i++) { 
+		    	//$idsAdverts[$listAdverts[$i]['id']] = $listAdverts[$i];
+		    	unset($listAdverts[$i]['title_fr']);
+		    }
+	    }
+	    //print_r($listAdverts);exit;
 
 	    ////////
+
 	    // On calcule le nombre total de pages grâce au count($listAdverts) qui retourne le nombre total d'annonces
 	    $nbPages = ceil(count($listAdverts) / $nbPerPage);
+	    //echo $nbPages;exit;
 
 	    // Si la page n'existe pas, on retourne une 404
 	    if ($page > $nbPages) {
-	      throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+	      //throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+	      $nbPages = null;
 	    }
 
 	    // On donne toutes les informations nécessaires à la vue
@@ -63,8 +77,6 @@ class AdvertController extends Controller{
 	    ));
 	    ////////
 
-	    // Et modifiez le 2nd argument pour injecter notre liste
-	    //return $this->render('JOMANELPlatformBundle:Advert:index.html.twig', array('listAdverts' => $listAdverts));
     }//fnc
 
 
@@ -73,50 +85,43 @@ class AdvertController extends Controller{
     	$em = $this->getDoctrine()->getManager();
 
 	    // On récupère l'annonce $id
-	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
+	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);//findAdvertById($id);
+	    //print_r($advert);exit;
+
+	    //advertCategories
+
 
 	    if (null === $advert) {
-	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+	      //throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+	    	$advert = null;
 	    }
 
-	    // On récupère la liste des candidatures de cette annonce
-	    $listApplications = $em
-	      ->getRepository('JOMANELPlatformBundle:Application')
-	      ->findBy(array('advert' => $advert))
-	    ;
-
+	    
 	    return $this->render('JOMANELPlatformBundle:Advert:view.html.twig', array(
 	      'advert'           => $advert,
-	      'listApplications' => $listApplications
+	      //'listApplications' => $listApplications
 	    ));
 
     }//fnc
 
 
-    /**
-    * @Security("has_role('ROLE_ADMIN')")
-    */
+    //**
+    //* @Security("has_role('ROLE_ADMIN')")
+    //*/
     public function addAction(Request $request){
 
-    	/*
-    	$locale = $request->getLocale();
- 		echo $locale;
- 		exit;
- 		*/
-
-    	// On récupère le service
+    	/*// On récupère le service
 	    $antispam = $this->container->get('jomanel_platform.antispam');
 
 	    // Je pars du principe que $text contient le texte d'un message quelconque
 	    $text = '...........................................................';
 	    if ($antispam->isSpam($text)) {
 	      throw new \Exception('Your message was detected as spam!');
-	    }
-	    
-	    // Ici le message n'est pas un spam :
+	    }*/
+	    $locale = $request->getLocale();
 	   
 	    $advert = new Advert();
-	    $form   = $this->get('form.factory')->create(AdvertType::class, $advert);
+	    $form   = $this->get('form.factory')->create(AdvertType::class, $advert, array('locale' => $locale));
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 		    $em = $this->getDoctrine()->getManager();
@@ -136,10 +141,12 @@ class AdvertController extends Controller{
     }//fnc
 
 
-   /**
-    * @Security("has_role('ROLE_ADMIN')")
-    */
+   ///**
+   // * @Security("has_role('ROLE_ADMIN')")
+   // */
     public function editAction($id, Request $request){
+	    
+	    $locale = $request->getLocale();
 	    
 	    $em = $this->getDoctrine()->getManager();
 
@@ -149,7 +156,7 @@ class AdvertController extends Controller{
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
 
-	    $form = $this->get('form.factory')->create(AdvertEditType::class, $advert);
+	    $form = $this->get('form.factory')->create(AdvertEditType::class, $advert, array('locale' => $locale));
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 	      	// Inutile de persister ici, Doctrine connait déjà notre annonce
@@ -167,9 +174,9 @@ class AdvertController extends Controller{
 	}
 
 
-   /**
-    * @Security("has_role('ROLE_ADMIN')")
-    */
+   ///**
+   // * @Security("has_role('ROLE_ADMIN')")
+   // */
     public function deleteAction(Request $request, $id){
 
 	    $em = $this->getDoctrine()->getManager();
@@ -179,44 +186,82 @@ class AdvertController extends Controller{
 	    if (null === $advert) {
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
-
+	    //exit("ok");
 	    // On crée un formulaire vide, qui ne contiendra que le champ CSRF
 	    // Cela permet de protéger la suppression d'annonce contre cette faille
 	    $form = $this->get('form.factory')->create();
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+	      
 	      $em->remove($advert);
 	      $em->flush();
-
+	      //exit("ok2");
 	      $request->getSession()->getFlashBag()->add('info', "L'annonce a bien été supprimée.");
 
 	      return $this->redirectToRoute('jomanel_platform_home');
 	    }
 	    
 	    return $this->render('JOMANELPlatformBundle:Advert:delete.html.twig', array(
+	      
 	      'advert' => $advert,
 	      'form'   => $form->createView(),
 	    ));
   	}
 
 
-    public function menuAction($limit){
+    public function menuAction(Request $request){
   
-	    // X last adverts (X = 3)
-	    $listAdverts = $this->getDoctrine()
-	    					->getManager()
-	    					->getRepository('JOMANELPlatformBundle:Advert')
-	                        ->getXLastAdverts(3)
-	    ;
+	    $limite = 3;
+	    $locale = $request->getLocale();
+	    $em     = $this->getDoctrine()->getManager();
 
-	    return $this->render('JOMANELPlatformBundle:Advert:menu.html.twig', array('listAdverts' => $listAdverts));
+	    $listAdvertsTitles1 = array();
+	    $listAdvertsIds1    = array();
+	    $ids_AdvertsTitles  = array();
+
+
+	    /////////////////////// get $ids_AdvertsTitles[]
+	    //==== X last adverts Titles (X = 3)
+	    $listAdvertsTitles = $em->getRepository('JOMANELPlatformBundle:Advert')
+	                            ->getXLastAdvertsTitles($limite, $locale)
+	    ;
+	    //print_r($listAdvertsTitles);exit;
+
+	    for ($i=0; $i < count($listAdvertsTitles); $i++) { 
+	    	$listAdvertsTitles1[] = $listAdvertsTitles[$i]['title_'.$locale];
+	    }
+	    //print_r($listAdvertsTitles1);exit;
+
+	    //==== X last adverts Ids (X = 3)
+	    $listAdvertsIds    = $em->getRepository('JOMANELPlatformBundle:Advert')
+	                            ->getXLastAdvertsIds($limite)
+	    ;
+	    //print_r($listAdvertsIds);exit;
+
+	    for ($i=0; $i < count($listAdvertsIds); $i++) { 
+	    	$listAdvertsIds1[] = $listAdvertsIds[$i]['id'];
+	    }
+	    //print_r($listAdvertsIds1);exit;
+
+	    //==== $ids_AdvertsTitles[]
+	    for ($i=0; $i < count($listAdvertsTitles1); $i++) { 
+	    	$ids_AdvertsTitles[$listAdvertsIds1[$i]] = $listAdvertsTitles1[$i];
+	    }
+	    //print_r($ids_AdvertsTitles);exit;
+	    ///////////////////////
+
+	    if( count($ids_AdvertsTitles) == 0 ){
+	    	$ids_AdvertsTitles = null;
+	    }
+
+	    return $this->render('JOMANELPlatformBundle:Advert:menu.html.twig', array('ids_AdvertsTitles' => $ids_AdvertsTitles));
     }//fnc
 
 
     
-    /**
-     * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
-     */
+    ///**
+    // * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
+    // */
     public function applyAction($id){
   
 	    //=== find this advert by here id : 
@@ -254,9 +299,9 @@ class AdvertController extends Controller{
 
 
 
-   /**
-    * @Security("has_role('ROLE_ADMIN')")
-    */
+   ///**
+   // * @Security("has_role('ROLE_ADMIN')")
+    //*/
     public function purgeAction(){
 
 	    // On récupère le service
@@ -271,9 +316,9 @@ class AdvertController extends Controller{
 
 
   
-    /**
-    * @Security("has_role('ROLE_ADMIN')")
-    */
+    ///**
+    //* @Security("has_role('ROLE_ADMIN')")
+    //*/
     public function removeappAction(){
 
     	// charger une annonce (2):
@@ -448,3 +493,10 @@ class AdvertController extends Controller{
 
 
 }//class
+
+
+/*// On récupère la liste des candidatures de cette annonce
+	    $listApplications = $em
+	      ->getRepository('JOMANELPlatformBundle:Application')
+	      ->findBy(array('advert' => $advert))
+	    ;*/
