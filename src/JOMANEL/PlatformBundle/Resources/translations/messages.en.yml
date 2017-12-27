@@ -20,6 +20,9 @@ index:
 add: 
     1: Add an advert
     2: "Attention: this advert will be added directly on the Homepage after validation of the form"
+purge:
+    1: Purge adverts
+    2: Adverts that are 3 days old and have no applications have been removed
 advert.menu:
     1: No adverts yet!
 view:

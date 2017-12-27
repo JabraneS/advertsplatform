@@ -12,6 +12,8 @@ services:
         class: JOMANEL\PlatformBundle\Email\Mailer #ApplicationMailer
         arguments:
             - "@mailer"
+            - "@service_container"
+           
 
     
     jomanel_platform.doctrine_listener.application:

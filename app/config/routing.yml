@@ -2,7 +2,7 @@ jomanel_core:
     resource: "@JOMANELCoreBundle/Resources/config/routing.yml"
     prefix:   /{_locale}/
     requirements:
-        _locale: en|fr # les locales disponibles, séparées par des pipes « | »
+        _locale: en|fr # les locales disponibles, séparées par des pipes « | » 
 
 jomanel_platform:
     resource: "@JOMANELPlatformBundle/Resources/config/routing.yml"

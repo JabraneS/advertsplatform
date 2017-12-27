@@ -29,6 +29,11 @@ class Application
   private $author;
 
   /**
+   * @ORM\Column(name="email", type="string", length=255)
+   */
+  private $email;
+
+  /**
    * @ORM\Column(name="ip", type="string", length=255)
    */
   private $ip;// = $this->container->get('request')->getClientIp();
@@ -115,6 +120,30 @@ class Application
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Application
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**

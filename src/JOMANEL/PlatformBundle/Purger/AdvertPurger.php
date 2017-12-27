@@ -49,6 +49,7 @@ class AdvertPurger{
 
 	    	//get Ids of adverts wich have applications
 	    $listIdsOfAdvertsWhichHaveApplications = [];
+	    
 	    foreach ($listAdvertsWhichHaveApplications as $advert) {
 		  $listIdsOfAdvertsWhichHaveApplications[] = $advert['id'];
 		}

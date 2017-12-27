@@ -262,7 +262,7 @@ class AdvertController extends Controller{
     ///**
     // * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
     // */
-    public function applyAction($id){
+    public function applyAction($id, Request $request){
   
 	    //=== find this advert by here id : 
 	    $em = $this->getDoctrine()->getManager();
@@ -274,13 +274,26 @@ class AdvertController extends Controller{
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
 	    
-	    //
+	    ////////////////////////////////////Data of User who apply////////////////////////////////////
+	    $user         = $this->getUser();
+	    $userUsername = $user->getUsername();
+	    $userEmail    = $user->getEmail();
+	    //echo $userUsername;exit;
+
+	    $userIp = $request->getClientIp();
+		if($userIp == 'unknown'){
+		    $userIp = $_SERVER['REMOTE_ADDR'];
+		}
+	    //echo $userIp;exit;
+	    //////////////////////////////////////////////////////////////////////////////////////////////
+	    
 	    //=== add application to this advert
 	    //creating vew application 
 	    $application = new Application();
-        $application->setAuthor("jjjjoel1");
+        $application->setAuthor($userUsername);
+        $application->setEmail($userEmail);
         $ipClient = $this->container->get('request_stack')->getCurrentRequest()->getClientIp();
-        $application->setIP($ipClient);
+        $application->setIP($userIp);
         $application->setContent("mmmmotivé");
         
         //lier cet advert à cette application
@@ -292,8 +305,8 @@ class AdvertController extends Controller{
 
         // On déclenche l'enregistrement de toutes les catégories
         $em->flush();
-
 	    //=== 
+	    
 	    return $this->render('JOMANELPlatformBundle:Advert:applySucces.html.twig', array('advert' => $advert));
     }//fnc
 
@@ -306,12 +319,11 @@ class AdvertController extends Controller{
 
 	    // On récupère le service
 	    $puger = $this->container->get('jomanel_platform.purger.advert');//.advert
-	    $puger->purge(3);
+	    $puger->purge(3); // purge les vielles de 3 jours et qui n'ont pas de candidature
 
 	    //=== render
-	    return $this->render('JOMANELPlatformBundle:Advert:test.html.twig', array('listIdsOfAdvertsWhichHaveApplications' => $listIdsOfAdvertsWhichHaveApplications));
-
-
+	    return $this->render('JOMANELPlatformBundle:Advert:purge.html.twig');
+	    
     }//fnc
 
 

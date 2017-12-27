@@ -20,6 +20,9 @@ index:
 add: 
     1: Ajouter une annonce
     2: "Attention : cette annonce sera ajoutée directement sur la page d'accueil après validation du formulaire"
+purge:
+    1: Purger les annonces
+    2: Les annonces vieilles de 3 jours et qui n'ont aucune candidature ont été suprimées
 advert.menu:
     1: Pas encore d'annonces ! 
 view:

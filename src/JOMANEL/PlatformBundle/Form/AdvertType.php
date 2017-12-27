@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+//use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,23 +26,29 @@ class AdvertType extends AbstractType
     //
     if($options['locale'] == "fr"){
       $formatDate = 'dd/MM/yyyy';
-      $year  = 'Année';
-      $month = 'Mois';
-      $day   = 'Jour';
+      $year       = 'Année';
+      $month      = 'Mois';
+      $day        = 'Jour';
+      $hour       = 'Heure';
+      $minute     = 'Minute';
     }
     else{
       $formatDate = 'MM/dd/yyyy';
-      $year  = 'Year';
-      $month = 'Month';
-      $day   = 'Day';
+      $year       = 'Year';
+      $month      = 'Month';
+      $day        = 'Day';
+      $hour       = 'Hour';
+      $minute     = 'Minute';
     }
     //    
-    $builder->add('date',DateType::class, array('format' => $formatDate,'placeholder' => array('year' => $year,
-                                                                                               'month' => $month,
-                                                                                               'day' => $day
-                                                                                               )
-                                               )
-                )
+    $builder->add('date',DateTimeType::class, array('date_format' => $formatDate,'placeholder' => array('year' => $year,
+                                                                                                        'month' => $month,
+                                                                                                        'day' => $day,
+                                                                                                        'hour' => $hour, 
+                                                                                                        'minute' => $minute 
+                                                                                                        )
+                                                   )
+                 )
 
             ->add('title_fr',  TextType::class, ['label_format' => '%name%'])
             ->add('title_en',      TextType::class, ['label_format' => '%name%'])

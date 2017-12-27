@@ -1,0 +1,23 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  {{'purge.1'|trans}} - {{ parent() }}{#Purge Advert#}
+{% endblock %}
+
+{% block jomanelplatform_body %}
+
+  <h2>{{'purge.1'|trans}}</h2>
+
+  <p>
+    {{'purge.2'|trans}}.{#Les annonces vieilles de 3 jours on été suprimées.#}
+  </p>
+
+  <p>
+    <a href="{{ path('jomanel_platform_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      {{'view.6'|trans}}{# Retour à la liste #}
+    </a>
+  </p>
+
+{% endblock %}
+

@@ -24,7 +24,7 @@ class User extends BaseUser{
     parent::__construct();
         
     // Add default role
-    $this->addRole('ROLE_ADMIN');
+    //$this->addRole("ROLE_USER");
         
   }//construct
 
