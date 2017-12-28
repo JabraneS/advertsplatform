@@ -16,12 +16,12 @@ jomanel_platform_view:
 
     
 jomanel_platform_add:
-    path:      /add
+    path:      /admin/add
     defaults: { _controller: JOMANELPlatformBundle:Advert:add }
 
 
 jomanel_platform_edit:
-    path:      /edit/{id}
+    path:      /admin/edit/{id}
     defaults:
         _controller: JOMANELPlatformBundle:Advert:edit
     requirements:
@@ -29,7 +29,7 @@ jomanel_platform_edit:
 
 
 jomanel_platform_delete:
-    path:      /delete/{id}
+    path:      /admin/delete/{id}
     defaults:
         _controller: JOMANELPlatformBundle:Advert:delete
     requirements:
@@ -43,7 +43,7 @@ jomanel_platform_apply:
         id: \d+
 
 jomanel_platform_purge:
-    path:      /purge #/{days}
+    path:      /admin/purge 
     defaults:
         _controller: JOMANELPlatformBundle:Advert:purge
  
@@ -56,7 +56,7 @@ jomanel_platform_removeapp:
 ####################Category####################
 
 jomanel_platform_homeCategory: #homecategory listCategory
-    path:      /listcategory/{page}
+    path:      /admin/listcategory/{page}
     defaults: 
         _controller: JOMANELPlatformBundle:Category:index 
         page:        1
@@ -65,7 +65,7 @@ jomanel_platform_homeCategory: #homecategory listCategory
 
 
 jomanel_platform_viewCategory:
-    path:      /category/{id}
+    path:      /admin/category/{id}
     defaults: 
         _controller: JOMANELPlatformBundle:Category:view 
     requirements:
@@ -73,13 +73,13 @@ jomanel_platform_viewCategory:
 
 
 jomanel_platform_addCategory:
-    path:      /category/add
+    path:      /admin/category/add
     defaults:
         _controller: JOMANELPlatformBundle:Category:add
 
 
 jomanel_platform_editCategory:
-    path:      /category/edit/{id}
+    path:      /admin/category/edit/{id}
     defaults:
         _controller: JOMANELPlatformBundle:Category:edit
     requirements:
@@ -87,7 +87,7 @@ jomanel_platform_editCategory:
 
 
 jomanel_platform_deleteCategory:
-    path:      /category/deleteCategory/{id}
+    path:      /admin/category/deleteCategory/{id}
     defaults:
         _controller: JOMANELPlatformBundle:Category:delete
     requirements:

@@ -20,6 +20,8 @@ use JOMANEL\PlatformBundle\Entity\Skill;
 use JOMANEL\PlatformBundle\Entity\Post;
 use JOMANEL\PlatformBundle\Form\PostType;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;//roles
+
 
 
 
@@ -105,21 +107,31 @@ class AdvertController extends Controller{
     }//fnc
 
 
-    //**
-    //* @Security("has_role('ROLE_ADMIN')")
-    //*/
+    
     public function addAction(Request $request){
 
-    	/*// On récupère le service
-	    $antispam = $this->container->get('jomanel_platform.antispam');
-
-	    // Je pars du principe que $text contient le texte d'un message quelconque
-	    $text = '...........................................................';
-	    if ($antispam->isSpam($text)) {
-	      throw new \Exception('Your message was detected as spam!');
-	    }*/
 	    $locale = $request->getLocale();
+
+	    //=== If there is no category => Adding at least one to continue ===//
+	    $em = $this->getDoctrine()->getManager();
+	    $listIdsCategories = $em->getRepository('JOMANELPlatformBundle:Category')->getAllIdsCategories();
+	    //print_r($listIdsCategories);exit;
+	    
+	    if ( count($listIdsCategories) == 0 ) {
+	    	
+	    	$msgExc_fr = "Il n'y a aucune catégorie, ajouter au moins une avant d'ajouter l'annonce.";
+	    	$msgExc_en = "There is no category, add at least one before adding the advert.";
+	      	
+	      	if($locale == "fr"){
+	      		throw new NotFoundHttpException($msgExc_fr);
+	      	}
+	      	else{
+	      		throw new NotFoundHttpException($msgExc_en);
+	      	}
+	    }
+	    ////
 	   
+	    //=== Add advert form ===//
 	    $advert = new Advert();
 	    $form   = $this->get('form.factory')->create(AdvertType::class, $advert, array('locale' => $locale));
 
@@ -136,14 +148,10 @@ class AdvertController extends Controller{
 	    }
 
 	    return $this->render('JOMANELPlatformBundle:Advert:add.html.twig', array('form' => $form->createView()));
-	  
         
     }//fnc
 
 
-   ///**
-   // * @Security("has_role('ROLE_ADMIN')")
-   // */
     public function editAction($id, Request $request){
 	    
 	    $locale = $request->getLocale();
@@ -174,9 +182,7 @@ class AdvertController extends Controller{
 	}
 
 
-   ///**
-   // * @Security("has_role('ROLE_ADMIN')")
-   // */
+ 
     public function deleteAction(Request $request, $id){
 
 	    $em = $this->getDoctrine()->getManager();
@@ -259,9 +265,9 @@ class AdvertController extends Controller{
 
 
     
-    ///**
-    // * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
-    // */
+    /**
+     * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
+     */
     public function applyAction($id, Request $request){
   
 	    //=== find this advert by here id : 

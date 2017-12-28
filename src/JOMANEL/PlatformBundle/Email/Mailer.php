@@ -16,11 +16,10 @@ class Mailer{//ApplicationMailer
   protected $container;
   protected $user;
 
-  public function __construct(\Swift_Mailer $mailer, $container, User $user = null)
+  public function __construct(\Swift_Mailer $mailer, $container)
   {
     $this->mailer    = $mailer;
     $this->container = $container;
-    $this->user = $user;
   }
 
   //===================== Entity : Application

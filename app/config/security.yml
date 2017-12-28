@@ -47,4 +47,4 @@ security:
                 secret:     %secret% # %secret% est un paramètre de parameter
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: /admin/, roles: ROLE_ADMIN }

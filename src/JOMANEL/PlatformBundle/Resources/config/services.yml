@@ -29,6 +29,7 @@ services:
         class: JOMANEL\PlatformBundle\Purger\AdvertPurger
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@service_container"
     
     ##
     #jomanel_platform.beta.html_adder:

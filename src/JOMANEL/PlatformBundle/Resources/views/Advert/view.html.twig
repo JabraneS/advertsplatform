@@ -67,7 +67,7 @@
   {#===========================================Buttons=============================================#}
     <p>
 
-      {#{% if app.user %} #}
+      {% if app.user %} 
       {#  {% if is_granted('ROLE_ADMIN') %} #}
       <a href="{{ path('jomanel_platform_home') }}" class="btn btn-default">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -92,12 +92,12 @@
       </a>
       {#  {% endif %} #}
 
-      {#{% elseif not app.user %} #}
+      {% elseif not app.user %} 
         
       <p>{{'view.10'|trans}} {#Il faut_you must#} <a href="{{ path('fos_user_security_login') }}">{{'view.11'|trans}}{#Se connécter_log in#} </a>{{'view.12'|trans}}{#pour postuler à cet offre_to apply for this job#}.
       </p>
        
-     {# {% endif %}#}
+      {% endif %}
 
     </p>
 

@@ -12,10 +12,10 @@ class AdvertPurger{
 	private $em;
 	//private $days;
 
-	public function __construct(\Doctrine\ORM\EntityManager $em){
+	public function __construct(\Doctrine\ORM\EntityManager $em, $container){
 
-		$this->em   = $em;
-		//$this->days = (int) $days;
+		$this->em        = $em;
+		$this->container = $container; // to get locale
 	}
 
   	public function purge($days){
@@ -81,7 +81,18 @@ class AdvertPurger{
 
 	    //2)****** Supprimer ces annonces ******
 	    if(count($listIdsOfAdvertsWhichNotHaveApplicationsAndOld) == 0){
-	    	throw new NotFoundHttpException("Nothing to purge.");
+	    	
+	    	$locale = $this->container->get('request_stack')->getCurrentRequest()->getLocale();
+
+	    	$msgExc_fr = "Rien à purger.";
+	    	$msgExc_en = "Nothing to purge.";
+	      	
+	      	if($locale == "fr"){
+	      		throw new NotFoundHttpException($msgExc_fr);
+	      	}
+	      	else{
+	      		throw new NotFoundHttpException($msgExc_en);
+	      	}
 	    }
 	    
 	    $advertsWhichNotHaveApplicationsAndOld = $this->em->getRepository('JOMANELPlatformBundle:Advert')
