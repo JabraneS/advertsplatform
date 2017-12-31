@@ -317,10 +317,6 @@ class AdvertController extends Controller{
     }//fnc
 
 
-
-   ///**
-   // * @Security("has_role('ROLE_ADMIN')")
-    //*/
     public function purgeAction(){
 
 	    // On récupère le service
@@ -333,10 +329,6 @@ class AdvertController extends Controller{
     }//fnc
 
 
-  
-    ///**
-    //* @Security("has_role('ROLE_ADMIN')")
-    //*/
     public function removeappAction(){
 
     	// charger une annonce (2):

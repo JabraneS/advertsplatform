@@ -31,6 +31,12 @@
           <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">{{'layout.2'|trans }}</a>{# Adverts Platform #}
         </div>
 
+        <!--><!-->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('jomanel_core_contactpage') }}">{{'index.5'|trans }}</a>{# contact us #}
+        </div>
+        <!--><!-->
+
         <div id="navbar" class="navbar-collapse collapse">
           
           <ul class="nav navbar-nav">
@@ -58,6 +64,19 @@
           </ul>
 
         </div><!--/.navbar-collapse -->
+
+        <!--><!-->
+        <div class="navbar-collapse collapse">
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          {{'layout.7'|trans }} {{ app.user.username }}{# Connecté en tant que #}
+          -
+          <a class="navbar-brand" href="{{ path('fos_user_security_logout') }}">{{'layout.8'|trans }}</a>{# se déconnécter #}
+          {% else %}
+              <a class="navbar-brand" href="{{ path('fos_user_security_login') }}">{{'layout.9'|trans }}</a>{# se connécter #}
+              <a class="navbar-brand" href="{{ path('fos_user_registration_register') }}">{{'layout.10'|trans }}</a> {# Registration #}
+          {% endif %}
+        </div>
+        <!--><!-->
       
       </div><!--container -->
     </nav>

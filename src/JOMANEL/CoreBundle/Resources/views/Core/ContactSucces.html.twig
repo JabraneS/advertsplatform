@@ -3,12 +3,17 @@
 
 {% block body %}
 
-  <p>{{'contactSucces.1'|trans }}</p> {# Successful contact #} {# Contact réussi #}
+  <h2>{{'index.5'|trans }}</h2>{# Contact us #}
 
+  
+  <p>{{'contactSucc'|trans }}</p>{#Votre message a été envoyé avec succès. Merci.#}
+  
+  <br>
+  
   <p>
     <a href="{{ path('jomanel_core_homepage') }}" class="btn btn-default">
       <i class="glyphicon glyphicon-chevron-left"></i>
-		{{'contactSucces.2'|trans }} {# Back to the home page #}{#Retour à la page d\'accueil#}
+		{{'add.1'|trans }} {# Back to the home page #}{#Retour à la page d\'accueil#}
     </a>
   </p>
 

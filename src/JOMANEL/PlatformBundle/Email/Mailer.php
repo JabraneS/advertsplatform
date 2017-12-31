@@ -6,6 +6,8 @@ namespace JOMANEL\PlatformBundle\Email;
 use JOMANEL\PlatformBundle\Entity\Application;
 use Symfony\Component\HttpFoundation\Request;
 
+use JOMANEL\CoreBundle\Entity\Contact;
+
 
 class Mailer{//ApplicationMailer
   
@@ -61,7 +63,44 @@ class Mailer{//ApplicationMailer
 
     $this->mailer->send($message_to_admin);
     $this->mailer->send($message_to_user);
-  }
+  
+  }//fnc
+
+  public function sendNewNotification_Contact(Contact $contact, $nameVisitor, $emailVisitor, $messageVisitor){
+
+    $locale = $this->container->get('request_stack')->getCurrentRequest()->getLocale();
+    //$userEmail = ;
+
+    if($locale == "fr"){
+      $title   = "Plateforme d'annonces : Contactez-nous";
+      $msg_adm = "Vous avez reçu un nouveau message de la part d'un visiteur.";
+      $msg_vtr = 'Bonjour '.$nameVisitor.','."\n\n".'Nous avons bien reçu votre message : ( '.$messageVisitor.' ).'."\n\n".'Cordialement,'."\n".'L\'administrateur.';
+    }
+    else{
+      $title   = "Adverts Platform : Contact us";
+      $msg_adm = "You have received a new message from a visitor.";
+      $msg_vtr = 'Hi '.$nameVisitor.','."\n\n".'We have received your message: ( '.$messageVisitor.' ).'."\n\n".'Cordially,'."\n".'The administrator.';
+    }
+
+    //=================== to admin ====================//
+    $message_to_admin = new \Swift_Message($title, $msg_adm);
+
+    $message_to_admin->addTo("enarbajx@hotmail.com") // "enarbajx@hotmail.com"
+                     ->addFrom('jabrane.saidi89@gmail.com')//admin@votresite.com
+    ;
+    
+    //=================== to user ====================//
+    $message_to_visitor = new \Swift_Message($title, $msg_vtr);
+
+    $message_to_visitor->addTo($emailVisitor) // 
+                       ->addFrom('jabrane.saidi89@gmail.com')//admin@votresite.com
+    ;
+    //
+
+    $this->mailer->send($message_to_admin);
+    $this->mailer->send($message_to_visitor);
+
+  }//fnc
 
 }//class
 

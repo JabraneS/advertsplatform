@@ -1,0 +1,17 @@
+{% extends "JOMANELCoreBundle::layout.html.twig" %}
+
+
+{% block body %}
+
+  <h2>{{'index.5'|trans }}</h2>{# Contact us #}
+
+  {{ include("JOMANELCoreBundle:Core:form.html.twig") }}
+
+  <p>
+    <a href="{{ path('jomanel_core_homepage') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+		{{'add.1'|trans }} {# Back to the home page #}{#Retour à la page d\'accueil#}
+    </a>
+  </p>
+
+{% endblock %}

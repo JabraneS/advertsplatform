@@ -1,6 +1,10 @@
 services:
-#    jomanel_core.example:
-#        class: JOMANEL\CoreBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    
+    jomanel_core.doctrine_listener.contact:
+        class: JOMANEL\CoreBundle\DoctrineListener\ContactListener #ApplicationCreationListener 
+        arguments:
+            - "@jomanel_platform.email" #, "@jomanel_platform.validator.antiflood"
+        tags:
+            - { name: doctrine.event_listener, event: postPersist } 
 
 
