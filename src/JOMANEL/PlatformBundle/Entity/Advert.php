@@ -114,7 +114,7 @@ class Advert
   private $image;
   
   /**
-   * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Category", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Category", inversedBy="adverts")
    * @ORM\JoinTable(name="advert_category")
    */
   private $categories;

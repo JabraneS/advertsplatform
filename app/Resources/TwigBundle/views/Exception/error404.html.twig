@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="{{ _charset }}" />
+        <title>An Error Occurred: {{ status_text }}</title>
+        
+        {% block stylesheets %}
+            {# On charge le CSS de bootstrap depuis le site directement #}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">Adverts Platform</a>{#  #}
+                    </div>
+                </div><!--container -->
+            </nav>
+            
+            <div class="row">
+                <br><br><br>
+                
+                <h1>Oops! An Error Occurred</h1>
+                <h2>The server returned a "{{ status_code }} {{ status_text }}".</h2>
+
+                <div>
+                    Something is broken. Please let us know what you were doing when this error occurred.
+                    We will fix it as soon as possible. Sorry for any inconvenience caused.
+                    <p><h3>To return to the home page, click on "Adverts platform" above.</h3></p>
+                </div>
+            </div>
+
+            
+
+            <br><br><br>
+            <hr>
+            <footer>
+              <p>Sky's the limit © 2018 and beyond.</p>
+            </footer>
+
+        </div>    
+    </body>
+</html>

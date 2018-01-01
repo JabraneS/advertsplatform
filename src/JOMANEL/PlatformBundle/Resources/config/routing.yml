@@ -78,6 +78,22 @@ jomanel_platform_addCategory:
         _controller: JOMANELPlatformBundle:Category:add
 
 
+jomanel_platform_findAdverts:
+    path:      /category/findadverts/{page}
+    defaults:
+        _controller: JOMANELPlatformBundle:Category:findAdverts
+        page:        1
+    requirements :
+        page: \d*
+#
+jomanel_platform_viewListAdvsOfCategory:
+    path:      /category/{id}
+    defaults: 
+        _controller: JOMANELPlatformBundle:Category:viewListAdvsOfCategory 
+    requirements:
+        id: \d+
+#
+
 jomanel_platform_editCategory:
     path:      /admin/category/edit/{id}
     defaults:

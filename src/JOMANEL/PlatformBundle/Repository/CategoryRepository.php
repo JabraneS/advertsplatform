@@ -16,11 +16,29 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class CategoryRepository extends \Doctrine\ORM\EntityRepository{
 
  
-	public function sortAlphabeticallyQueryBuilder(){//used in advert type
+	  public function  getAllCategoriesWithPaginator($page, $nbPerPage, $locale){//used in controller
+
+      $qb = $this->createQueryBuilder('a')
+                 ->orderBy('a.name_'.$locale, 'ASC')
+                 ->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
+                 ->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
+      ;
+
+        // Enfin, on retourne l'objet Paginator correspondant à la requête construite(n'oubliez pas son use)
+        //return new Paginator($qb, true);
+
+        return $qb
+          ->getQuery()
+          ->getArrayResult()
+        ;
+
+    }//fnc
+
+    public function sortAlphabeticallyQueryBuilder(){//used in advert type
 	    
 	    return $this->createQueryBuilder('c');
  
-  	}
+  	}//fnc
 
   	public function getAllCategories($locale){
   		
@@ -69,20 +87,6 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository{
 	    ;
   	}
 
-  	public function  getAllCategoriesWithPaginator($page, $nbPerPage, $locale){
-
-		$column = "name_".$locale;
-
-		$qb = $this->createQueryBuilder('c')
-				   //->select('c.id')
-		           ->orderBy('c.id', 'DESC')
-		           ->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
-		           ->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
-		;
-
-	    // Enfin, on retourne l'objet Paginator correspondant à la requête construite(n'oubliez pas son use)
-	    return new Paginator($qb, true);
-
-	}//fnc
+  	
 
 }//fnc

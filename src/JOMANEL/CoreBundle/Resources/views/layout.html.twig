@@ -112,16 +112,19 @@
         <h3>{{'layout.12'|trans }}</h3>{# Les annonces #}
         <ul class="nav nav-pills nav-stacked">
           <li><a href="{{ path('jomanel_platform_home') }}">{{'layout.13'|trans }}</a></li>{# Accueil #}
-          {#{% if is_granted('ROLE_ADMIN') %}#}
-          <li><a href="{{ path('jomanel_platform_add') }}">{{'layout.14'|trans }}</a></li>{# Ajouter une annonce #}
-          <li><a href="{{ path('jomanel_platform_purge') }}">{{'layout.15'|trans }}</a></li>{# Purger les annonces #}
-          {#{% endif %}#}
+          {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('jomanel_platform_add') }}">{{'layout.14'|trans }}</a></li>{# Ajouter une annonce #}
+            <li><a href="{{ path('jomanel_platform_purge') }}">{{'layout.15'|trans }}</a></li>{# Purger les annonces #}
+          {% endif %}
         </ul>
         
         <h3>{{'layout.16'|trans }}</h3>{# Catégories #}
         <ul class="nav nav-pills nav-stacked">
-          <li><a href="{{ path('jomanel_platform_homeCategory') }}">{{'layout.18'|trans }}</a></li>{# Liste des catégories #}
-          <li><a href="{{ path('jomanel_platform_addCategory') }}">{{'layout.17'|trans }}</a></li>{# Ajouter une catégorie #}
+          {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('jomanel_platform_homeCategory') }}">{{'layout.18'|trans }}</a></li>{#Liste des catégories#}
+            <li><a href="{{ path('jomanel_platform_addCategory') }}">{{'layout.17'|trans }}</a></li>{#Ajouter une catégorie#}
+          {% endif %}
+          <li><a href="{{ path('jomanel_platform_findAdverts') }}">{{'layout.22'|trans }}</a></li>{# Trouver les annonces#}
         </ul>
 
         <h4>{{'layout.19'|trans }}</h4>{# Dernières annonces #}

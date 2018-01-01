@@ -1,0 +1,41 @@
+{% extends "JOMANELPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  {{'category.index.1'|trans}}  - {{ parent() }}  
+{% endblock %}
+
+{% block jomanelplatform_body %}
+
+    <ul>
+
+      {% for advert in category.adverts %}
+        
+        <li>
+          
+          <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
+            {% if app.request.locale == 'fr' %}
+              {{ advert.titleFr }}{% if not loop.last %}, {% endif %}
+
+            {% else %}
+              {{ advert.titleEn }}{% if not loop.last %}, {% endif %}
+
+            {% endif %}
+           </a>
+
+        </li>
+
+      {% endfor %}
+
+    </ul>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

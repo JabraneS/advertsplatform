@@ -21,44 +21,48 @@ class CategoryController extends Controller{
 	
 	public function indexAction($page, Request $request){
 
-	    $ids_listCategories_locale = array();
-	    $em                        = $this->getDoctrine()->getManager();
-	    $locale                    = $request->getLocale();
+	    $locale = $request->getLocale();
+	    $em     = $this->getDoctrine()->getManager();
 
-	    $listCategories_locale = $em->getRepository('JOMANELPlatformBundle:Category')
-	                                ->getAllCategories($locale)
+	    $nbPerPage = 4;
+
+	    // Notre liste de categories en dur
+	    $listCategories = $em->getRepository('JOMANELPlatformBundle:Category')
+			    		     ->getAllCategoriesWithPaginator($page, $nbPerPage, $locale)
 	    ;
-	    //print_r($listCategories_locale);exit;
-
-	    if(count($listCategories_locale) != 0){
-	    	for ($i=0; $i <count($listCategories_locale) ; $i++) { 
-	    		$listCategories_locale1[$i] = $listCategories_locale[$i]['name_'.$locale];
+	    //print_r($listCategories);exit;
+	    
+	    ////////
+	    if ($locale == 'fr') {
+	    	for ($i=0; $i < count($listCategories); $i++) { 
+		    	unset($listCategories[$i]['name_en']);
 		    }
-		    //print_r($listCategories_locale1);exit;
-
-		    ///////////////
-		    $categoryIds = $em->getRepository('JOMANELPlatformBundle:Category')
-		                      ->getAllIdsCategories()
-		    ;
-		    //print_r($categoryIds);exit;
-
-		    for ($i=0; $i <count($categoryIds) ; $i++) { 
-	    		$categoryIds1[$i] = $categoryIds[$i]['id'];
+	    }else{
+	    	for ($i=0; $i < count($listCategories); $i++) { 
+		    	unset($listCategories[$i]['name_fr']);
 		    }
-		    //print_r($categoryIds1);exit;
-		    ///////////////
+	    }
+	    //print_r($listCategories);exit;
+	    ////////
 
-		    //foreach ($listCategories_locale1 as $key => $value) {
-		    for($i=0; $i<count($listCategories_locale1); $i++){
-		    	$ids_listCategories_locale[$categoryIds1[$i]] = $listCategories_locale1[$i];
-		    }
-		    //print_r($ids_listCategories_locale);exit;
-	    }//if
+	    // On calcule le nombre total de pages grâce au count($listCategories) qui retourne le nombre total d'annonces
+	    $nbPages = ceil(count($listCategories) / $nbPerPage);
+	    //echo $nbPages;exit;
+
+	    // Si la page n'existe pas, on retourne une 404
+	    if ($page > $nbPages) {
+	      //throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+	      $nbPages = null;
+	    }
 
 	    // On donne toutes les informations nécessaires à la vue
 	    return $this->render('JOMANELPlatformBundle:Category:index.html.twig', array(
-	      'ids_listCategories_locale' => $ids_listCategories_locale,
+	      'listCategories' => $listCategories,
+	      'nbPages'        => $nbPages,
+	      'page'           => $page,
 	    ));
+
+
     }//fnc
 
 	
@@ -68,7 +72,7 @@ class CategoryController extends Controller{
 
     	$em = $this->getDoctrine()->getManager();
 
-	    // On récupère l'annonce $id
+	    // On récupère la categorie $id
 	    $arrayCategory = $em->getRepository('JOMANELPlatformBundle:Category')->getOneCategory($locale, $id);
 	    //echo $id;exit;
 	    //print_r($arrayCategory);exit;
@@ -109,6 +113,80 @@ class CategoryController extends Controller{
 
 	    return $this->render('JOMANELPlatformBundle:Category:add.html.twig', array('form' => $form->createView()));
     }
+
+
+    public function findAdvertsAction($page, Request $request){
+
+    	$locale = $request->getLocale();
+	    $em     = $this->getDoctrine()->getManager();
+
+	    $nbPerPage = 4;
+
+	    // Notre liste de categories en dur
+	    $listCategories = $em->getRepository('JOMANELPlatformBundle:Category')
+			    		     ->getAllCategoriesWithPaginator($page, $nbPerPage, $locale)
+	    ;
+	    //print_r($listCategories);exit;
+	    
+	    ////////
+	    if ($locale == 'fr') {
+	    	for ($i=0; $i < count($listCategories); $i++) { 
+		    	unset($listCategories[$i]['name_en']);
+		    }
+	    }else{
+	    	for ($i=0; $i < count($listCategories); $i++) { 
+		    	unset($listCategories[$i]['name_fr']);
+		    }
+	    }
+	    //print_r($listCategories);exit;
+	    ////////
+
+	    // On calcule le nombre total de pages grâce au count($listCategories) qui retourne le nombre total d'annonces
+	    $nbPages = ceil(count($listCategories) / $nbPerPage);
+	    //echo $nbPages;exit;
+
+	    // Si la page n'existe pas, on retourne une 404
+	    if ($page > $nbPages) {
+	      //throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+	      $nbPages = null;
+	    }
+
+	    // On donne toutes les informations nécessaires à la vue
+	    return $this->render('JOMANELPlatformBundle:Category:listCat.html.twig', array(
+	      'listCategories' => $listCategories,
+	      'nbPages'        => $nbPages,
+	      'page'           => $page,
+	    ));
+    }//fnc
+
+
+    public function viewListAdvsOfCategoryAction(Request $request, $id){
+
+    	$locale = $request->getLocale();
+
+    	$em = $this->getDoctrine()->getManager();
+
+	    // On récupère la categorie $id
+	    $category = $em->getRepository('JOMANELPlatformBundle:Category')->find($id);
+	    
+	    //$adverts = $category->getAdverts();
+	    //print_r($adverts);exit;
+
+	    /*if(count($arrayCategory) != 0){
+	    	$category = $arrayCategory[0]['name_'.$locale];
+	    	 //print_r($category);exit;
+	    }
+	    else{
+	    	$category = null;
+	    }*/
+	   
+
+	    return $this->render('JOMANELPlatformBundle:Category:viewCatAdvsList.html.twig', array(
+	      'category'   => $category,
+	      //'categoryId' => $id
+	    ));
+
+    }//fnc
 
     
 
@@ -165,9 +243,16 @@ class CategoryController extends Controller{
 	public function deleteAction(Request $request, $id){
 
 	    $locale = $request->getLocale();
-	    $em = $this->getDoctrine()->getManager();
+	    $em     = $this->getDoctrine()->getManager();
 
 	    $categoryObject = $em->getRepository('JOMANELPlatformBundle:Category')->find($id);
+
+	    $advertsObjects = $categoryObject->getAdverts();
+	    //print_r($advertsObjects);exit;
+	    //
+	    //$advert = new User();
+        //$user = $em->getRepository('Main\UserBundle\Entity\User')->find($this->getUser()->getId())
+	    //
 
 	    // On crée un formulaire vide, qui ne contiendra que le champ CSRF
 	    // Cela permet de protéger la suppression d'annonce contre cette faille
@@ -175,6 +260,11 @@ class CategoryController extends Controller{
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 	      $em->remove($categoryObject);
+	      //$em->remove($categoryObject->removeAdvert($categoryObject->getAdverts()));
+	      
+	      $categoryObject->removeAdvert($advertsObjects);
+	      //$Category->Project->removeElement($Project);
+
 	      $em->flush();
 	      //echo "form";exit;
 	      $request->getSession()->getFlashBag()->add('info', "La catégorie a bien été supprimée.");

@@ -29,10 +29,9 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository{
 
 	}//fnc
 
-	public function  getAllAdvertsWithPaginator($page, $nbPerPage, $locale){//used in controller
+	public function  getAllAdvertsWithPaginator($page, $nbPerPage){//used in controller
 
 		$qb = $this->createQueryBuilder('a')
-					//->select('a.title_fr', 'a.id')
 		           ->orderBy('a.date', 'DESC')
 		           ->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
 		           ->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page

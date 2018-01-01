@@ -41,7 +41,7 @@ class Category
     private $name_en;
 
     /**
-     * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Advert", mappedBy="categories", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Advert", mappedBy="category")
      */
     private $adverts; // Notez le « s », des catégories sont liée à plusieurs adverts
 
@@ -109,53 +109,4 @@ class Category
 
     
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->adverts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add advert
-     *
-     * @param \JOMANEL\PlatformBundle\Entity\Advert $advert
-     *
-     * @return Category
-     */
-    public function addAdvert(Advert $advert)
-    {
-        $this->adverts[] = $advert;
-
-        // On lie l'annonce à la candidature
-        //$advert->setCategory($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove advert
-     *
-     * @param \JOMANEL\PlatformBundle\Entity\Advert $advert
-     */
-    public function removeAdvert(Advert $advert)
-    {
-        $this->adverts->removeElement($advert);
-
-        //$this->applications->removeElement($application);
-
-        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
-        // $application->setAdvert(null);
-    }
-
-    /**
-     * Get adverts
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAdverts()
-    {
-        return $this->adverts;
-    }
-}
+}//class

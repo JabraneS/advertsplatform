@@ -37,10 +37,8 @@ class AdvertController extends Controller{
 	    $nbPerPage = 4;
 
 	    // Notre liste d'annonce en dur
-	    $listAdverts = $this->getDoctrine()
-			    			->getManager()
-			    			->getRepository('JOMANELPlatformBundle:Advert')
-			    			->getAllAdvertsWithPaginator($page, $nbPerPage, $locale)
+	    $listAdverts = $em->getRepository('JOMANELPlatformBundle:Advert')
+			    		  ->getAllAdvertsWithPaginator($page, $nbPerPage)
 	    ;
 	    //str_replace("title_fr", replace, subject)
 	    //print_r($listAdverts);exit;
@@ -82,8 +80,9 @@ class AdvertController extends Controller{
     }//fnc
 
 
-    public function viewAction($id){
+    public function viewAction(Advert $advert){
 
+    	/*
     	$em = $this->getDoctrine()->getManager();
 
 	    // On récupère l'annonce $id
@@ -94,15 +93,13 @@ class AdvertController extends Controller{
 
 
 	    if (null === $advert) {
-	      //throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    	$advert = null;
 	    }
+	    */
 
 	    
-	    return $this->render('JOMANELPlatformBundle:Advert:view.html.twig', array(
-	      'advert'           => $advert,
-	      //'listApplications' => $listApplications
-	    ));
+	    return $this->render('JOMANELPlatformBundle:Advert:view.html.twig', array('advert'=> $advert));
 
     }//fnc
 
@@ -152,10 +149,11 @@ class AdvertController extends Controller{
     }//fnc
 
 
-    public function editAction($id, Request $request){
+    public function editAction(Advert $advert, Request $request){
 	    
 	    $locale = $request->getLocale();
-	    
+	    $em = $this->getDoctrine()->getManager();
+	    /*
 	    $em = $this->getDoctrine()->getManager();
 
 	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
@@ -163,6 +161,7 @@ class AdvertController extends Controller{
 	    if (null === $advert) {
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
+	    */
 
 	    $form = $this->get('form.factory')->create(AdvertEditType::class, $advert, array('locale' => $locale));
 
@@ -183,22 +182,23 @@ class AdvertController extends Controller{
 
 
  
-    public function deleteAction(Request $request, $id){
+    public function deleteAction(Advert $advert, Request $request){
 
 	    $em = $this->getDoctrine()->getManager();
-
+    	/*
 	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
 
 	    if (null === $advert) {
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
+	    */
 	    //exit("ok");
 	    // On crée un formulaire vide, qui ne contiendra que le champ CSRF
 	    // Cela permet de protéger la suppression d'annonce contre cette faille
 	    $form = $this->get('form.factory')->create();
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-	      
+	      $em = $this->getDoctrine()->getManager();
 	      $em->remove($advert);
 	      $em->flush();
 	      //exit("ok2");
@@ -268,17 +268,19 @@ class AdvertController extends Controller{
     /**
      * @Security("has_role('ROLE_USER') or has_role('ROLE_ADMIN')")
      */
-    public function applyAction($id, Request $request){
+    public function applyAction(Advert $advert, Request $request){
   
 	    //=== find this advert by here id : 
 	    $em = $this->getDoctrine()->getManager();
 
+	    /*
 	    // On récupère l'annonce $id
 	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
 
 	    if (null === $advert) {
 	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 	    }
+	    */
 	    
 	    ////////////////////////////////////Data of User who apply////////////////////////////////////
 	    $user         = $this->getUser();
