@@ -2,6 +2,8 @@
 
 namespace JOMANEL\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -41,7 +43,7 @@ class Category
     private $name_en;
 
     /**
-     * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Advert", mappedBy="categories", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="JOMANEL\PlatformBundle\Entity\Advert", mappedBy="categories")
      */
     private $adverts; // Notez le « s », des catégories sont liée à plusieurs adverts
 
@@ -148,6 +150,16 @@ class Category
         // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
         // $application->setAdvert(null);
     }
+
+    /*public function removeAdverts(array $adverts)
+    {
+        $this->adverts->removeElement($advert);
+
+        //$this->applications->removeElement($application);
+
+        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+        // $application->setAdvert(null);
+    }*/
 
     /**
      * Get adverts

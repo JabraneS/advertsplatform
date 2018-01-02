@@ -169,21 +169,17 @@ class CategoryController extends Controller{
 	    // On récupère la categorie $id
 	    $category = $em->getRepository('JOMANELPlatformBundle:Category')->find($id);
 	    
-	    //$adverts = $category->getAdverts();
-	    //print_r($adverts);exit;
-
-	    /*if(count($arrayCategory) != 0){
-	    	$category = $arrayCategory[0]['name_'.$locale];
-	    	 //print_r($category);exit;
+	    if(count($category->getAdverts()) != 0){
+	    	$presenceAdvsInCat = true;
 	    }
 	    else{
-	    	$category = null;
-	    }*/
-	   
-
+	    	$presenceAdvsInCat = false;
+	    }
+	    //echo $presenceAdvsInCat;exit;
+	    //print_r($category);exit;
 	    return $this->render('JOMANELPlatformBundle:Category:viewCatAdvsList.html.twig', array(
-	      'category'   => $category,
-	      //'categoryId' => $id
+	      'category'          => $category,
+	      'presenceAdvsInCat' => $presenceAdvsInCat
 	    ));
 
     }//fnc
@@ -248,29 +244,23 @@ class CategoryController extends Controller{
 	    $categoryObject = $em->getRepository('JOMANELPlatformBundle:Category')->find($id);
 
 	    $advertsObjects = $categoryObject->getAdverts();
-	    //print_r($advertsObjects);exit;
-	    //
-	    //$advert = new User();
-        //$user = $em->getRepository('Main\UserBundle\Entity\User')->find($this->getUser()->getId())
-	    //
-
+	    
 	    // On crée un formulaire vide, qui ne contiendra que le champ CSRF
 	    // Cela permet de protéger la suppression d'annonce contre cette faille
 	    $form = $this->get('form.factory')->create();
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-	      $em->remove($categoryObject);
-	      //$em->remove($categoryObject->removeAdvert($categoryObject->getAdverts()));
 	      
-	      $categoryObject->removeAdvert($advertsObjects);
-	      //$Category->Project->removeElement($Project);
-
-	      $em->flush();
-	      //echo "form";exit;
-	      $request->getSession()->getFlashBag()->add('info', "La catégorie a bien été supprimée.");
-	      //echo "form";exit;
-	      return $this->redirectToRoute('jomanel_platform_homeCategory');
-	      //echo "form";exit;
+	    	for($i=0; $i<count($advertsObjects); $i++){
+	    		$em->remove($advertsObjects[$i]);
+	    	}
+	      
+	      	$em->remove($categoryObject);
+	      	$em->flush();
+	     
+		    $request->getSession()->getFlashBag()->add('info', "La catégorie a bien été supprimée.");
+		      
+		    return $this->redirectToRoute('jomanel_platform_homeCategory');
 	    }
 
 	    ///////////

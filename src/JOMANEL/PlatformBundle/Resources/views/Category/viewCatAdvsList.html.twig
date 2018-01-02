@@ -8,23 +8,33 @@
 
     <ul>
 
-      {% for advert in category.adverts %}
-        
-        <li>
+      {% if presenceAdvsInCat == true %}
+
+        {% for advert in category.adverts %}
           
-          <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
-            {% if app.request.locale == 'fr' %}
-              {{ advert.titleFr }}{% if not loop.last %}, {% endif %}
+          <li>
+            
+            
+            <a href="{{ path('jomanel_platform_view', {'id': advert.id}) }}">
+              {% if app.request.locale == 'fr' %}
+                {{ advert.titleFr }}{% if not loop.last %}, {% endif %}
 
-            {% else %}
-              {{ advert.titleEn }}{% if not loop.last %}, {% endif %}
+              {% else %}
+                {{ advert.titleEn }}{% if not loop.last %}, {% endif %}
 
-            {% endif %}
-           </a>
+              {% endif %}
+             </a>
 
-        </li>
 
-      {% endfor %}
+          </li>
+
+        {% endfor %}
+
+      {% else %}
+        
+        <li>{{'viewCatAdvsList.1'|trans}}</li>{#Pas d'annonces dans cette catégorie.#}
+
+      {% endif %}
 
     </ul>
 

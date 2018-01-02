@@ -9,7 +9,7 @@ edit:
     4: Retour à l'annonce
 applySucces:
     1: Postuler
-    2: Vous avez réussi à postuler à cette offre
+    2: Vous avez réussi à postuler à cette offre. Vous allez recevoir un mail de confirmation.
     3: Retour à la liste des annonces
 index:
     1: Acceuil
@@ -81,6 +81,8 @@ category.delete:
     2: Supprimer la catégorie
     3: Etes-vous certain de vouloir supprimer la catégorie ?
     4: Retour à la catégorie
+viewCatAdvsList:
+    1: Pas d'annonces dans cette catégorie.
 #form Cat
 name_fr: Nom (en Français)
 name_en: Nom (en Anglais)

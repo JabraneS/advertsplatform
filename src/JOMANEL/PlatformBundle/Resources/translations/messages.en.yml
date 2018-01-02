@@ -9,7 +9,7 @@ edit:
     4: Back to the advert
 applySucces:
     1: Apply
-    2: You have successfully applied for this offer
+    2: You have successfully applied for this offer. You will receive a confirmation email.
     3: Back to the list of adverts
 index:
     1: Home
@@ -81,6 +81,8 @@ category.delete:
     2: Delete category
     3: Are you sure you want to delete the category?
     4: Back to the category
+viewCatAdvsList:
+    1: No adverts in this category.
 #form Cat
 name_fr: Name (in French)
 name_en: Name (in English)

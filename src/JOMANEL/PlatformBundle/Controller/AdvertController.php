@@ -185,26 +185,27 @@ class AdvertController extends Controller{
     public function deleteAction(Advert $advert, Request $request){
 
 	    $em = $this->getDoctrine()->getManager();
-    	/*
-	    $advert = $em->getRepository('JOMANELPlatformBundle:Advert')->find($id);
+    	
+    	//=== get applications for this advert
+	    $arrayApplicationsObj = $advert->getApplications();
 
-	    if (null === $advert) {
-	      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
-	    }
-	    */
-	    //exit("ok");
-	    // On crée un formulaire vide, qui ne contiendra que le champ CSRF
+	    //=== On crée un formulaire vide, qui ne contiendra que le champ CSRF
 	    // Cela permet de protéger la suppression d'annonce contre cette faille
 	    $form = $this->get('form.factory')->create();
 
 	    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-	      $em = $this->getDoctrine()->getManager();
-	      $em->remove($advert);
-	      $em->flush();
-	      //exit("ok2");
-	      $request->getSession()->getFlashBag()->add('info', "L'annonce a bien été supprimée.");
+	      
+	    	for($i=0; $i<count($arrayApplicationsObj); $i++){
+	      		$em->remove($arrayApplicationsObj[$i]);
+	      	}
 
-	      return $this->redirectToRoute('jomanel_platform_home');
+		    $em->remove($advert);
+
+		    $em->flush();
+	      
+	        $request->getSession()->getFlashBag()->add('info', "L'annonce a bien été supprimée.");
+
+	        return $this->redirectToRoute('jomanel_platform_home');
 	    }
 	    
 	    return $this->render('JOMANELPlatformBundle:Advert:delete.html.twig', array(
