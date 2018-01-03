@@ -95,6 +95,26 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+    registration:
+        confirmation:
+            enabled: true
+    resetting:
+        retry_ttl: 3600 # Value in seconds, logic will use as hours(You can only request a new password every 1 h)
+        token_ttl: 86400
+        email:
+            #from_email: # Use this node only if you don't want the global email address for the resetting email
+            #    address:        ...
+            #    sender_name:    ...
+            template:   '@FOSUser/Resetting/email.txt.twig'
+        form:
+            type:               FOS\UserBundle\Form\Type\ResettingFormType
+            name:               fos_user_resetting_form
+            validation_groups:  [ResetPassword, Default]
+    change_password:
+        form:
+            type:               FOS\UserBundle\Form\Type\ChangePasswordFormType
+            name:               fos_user_change_password_form
+            validation_groups:  [ChangePassword, Default]
     
 
 

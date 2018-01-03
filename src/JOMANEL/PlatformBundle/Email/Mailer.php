@@ -3,10 +3,13 @@
 
 namespace JOMANEL\PlatformBundle\Email;
 
-use JOMANEL\PlatformBundle\Entity\Application;
 use Symfony\Component\HttpFoundation\Request;
 
+use JOMANEL\PlatformBundle\Entity\Application;
+
 use JOMANEL\CoreBundle\Entity\Contact;
+
+use JOMANEL\UserBundle\Entity\User;
 
 
 class Mailer{//ApplicationMailer
@@ -99,6 +102,19 @@ class Mailer{//ApplicationMailer
 
     $this->mailer->send($message_to_admin);
     $this->mailer->send($message_to_visitor);
+
+  }//fnc
+
+
+  public function sendMsgRegistraionToNewUser(User $userReg){
+
+    $locale = $this->container->get('request_stack')->getCurrentRequest()->getLocale();
+    //echo $locale;exit;
+
+    $user         = $this->container->get('security.token_storage')->getToken()->getUser();
+    $userUsername = $user->getUsername();
+    $userEmail    = $user->getEmail();
+    echo $userUsername;exit;
 
   }//fnc
 

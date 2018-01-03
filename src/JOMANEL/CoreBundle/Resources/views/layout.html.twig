@@ -71,9 +71,13 @@
           {{'layout.7'|trans }} {{ app.user.username }}{# Connecté en tant que #}
           -
           <a class="navbar-brand" href="{{ path('fos_user_security_logout') }}">{{'layout.8'|trans }}</a>{# se déconnécter #}
+          -
+          <a class="navbar-brand" href="{{ path('fos_user_change_password') }}">{{'layout.24'|trans }}</a>{# change pass #}
+
           {% else %}
               <a class="navbar-brand" href="{{ path('fos_user_security_login') }}">{{'layout.9'|trans }}</a>{# se connécter #}
               <a class="navbar-brand" href="{{ path('fos_user_registration_register') }}">{{'layout.10'|trans }}</a> {# Registration #}
+              <a class="navbar-brand" href="{{ path('fos_user_resetting_request') }}">{{'layout.23'|trans }}</a>{#forgot password#}
           {% endif %}
         </div>
         <!--><!-->
