@@ -14,11 +14,11 @@ layout:
     4: Choisissez
     5: Langues
     6: Choisissez
-    7: Connecté en tant que
+    #7: Connecté en tant que
     8: Se déconnécter
     9: Se connecter
     10: Inscription
-    11: Ma plateforme d'annonces
+    #11: Ma plateforme d'annonces
     12: Annonces
     13: Liste des annonces
     14: Ajouter une annonce
@@ -32,6 +32,7 @@ layout:
     22: Trouver les annonces
     23: Mot de passe oublié ?
     24: Changer le mot de passe
+    25: "(Cette plateforme a été créée à titre démonstratif seulement : les offres d'emploi qu'elle contient sont fictifs)"
 contactSucc: Votre message a été envoyé avec succès. Merci.
 #form contact
 form:

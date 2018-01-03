@@ -14,11 +14,11 @@ layout:
     4: Choose
     5: Languages
     6: Choose
-    7: Connected as
+    #7: Connected as
     8: Sign out
     9: Sign in
     10: Registration
-    11: My adverts platform
+    #11: My adverts platform
     12: Adverts
     13: Adverts list
     14: Add an advert
@@ -32,6 +32,7 @@ layout:
     22: Find adverts
     23: Forgot password?
     24: Change the password
+    25: "(This platform was created for demonstrative purposes only: the job offers it contains are fictitious)"
 contactSucc: Your message has been sent successfully. Thank you.
 #form contact
 form:
