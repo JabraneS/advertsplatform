@@ -13,8 +13,54 @@
 <br>
 <br>
 
+{# if Admin we add #}
+{% if is_granted('ROLE_ADMIN') %}
+
+  <div class="row">
+    
+    {#Add Advert#}
+    <div class="col-md-3" style="background-color:#FF0000; height:190px; text-align:center; border-radius: 20px;">
+      <a href="{{ path('jomanel_platform_add') }}">
+        <h3 style="line-height:130px; color:#FFFFFF;">{{'CoreB.layout.14'|trans }}</h3>
+      </a>
+    </div>
+
+    {#Purge Adverts#}
+    <div class="col-md-3 col-md-offset-2" style="background-color:#FFFF00; height:190px; text-align:center; border-radius: 20px;">
+      <a href="{{ path('jomanel_platform_purge') }}">
+        <h3 style="line-height:130px; color:#000000;">{{'CoreB.layout.15'|trans }}</h3>
+      </a>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="row">
+
+    {#Cats list#}
+    <div class="col-md-3" style="background-color:#800000; height:190px; text-align:center; border-radius: 20px;">
+      <a href="{{ path('jomanel_platform_homeCategory') }}">
+        <h3 style="line-height:130px; color:#FFFFFF;">{{'CoreB.layout.18'|trans }}</h3>
+      </a>
+    </div>
+
+    {#Add Cat#}
+    <div class="col-md-3 col-md-offset-2" style="background-color:#008000; height:190px; text-align:center; border-radius: 20px;">
+      <a href="{{ path('jomanel_platform_addCategory') }}">
+        <h3 style="line-height:130px; color:#FFFFFF;">{{'CoreB.layout.17'|trans }}</h3>
+      </a>
+    </div>
+
+  </div>
+
+  <br>
+
+{% endif %}
+<!---->
+
 <div class="row">
-  
+
   {#Adverts list#}
   <div class="col-md-3" style="background-color:#663399; height:190px; text-align:center; border-radius: 20px;">
     <a href="{{ path('jomanel_platform_home') }}">
@@ -24,7 +70,7 @@
 
   {#Search Adverts by category#}
   <div class="col-md-3 col-md-offset-2"style="background-color:#A52A2A; height:190px; text-align:center; border-radius: 20px;">
-    <a href="{{ path('jomanel_core_contactpage') }}">
+    <a href="{{ path('jomanel_platform_findAdverts') }}">
      <p><h3 style="color:#FFFFFF; line-height:40px;">{{'CoreB.index.3'|trans }}</h3></p>
      <p><h3 style="color:#FFFFFF;">{{'CoreB.index.4'|trans }}</h3></p>
      <p><h3 style="color:#FFFFFF;">{{'CoreB.index.6'|trans }}</h3></p>

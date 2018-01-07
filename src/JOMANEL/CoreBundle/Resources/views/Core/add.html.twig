@@ -3,15 +3,21 @@
 
 {% block body %}
 
-  <h2>{{'CoreB.index.5'|trans }}</h2>{# Contact us #}
+	<div style="background-color:#ADD8E6; border-radius: 10px;">
+		
+		<h2>{{'CoreB.index.5'|trans }}</h2>{# Contact us #}
 
-  {{ include("JOMANELCoreBundle:Core:form.html.twig") }}
+		<br>
 
-  <p>
-    <a href="{{ path('jomanel_core_homepage') }}" class="btn btn-default">
-      <i class="glyphicon glyphicon-chevron-left"></i>
-		{{'CoreB.add.1'|trans }} {# Back to the home page #}{#Retour à la page d\'accueil#}
-    </a>
-  </p>
+		{{ include("JOMANELCoreBundle:Core:form.html.twig") }}
+
+		<p>
+		    <a href="{{ path('jomanel_core_homepage') }}" class="btn btn-primary" style="width:195px;">
+		    	<i class="glyphicon glyphicon-chevron-left"></i>
+				{{'CoreB.add.1'|trans }} {# Back to the home page #}{#Retour à la page d\'accueil #}
+		    </a>
+		</p>
+
+	</div>
 
 {% endblock %}

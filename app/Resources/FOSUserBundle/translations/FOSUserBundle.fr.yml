@@ -84,3 +84,10 @@ form:
     password_confirmation: 'Répéter le mot de passe'
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: 'Répéter le nouveau mot de passe'
+
+    login_palaceholder_username: Enter votre nom d'utilisateur
+    login_palaceholder_password: Entrer votre mot de passe
+    register_confirmed_GoToHomePage: Aller à la page d'accueil
+    reset_title: Mot de passe oublié
+    change_title: Modification du mot de passe
+

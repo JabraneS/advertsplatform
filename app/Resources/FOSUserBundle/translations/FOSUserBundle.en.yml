@@ -90,3 +90,9 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    login_palaceholder_username: Enter your username
+    login_palaceholder_password: Enter your password
+    register_confirmed_GoToHomePage: Go to home page
+    reset_title: Forgot your password
+    change_title: Changing the password
+

@@ -6,14 +6,23 @@
         {{ form_widget(form.subject) }}
         {{ form_errors(form.subject) }}
     </div>
+
+    <br>
+
     <div>
         {{ form_widget(form.name) }}
         {{ form_errors(form.name) }}
     </div>
+
+    <br>
+    
     <div>
         {{ form_widget(form.email) }}
         {{ form_errors(form.email) }}
     </div>
+    
+    <br>
+    
     <div>
         {{ form_widget(form.message) }}
         {{ form_errors(form.message) }}
@@ -26,7 +35,10 @@
 
     <br>
 
-    <input type="submit" value={{'CoreB.form.btnSubmit'|trans }}>
+    {#<input type="submit" value={{'CoreB.form.btnSubmit'|trans }}>#}
+    <button type="submit" class="btn btn-primary" style="width:195px;">
+        {{'CoreB.form.btnSubmit'|trans}}
+    </button>
     
 {{ form_end(form) }}
   <br>

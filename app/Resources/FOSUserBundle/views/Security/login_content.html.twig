@@ -3,24 +3,69 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
 
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    {% if csrf_token %}
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+<div class="container-fluid" style="border-radius: 20px; background: #ADD8E6; text-align: left;">
+            
+    <h2>{{'layout.login'|trans}}</h2>
+
+    {#When errors#}
+    {% if error %}
+        <div>  
+            <h3 style="color:red;"> {{ error.messageKey|trans(error.messageData, 'security') }} </h3>
+        </div>
     {% endif %}
 
-    <label for="username">{{ 'security.login.username'|trans }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+            <br>
 
-    <label for="password">{{ 'security.login.password'|trans }}</label>
-    <input type="password" id="password" name="_password" required="required" />
+    {#Form#}
+    <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
 
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {% endif %}
+                
+        {#User name#}
+        <div class="form-group">
+            <label for="username" class="control-label col-sm-4" >{{ 'security.login.username'|trans }}</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control"id="username"name="_username"value="{{ last_username }}"required="required"placeholder="{{'form.login_palaceholder_username'|trans}}" />
+            </div>
+        </div>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-</form>
+        {#Password#}
+        <div class="form-group">
+            <label for="password" class="control-label col-sm-4" >{{ 'security.login.password'|trans }}</label>
+            <div class="col-sm-8">          
+                <input type="password"id="password"name="_password"required="required"class="form-control" placeholder="{{'form.login_palaceholder_password'|trans}}" />    
+            </div>
+        </div>
+
+        {#Remenber me#}
+        <div class="form-group">        
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                        {{ 'security.login.remember_me'|trans }}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        {#Btn connexion#}
+        <div class="form-group">        
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="_submit" class="btn btn-primary">
+                    {{ 'security.login.submit'|trans }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div><!--<div class="container-fluid">-->
+

@@ -1,8 +1,21 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
-    </div>
-{{ form_end(form) }}
+<br>
+<br>
+
+<div class="container-fluid" style="border-radius: 20px; background: #ADD8E6; text-align: left;">
+
+	{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+	    {{ form_widget(form) }}
+
+	    <br>
+
+	    <div>
+	        {#<input type="submit" value="{{ 'resetting.reset.submit'|trans }}" />#}
+	        <button type="submit" class="btn btn-primary">
+                {{ 'resetting.reset.submit'|trans }}
+            </button>
+	    </div>
+	{{ form_end(form) }}
+
+</div>

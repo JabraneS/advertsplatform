@@ -41,7 +41,10 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">{{'CoreB.layout.2'|trans }}</a>
+            <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">
+              <span class="glyphicon glyphicon-home"></span>
+              {{'CoreB.layout.2'|trans }}
+            </a>
           </div>
           
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -104,8 +107,10 @@
       </nav><!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
       <!---->
 
+      <br><br><br><br>
+
       <!--msg to users-->
-      <div class="container-fluid" id="menu"  style="border-radius: 10px; background: #1E90FF; text-align: center;">    
+      <div class="container-fluid" id="menu"  style="border-radius: 40px; background: #1E90FF; text-align: center;">    
         <h4 style="color:#FFFFFF">{{'CoreB.layout.25'|trans }}</h4> {#msg to users#}
       </div>    
       <!---->
@@ -117,7 +122,7 @@
         <div class="container-fluid">
 
           {# Block Menu #}
-          <div class="col-md-2">
+          <div class="col-md-3">
 
             {% block menu %}
             {% endblock %}
@@ -126,7 +131,7 @@
           <!---->
           
           {# Block Body #}
-          <div class="col-md-10" id="content" >
+          <div class="col-md-9" id="content" >
             {% block body %}
             {% endblock %}
           </div>
