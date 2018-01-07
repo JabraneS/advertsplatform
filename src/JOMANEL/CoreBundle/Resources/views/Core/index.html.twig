@@ -2,36 +2,58 @@
 
 
 {% block title %}
-  {{'index.1'|trans }} - {{ parent() }} {# Page d\'accueil #} {# Home Page #}
+  {{'CoreB.index.1'|trans }} - {{ parent() }} {# Page d\'accueil #} {# Home Page #}
 {% endblock %}
 
 {% block body %}
 
-<h2>{{'index.2'|trans }}</h2>{#Page d\'accueil de notre site#}
 
-  {# On affiche tous les messages flash dont le nom est « info » #}
-  {% for message in app.session.flashbag.get('info') %}
-    <div class="alert alert-info">Message flash : {{ message }}</div>
-  {% endfor %}
+<br>
+<br>
+<br>
+<br>
 
-  {# Pour afficher les dernières annonces, on réutilise le contrôleur menu du PlatformBundle #}
-  <h3>{{'index.3'|trans }}</h3>{#Page d\'accueil de notre site#}
-  {{ render(controller("JOMANELPlatformBundle:Advert:menu", {'limit': 3})) }}
+<div class="row">
+  
+  {#Adverts list#}
+  <div class="col-md-3" style="background-color:#663399; height:190px; text-align:center; border-radius: 20px;">
+    <a href="{{ path('jomanel_platform_home') }}">
+      <h3 style="line-height:130px; color:#FFFFFF;">{{'CoreB.layout.13'|trans }}</h3>
+    </a>
+  </div>
 
-  <h3>{{'index.4'|trans }}</h3>{#Derniers messages sur le forum (hypothétique)#}
-  <p>
-    {# Ici, on devrait utiliser un contrôleur d'un éventuel ForumBundle pour afficher les derniers posts sur le forum,
-       ce n'est pas le sujet ici #}
-    Bla bla bla...
-  </p>
+  {#Search Adverts by category#}
+  <div class="col-md-3 col-md-offset-2"style="background-color:#A52A2A; height:190px; text-align:center; border-radius: 20px;">
+    <a href="{{ path('jomanel_core_contactpage') }}">
+     <p><h3 style="color:#FFFFFF; line-height:40px;">{{'CoreB.index.3'|trans }}</h3></p>
+     <p><h3 style="color:#FFFFFF;">{{'CoreB.index.4'|trans }}</h3></p>
+     <p><h3 style="color:#FFFFFF;">{{'CoreB.index.6'|trans }}</h3></p>
+    </a>
+  </div>  
 
-  	<ul class="nav nav-pills nav-stacked">
-	    <li>
-	      	<a href="{{ path('jomanel_core_contactpage') }}">
-	        	{{'index.5'|trans }}{#Contactez nous#}
-	      	</a>
-	    </li>
-	</ul>
+</div>
+
+<br>
+
+<div class="row">
+  
+  {#Latest Adverts#}
+  <div class="col-md-3" style="background-color:#B0E0E6; height:190px; text-align:center; border-radius: 20px;">
+    <h3>{{'CoreB.layout.19'|trans }}</h3>
+    {{ render(controller("JOMANELPlatformBundle:Advert:menu", {'limit': 3})) }}
+  </div>
+
+  {#Contact us#}
+  <div class="col-md-3 col-md-offset-2"style="background-color:#4169E1; height:190px; text-align:center; border-radius: 20px;">
+    <a href="{{ path('jomanel_core_contactpage') }}">
+      <h3 style="line-height:130px; color:#FFFFFF;">
+        <span class="glyphicon glyphicon-envelope"></span>
+         {{'CoreB.index.5'|trans }}
+      </h3>
+    </a>
+  </div>  
+
+</div>
 
 {% endblock %}
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}{{'layout.1'|trans }}{% endblock %}</title>{# Platforme d\'annonces #}
+    <title>{% block title %}{{'CoreB.layout.1'|trans }}{% endblock %}</title>{# Platforme d\'annonces #}
 
     {% block stylesheets %}
       {# On charge le CSS de bootstrap depuis le site directement #}
@@ -29,7 +29,7 @@
     <div class="container-fluid">
 
       <!--navbar-->
-      <nav class="navbar navbar-inverse">
+      <nav class="navbar navbar-custom navbar-fixed-top">
         
         <div class="container-fluid">
 
@@ -41,7 +41,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">{{'layout.2'|trans }}</a>
+            <a class="navbar-brand" href="{{ path('jomanel_core_homepage') }}">{{'CoreB.layout.2'|trans }}</a>
           </div>
           
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -50,9 +50,9 @@
             <ul class="nav navbar-nav">
               {% if (app.request.getLocale()) == 'fr' %}
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'layout.3'|trans }} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'CoreB.layout.3'|trans }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li class="dropdown-header"><strong>{{ 'layout.4'|trans }}</strong></li>
+                      <li class="dropdown-header"><strong>{{ 'CoreB.layout.4'|trans }}</strong></li>
                       <li class="active"><a href="#"> Fr</a></li>
                       <li><a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'})) }}"> En</a></li>
                     </ul>
@@ -61,9 +61,9 @@
                 
               {% if (app.request.getLocale()) == 'en' %}
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'layout.5'|trans }} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ 'CoreB.layout.5'|trans }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li class="dropdown-header"><strong>{{ 'layout.6'|trans }}</strong></li>
+                      <li class="dropdown-header"><strong>{{ 'CoreB.layout.6'|trans }}</strong></li>
                       <li class=""><a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'fr'})) }}"> Fr</a></li>
                       <li class="active"><a href=""> En</a></li>
                     </ul>
@@ -78,18 +78,18 @@
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ app.user.username }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="{{ path('fos_user_security_logout') }}">{{'layout.8'|trans }}</a></li>{#logout#}
-                      <li><a href="{{ path('fos_user_change_password') }}">{{'layout.24'|trans }}</a></li>{#change_password#}
+                      <li><a href="{{ path('fos_user_security_logout') }}">{{'CoreB.layout.8'|trans }}</a></li>{#logout#}
+                      <li><a href="{{ path('fos_user_change_password') }}">{{'CoreB.layout.24'|trans }}</a></li>{#changepass#}
                     </ul>
                   </li>
                 
               {% else %}
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{'layout.9'|trans }}{#sign in#} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{'CoreB.layout.9'|trans }}{#sign in#} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="{{ path('fos_user_security_login') }}">{{'layout.9'|trans }}</a></li>{#sign in#}
-                      <li><a href="{{ path('fos_user_registration_register') }}">{{'layout.10'|trans }}</a></li>{#register#}
-                      <li><a href="{{ path('fos_user_resetting_request') }}">{{'layout.23'|trans }}</a></li>{#forgot pass#}
+                      <li><a href="{{ path('fos_user_security_login') }}">{{'CoreB.layout.9'|trans }}</a></li>{#sign in#}
+                      <li><a href="{{ path('fos_user_registration_register') }}">{{'CoreB.layout.10'|trans }}</a></li>{#register#}
+                      <li><a href="{{ path('fos_user_resetting_request') }}">{{'CoreB.layout.23'|trans }}</a></li>{#forgot pass#}
                     </ul>
                   </li>
 
@@ -106,51 +106,31 @@
 
       <!--msg to users-->
       <div class="container-fluid" id="menu"  style="border-radius: 10px; background: #1E90FF; text-align: center;">    
-        <h4 style="color:#FFFFFF">{{'layout.25'|trans }}</h4> {#msg to users#}
+        <h4 style="color:#FFFFFF">{{'CoreB.layout.25'|trans }}</h4> {#msg to users#}
       </div>    
       <!---->
 
-
-      <br>
-      <br>
-      <br>
       <br>
 
       <div class="row">
 
         <div class="container-fluid">
 
-          <div id="menu" class="col-md-2" style="border-style: solid; text-align:center;">
-            
-            <h3>{{'layout.12'|trans }}</h3>{# Les annonces #}
-            <ul class="nav nav-pills nav-stacked">
-              <li><a href="{{ path('jomanel_platform_home') }}">{{'layout.13'|trans }}</a></li>{# Accueil #}
-              {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('jomanel_platform_add') }}">{{'layout.14'|trans }}</a></li>{# Ajouter une annonce #}
-                <li><a href="{{ path('jomanel_platform_purge') }}">{{'layout.15'|trans }}</a></li>{# Purger les annonces #}
-              {% endif %}
-            </ul>
-            
-            <h3>{{'layout.16'|trans }}</h3>{# Catégories #}
-            <ul class="nav nav-pills nav-stacked">
-              {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('jomanel_platform_homeCategory') }}">{{'layout.18'|trans }}</a></li>{#Liste des catégories#}
-                <li><a href="{{ path('jomanel_platform_addCategory') }}">{{'layout.17'|trans }}</a></li>{#Ajouter une catégorie#}
-              {% endif %}
-              <li><a href="{{ path('jomanel_platform_findAdverts') }}">{{'layout.22'|trans }}</a></li>{# Trouver les annonces#}
-            </ul>
+          {# Block Menu #}
+          <div class="col-md-2">
 
-            <h4>{{'layout.19'|trans }}</h4>{# Dernières annonces #}
-            {{ render(controller("JOMANELPlatformBundle:Advert:menu", {'limit': 3})) }}
+            {% block menu %}
+            {% endblock %}
 
           </div>
-
+          <!---->
           
-
-          <div id="content" class="col-md-offset-1 col-md-9">
+          {# Block Body #}
+          <div class="col-md-10" id="content" >
             {% block body %}
             {% endblock %}
           </div>
+          <!---->
 
         </div><!--<div class="container-fluid">-->
 
@@ -160,16 +140,20 @@
       <br>
       <br>
       <br>
-      
-      <hr>
-
-      <footer>
-        <div>
-          <p>{{'layout.20'|trans }} © {{ 'now'|date('Y') }} {{'layout.21'|trans }}.</p>{#Le ciel est la limite#}{#et au-delà#}
-        </div>
-      </footer>
-
+    
     </div><!--<div class="container">-->
+      
+    <footer class="footer">
+        
+      <p style="color:#FFFFFF;">
+        {{'CoreB.layout.20'|trans }} © {{ 'now'|date('Y') }} {{'CoreB.layout.21'|trans }}.{#Sky is...#}
+        &nbsp;
+        <a href="{{ path('jomanel_core_contactpage') }}">{{'CoreB.index.5'|trans }}</a>{#contact us#}
+      </p>
+        
+    </footer>
+      
+    
 
     {% block javascripts %}
       {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
@@ -179,3 +163,4 @@
 
   </body>
 </html>
+

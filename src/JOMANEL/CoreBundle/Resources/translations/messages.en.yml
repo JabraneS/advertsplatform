@@ -1,13 +1,14 @@
-add:
+CoreB.add:
     #1: Contact réussi
     1: Back to the home page
-index:
+CoreB.index:
     1: Home Page
-    2: Home page of our website
-    3: Home page of our website
-    4: Latest messages on forum (hypothétique)
+    2: Welcome to your adverts platform! #Home page of our website
+    3: Search adverts  #by category
+    4: by
     5: Contact us
-layout:
+    6: category
+CoreB.layout:
     1: Adverts Platform
     2: Adverts Platform
     3: Languages
@@ -33,9 +34,9 @@ layout:
     23: Forgot password?
     24: Change the password
     25: "(This platform was created in demonstrative title only: the job offers which it contains are fictitious)"
-contactSucc: Your message has been sent successfully. Thank you.
+CoreB.contactSucc: Your message has been sent successfully. Thank you.
 #form contact
-form:
+CoreB.form:
     btnSubmit: "Send"
 
 
