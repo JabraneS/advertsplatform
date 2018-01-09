@@ -24,6 +24,7 @@ jomanel_platform:
 #logout:
 #    path: /logout
 
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     prefix: /{_locale}

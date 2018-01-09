@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace JOMANEL\PlatformBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -34,3 +34,5 @@ class LoadCategory implements FixtureInterface{
   }//function
 
 }//class
+
+*/

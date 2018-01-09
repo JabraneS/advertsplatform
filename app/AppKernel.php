@@ -22,9 +22,6 @@ class AppKernel extends Kernel
             new JOMANEL\CoreBundle\JOMANELCoreBundle(),
             new JOMANEL\UserBundle\JOMANELUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            //new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
-            //new A2lix\AutoFormBundle\A2lixAutoFormBundle(),
-            //new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -1,6 +1,6 @@
 <?php
 
-
+/*
 namespace JOMANEL\PlatformBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -27,3 +27,4 @@ class LoadSkill implements FixtureInterface
     $manager->flush();
   }
 }
+*/

@@ -114,7 +114,7 @@ class Mailer{//ApplicationMailer
     $user         = $this->container->get('security.token_storage')->getToken()->getUser();
     $userUsername = $user->getUsername();
     $userEmail    = $user->getEmail();
-    echo $userUsername;exit;
+    //echo $userUsername;exit;
 
   }//fnc
 

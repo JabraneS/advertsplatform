@@ -2,10 +2,11 @@
 
 namespace JOMANEL\UserBundle\Entity;
 
-//use Doctrine\ORM\Mapping as ORM;
-//use FOS\UserBundle\Model\User as BaseUser;
-use FOSUserBundleModelUser as BaseUser;
-use DoctrineORMMapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+/*use FOS\UserBundle\Model\User;
+use Symfony\Component\Security\Core\User\User;
+use Symfony\Bridge\Doctrine\Tests\Fixtures\User;*/
 
 /**
  * @ORM\Table(name="user")
@@ -26,7 +27,7 @@ class User extends BaseUser{
     parent::__construct();
         
     // Add default role
-    $this->addRole("ROLE_ADMIN");
+    //$this->addRole("ROLE_ADMIN");
         
   }//construct
 

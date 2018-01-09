@@ -28,6 +28,23 @@ class AdvertPurger{
 	    $listAdverts = $this->em->getRepository('JOMANELPlatformBundle:Advert')
 	                            ->getAllAdverts()                 
 	    ;
+	    //print_r($listAdverts);exit;
+
+	    //1')****** If there are no adverts in the db ******
+	    if(count($listAdverts) == 0){
+
+	    	$locale = $this->container->get('request_stack')->getCurrentRequest()->getLocale();
+
+	    	$msgExc_fr = "Rien à purger ==> Pas encore d'annonces enregistrées !";
+	    	$msgExc_en = "Nothing to purge ==> No adverts registered yet!";
+	      	
+	      	if($locale == "fr"){
+	      		throw new NotFoundHttpException($msgExc_fr);
+	      	}
+	      	else{
+	      		throw new NotFoundHttpException($msgExc_en);
+	      	}
+	    }//if
 
 	    	//get Ids of all adverts 
 	    $listIdsOfAdverts = [];
@@ -67,7 +84,7 @@ class AdvertPurger{
 
 	    //=== get Ids Of Adverts Which Not Have Applications and which are old
 	    $listAdvertsWhichNotHaveApplicationsAndOlds = $this->em->getRepository('JOMANELPlatformBundle:Advert')
-	    										               ->getAdvertsWhichAreOld($listIdOfAdvertsWhichNotHaveApplications, $days)//1 = $days
+	    										               ->getAdvertsWhichAreOld($listIdOfAdvertsWhichNotHaveApplications, $days)//3 = $days
 	                                                       
 	    ;
 //exit;
