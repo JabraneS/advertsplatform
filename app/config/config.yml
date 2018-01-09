@@ -68,8 +68,8 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
-    encryption: %mailer_encryption%
-    auth_mode:  %mailer_auth_mode%
+    #encryption: %mailer_encryption%
+    #auth_mode:  %mailer_auth_mode%
     host: '%mailer_host%'
     username: '%mailer_user%'
     password: '%mailer_password%'
@@ -91,7 +91,7 @@ stof_doctrine_extensions:
 fos_user:
     db_driver:     orm                             # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
     firewall_name: main                            # Le nom du firewall derrière lequel on utilisera ces utilisateurs
-    user_class:    JOMANEL\UserBundle\Entity\User  # La classe de l'entité User que nous utilisons
+    user_class:    UserBundle\Entity\User  # La classe de l'entité User que nous utilisons
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
@@ -116,20 +116,3 @@ fos_user:
             name:               fos_user_change_password_form
             validation_groups:  [ChangePassword, Default]
     
-
-
-knp_doctrine_behaviors:
-    blameable:      false
-    geocodable:     ~     # Here null is converted to false
-    loggable:       ~
-    sluggable:      true
-    soft_deletable: true
-    translatable: true
-    # All others behaviors are disabled
-
-a2lix_translation_form:
-    locale_provider: default
-    locales: [fr, en]
-    default_locale: fr 
-    required_locales: []
-    templating: "A2lixTranslationFormBundle::default.html.twig"

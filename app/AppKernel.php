@@ -22,9 +22,9 @@ class AppKernel extends Kernel
             new JOMANEL\CoreBundle\JOMANELCoreBundle(),
             new JOMANEL\UserBundle\JOMANELUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
+            //new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
             //new A2lix\AutoFormBundle\A2lixAutoFormBundle(),
-            new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
+            //new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();//console in browser
 
             if ('dev' === $this->getEnvironment()) {
                 $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
