@@ -1,7 +1,7 @@
 .navbar-custom {
     background-color:#00008B;
     color:#ffffff;
-    border-radius:5px;
+    border-radius:2px;
 }
 
 .navbar-custom .navbar-nav > li > a {
@@ -35,13 +35,13 @@
 
 /*****************/
 .footer {
-  background-color:#000080;
+  background-color:#00008B;
   height:45px;
   padding:10px;
   /*border-top:1px solid #ABABAB;*/
   position:fixed;
   /*left:10;*/
   bottom:0;
-  width:98%;
-  border-radius:5px;
+  width:100%;
+  border-radius:2px;
 }
