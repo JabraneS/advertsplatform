@@ -16,12 +16,13 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class CategoryRepository extends \Doctrine\ORM\EntityRepository{
 
  
-	  public function  getAllCategoriesWithPaginator($page, $nbPerPage, $locale){//used in controller
+	  
+    public function  getAllCategoriesWithPaginator($page, $nbPerPage, $locale){//()used in controller
 
       $qb = $this->createQueryBuilder('a')
                  ->orderBy('a.name_'.$locale, 'ASC')
-                 ->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
-                 ->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
+                 //->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
+                 //->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
       ;
 
         // Enfin, on retourne l'objet Paginator correspondant à la requête construite(n'oubliez pas son use)
@@ -33,6 +34,36 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository{
         ;
 
     }//fnc
+    
+
+    /////
+    /*public function getAllCategoriesWithPaginator($page, $nbPerPage, $locale){
+    
+      $query = $this->createQueryBuilder('c')
+        ->orderBy('c.name_'.$locale, 'ASC')//
+        //->leftJoin('a.image', 'i')
+        //->addSelect('i')
+        //->leftJoin('a.categories', 'c')
+        //->addSelect('c')
+        //->orderBy('a.date', 'DESC')
+        //->getQuery()
+      ;
+      $query
+        // On définit l'annonce à partir de laquelle commencer la liste
+        ->setFirstResult(($page-1) * $nbPerPage)
+        // Ainsi que le nombre d'annonce à afficher sur une page
+        ->setMaxResults($nbPerPage)
+      ;
+      // Enfin, on retourne l'objet Paginator correspondant à la requête construite
+      // (n'oubliez pas le use correspondant en début de fichier)
+      return new Paginator($query, true);
+    }*/
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     public function sortAlphabeticallyQueryBuilder(){//used in advert type
 	    

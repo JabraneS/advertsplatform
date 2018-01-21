@@ -33,8 +33,8 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository{
 
 		$qb = $this->createQueryBuilder('a')
 		           ->orderBy('a.date', 'DESC')
-		           ->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
-		           ->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
+		           //->setFirstResult(($page-1) * $nbPerPage)// On définit l'annonce à partir de laquelle commencer la liste
+		           //->setMaxResults($nbPerPage) // Ainsi que le nombre d'annonce à afficher sur une page
 		;
 
 	    // Enfin, on retourne l'objet Paginator correspondant à la requête construite(n'oubliez pas son use)
